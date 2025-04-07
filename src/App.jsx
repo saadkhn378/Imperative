@@ -8,7 +8,6 @@ import Services from "./sections/Services";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./components/Footer";
 import Overview from "./pages/Overview";
-import StickyCursor from "./components/StickyCursor";
 import Marquee from "./sections/Marquee";
 import Industries from "./sections/Industries";
 import Solutions from "./sections/Solutions";
@@ -18,12 +17,12 @@ import GroupCompanies from "./pages/GroupCompanies";
 import IndustriesWeServe from "./pages/IndustriesWeServe";
 import DigitalProduct from "./pages/DigitalProduct";
 import SmartInfra from "./pages/SmartInfra";
+import WorldMap from "./sections/WorldMap";
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Router>
-        <StickyCursor/>
         <Header />
         <main className="flex-1"> {/* Pushes footer to bottom */}
           <Routes>
@@ -45,6 +44,7 @@ function App() {
                 <Services />
                 <Industries/>
                 <Testimonials />
+                <WorldMap/>
               </>
             } />
           </Routes>
