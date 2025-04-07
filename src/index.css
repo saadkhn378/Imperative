@@ -1,0 +1,11 @@
+@font-face {
+    font-family: Met;
+    src: url("../src/assets/fonts/Metropolis-Regular.ttf");
+}
+
+@import "tailwindcss";
+
+@theme{
+    --font-met:Met,'sans-serif';
+}
+
