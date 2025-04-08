@@ -24,7 +24,7 @@ const CompanyDetails = ({ selectedCompany, industryColors }) => {
 
   if (!selectedCompany) {
     return (
-      <div className="card mb-6 border border-dashed border-gray-200" ref={cardRef}>
+      <div className="font-met card mb-6 border border-dashed border-gray-200" ref={cardRef}>
         <div className="p-4 pb-2">
           <h2 className="text-xl font-bold">Company Details</h2>
           <p className="text-sm text-gray-500">Click on a pin to view company information</p>

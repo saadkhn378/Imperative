@@ -165,7 +165,7 @@ const WorldMap = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="font-met relative">
       <motion.div
         className="mb-4 flex flex-col gap-4"
         initial={{ opacity: 0, y: 20 }}

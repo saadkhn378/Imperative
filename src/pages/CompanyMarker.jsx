@@ -52,7 +52,7 @@ const CompanyMarker = ({ company, selectedCompany, setSelectedCompany, industryC
       }}
     >
       <Popup className="custom-popup">
-        <div className="p-1">
+        <div className="font-met p-1">
           <h3 className="font-semibold text-base">{company.name}</h3>
           <div className="flex items-center gap-1 mt-1 text-sm text-gray-500">
             <svg
@@ -74,7 +74,7 @@ const CompanyMarker = ({ company, selectedCompany, setSelectedCompany, industryC
               {company.city}, {company.state}
             </span>
           </div>
-          <div className="mt-2">
+          <div className="font-met mt-2">
             <span
               className="badge badge-outline"
               style={{

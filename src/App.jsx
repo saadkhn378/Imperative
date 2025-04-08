@@ -18,6 +18,7 @@ import IndustriesWeServe from "./pages/IndustriesWeServe";
 import DigitalProduct from "./pages/DigitalProduct";
 import SmartInfra from "./pages/SmartInfra";
 import WorldMap from "./sections/WorldMap";
+import ProductsSection from "./sections/ProductsSection";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                 <About />
                 <Marquee/>
                 <Products />
+                <ProductsSection/>
                 <Solutions/>
                 <Services />
                 <Industries/>
