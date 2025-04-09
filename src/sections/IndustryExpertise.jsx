@@ -23,7 +23,9 @@ import {
 } from "lucide-react"
 
 // Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 // Industry data with icons
 const industryData = {
@@ -543,9 +545,18 @@ const IndustryExpertise = () => {
   useEffect(() => {
     // Clean up ScrollTrigger on component unmount
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      if (typeof ScrollTrigger !== "undefined" && ScrollTrigger.getAll) {
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      }
     }
   }, [])
+
+  // Function to render the icon component
+  const renderIcon = (IconComponent) => {
+    if (!IconComponent) return null
+
+    return <IconComponent className={isMobile ? "w-6 h-6" : "w-4 h-4"} aria-hidden="true" />
+  }
 
   return (
     <section ref={sectionRef} className="py-16 px-4 md:px-6 font-[Inter,sans-serif]">
@@ -587,7 +598,7 @@ const IndustryExpertise = () => {
                   key={industry}
                   className={`industry-button ${
                     isMobile
-                      ? "w-12 h-12 p-0 rounded-full flex items-center justify-center"
+                      ? "w-14 h-14 p-0 rounded-full flex items-center justify-center"
                       : "px-4 py-2 rounded-full font-medium flex items-center gap-2"
                   } transition-colors duration-200 ${
                     selectedIndustry === industry
@@ -600,7 +611,7 @@ const IndustryExpertise = () => {
                   whileTap="tap"
                   title={industryData[industry].name}
                 >
-                  <IndustryIcon className={isMobile ? "w-5 h-5" : "w-4 h-4"} />
+                  {renderIcon(IndustryIcon)}
                   {!isMobile && <span>{industryData[industry].name}</span>}
                 </motion.button>
               )
@@ -697,7 +708,7 @@ const IndustryExpertise = () => {
                         }}
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <CardIcon className="w-5 h-5 text-orange-500" />
+                          {CardIcon && <CardIcon className="w-5 h-5 text-orange-500" />}
                           <h3 className="text-xl font-bold text-white">{card.title}</h3>
                         </div>
                         <p className="text-sm text-white">{card.description}</p>
