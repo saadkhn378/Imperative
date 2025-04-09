@@ -57,17 +57,20 @@ const WorldMap = () => {
   const mapRef = useRef(null)
 
   // Set mounted state
+  const mapContainerRef = useRef(null)
+
+  // In the useEffect
   useEffect(() => {
     setIsMounted(true)
-
-    // GSAP animation for the map container
-    gsap.from(".map-container", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      ease: "power3.out",
-      delay: 0.5,
-    })
+  
+    if (mapContainerRef.current) {
+      gsap.from(mapContainerRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: "power3.out",
+      })
+    }
   }, [])
 
   // Update showIndustries based on selectedCompany
@@ -175,6 +178,7 @@ const WorldMap = () => {
       </motion.div>
 
       <motion.div
+      ref={mapContainerRef}
         className="bg-white rounded-lg shadow-md p-4 mb-6 overflow-hidden map-container"
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}

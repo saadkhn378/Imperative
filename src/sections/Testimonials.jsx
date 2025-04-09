@@ -9,6 +9,7 @@ import { X } from "lucide-react"
 // Import Swiper and modules
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay } from "swiper/modules"
+import "swiper/css"
 
 // Testimonial data
 const testimonials = [
@@ -61,6 +62,26 @@ const testimonials = [
       "The team's dedication to quality and innovation has helped us launch our product ahead of schedule. Their expertise and guidance were invaluable throughout the process.",
     image:
       "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80",
+  },
+  {
+    id: 6,
+    name: "Robert Thompson",
+    role: "VP of Engineering",
+    company: "CloudSecure",
+    content:
+      "Their cybersecurity expertise is unparalleled. They identified vulnerabilities we weren't even aware of and implemented robust solutions that have protected our data from multiple attempted breaches.",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80",
+  },
+  {
+    id: 7,
+    name: "Sophia Martinez",
+    role: "Chief Financial Officer",
+    company: "FinTech Innovations",
+    content:
+      "The ROI on our investment with this team has been remarkable. Their financial software solutions streamlined our operations, reduced errors by 75%, and ultimately increased our bottom line by 28% year-over-year.",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80",
   },
 ]
 
@@ -319,7 +340,7 @@ const TestimonialSection = () => {
   )
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+    <section className="font-sans py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"
@@ -348,9 +369,8 @@ const TestimonialSection = () => {
           <div className="mb-8">
             <Swiper
               ref={swiperRef1}
-              slidesPerView={2}
+              slidesPerView={1}
               spaceBetween={24}
-              loop={true}
               speed={5000}
               autoplay={{
                 delay: 0,
@@ -359,6 +379,11 @@ const TestimonialSection = () => {
               }}
               modules={[Autoplay]}
               className="testimonial-swiper"
+              breakpoints={{
+                768: {
+                  slidesPerView: 2,
+                }
+              }}
             >
               {testimonials.map((testimonial) => (
                 <SwiperSlide key={`row1-${testimonial.id}`}>
@@ -372,9 +397,8 @@ const TestimonialSection = () => {
           <div>
             <Swiper
               ref={swiperRef2}
-              slidesPerView={2}
+              slidesPerView={1}
               spaceBetween={24}
-              loop={true}
               speed={5000}
               autoplay={{
                 delay: 0,
@@ -383,6 +407,11 @@ const TestimonialSection = () => {
               }}
               modules={[Autoplay]}
               className="testimonial-swiper"
+              breakpoints={{
+                768: {
+                  slidesPerView: 2,
+                }
+              }}
             >
               {[...testimonials].reverse().map((testimonial) => (
                 <SwiperSlide key={`row2-${testimonial.id}`}>
@@ -445,9 +474,8 @@ const TestimonialSection = () => {
           <div className="mb-6">
             <Swiper
               ref={mobileSwiperRef1}
-              slidesPerView={1.2}
+              slidesPerView={1}
               spaceBetween={16}
-              loop={true}
               speed={8000}
               autoplay={{
                 delay: 0,
@@ -456,6 +484,11 @@ const TestimonialSection = () => {
               }}
               modules={[Autoplay]}
               className="testimonial-swiper"
+              breakpoints={{
+                480: {
+                  slidesPerView: 1.2,
+                }
+              }}
             >
               {testimonials.map((testimonial) => (
                 <SwiperSlide key={`mobile-row1-${testimonial.id}`}>
@@ -469,9 +502,8 @@ const TestimonialSection = () => {
           <div>
             <Swiper
               ref={mobileSwiperRef2}
-              slidesPerView={1.2}
+              slidesPerView={1}
               spaceBetween={16}
-              loop={true}
               speed={8000}
               autoplay={{
                 delay: 0,
@@ -480,6 +512,11 @@ const TestimonialSection = () => {
               }}
               modules={[Autoplay]}
               className="testimonial-swiper"
+              breakpoints={{
+                480: {
+                  slidesPerView: 1.2,
+                }
+              }}
             >
               {[...testimonials].reverse().map((testimonial) => (
                 <SwiperSlide key={`mobile-row2-${testimonial.id}`}>
@@ -557,7 +594,9 @@ const TestimonialSection = () => {
         </AnimatePresence>
       </div>
 
-      <style jsx global>{`
+      {/* Swiper custom styles */}
+      <style>
+        {`
         .testimonial-swiper {
           width: 100%;
           padding-top: 20px;
@@ -595,14 +634,10 @@ const TestimonialSection = () => {
           font-size: 18px;
           font-weight: bold;
         }
-      `}</style>
+        `}
+      </style>
     </section>
   )
 }
 
 export default TestimonialSection
-
-
-
-
-
