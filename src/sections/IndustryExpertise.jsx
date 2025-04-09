@@ -432,27 +432,40 @@ const IndustryExpertise = () => {
   const sectionRef = useRef(null)
   const buttonsRef = useRef(null)
 
+  // Check for mobile screen size - improved implementation
+  useEffect(() => {
+    // Function to check if mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+
+    // Set initial state immediately
+    if (typeof window !== "undefined") {
+      // Set initial state immediately
+      checkMobile()
+
+      // Add event listener with debounce for better performance
+      let resizeTimer
+      const handleResize = () => {
+        clearTimeout(resizeTimer)
+        resizeTimer = setTimeout(checkMobile, 100)
+      }
+
+      window.addEventListener("resize", handleResize)
+
+      // Cleanup
+      return () => {
+        clearTimeout(resizeTimer)
+        window.removeEventListener("resize", handleResize)
+      }
+    }
+  }, [])
+
   // Get the current industry data
   const currentIndustry = industryData[selectedIndustry]
 
   // Check if we need scrolling (more than 4 cards)
   const hasMoreCards = currentIndustry.cards.length > 4
-
-  // Check for mobile screen size
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640)
-    }
-
-    // Initial check
-    checkMobile()
-
-    // Add event listener for resize
-    window.addEventListener("resize", checkMobile)
-
-    // Cleanup
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
 
   // Animation variants for buttons
   const buttonVariants = {
@@ -534,15 +547,6 @@ const IndustryExpertise = () => {
     }
   }, [])
 
-  // Custom CSS for hiding scrollbar
-  const scrollbarHiddenStyles = {
-    msOverflowStyle: "none", // IE and Edge
-    scrollbarWidth: "none", // Firefox
-    "&::-webkit-scrollbar": {
-      display: "none", // Chrome, Safari, Opera
-    },
-  }
-
   return (
     <section ref={sectionRef} className="py-16 px-4 md:px-6 font-[Inter,sans-serif]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -623,9 +627,8 @@ const IndustryExpertise = () => {
         {/* Right Column - Industry Cards with hidden scrollbar */}
         <div className="relative">
           <div
-            className="overflow-y-auto"
+            className="overflow-y-auto scrollbar-hidden"
             style={{
-              ...scrollbarHiddenStyles,
               height: hasMoreCards ? "450px" : "auto", // Fixed height only if more than 4 cards
             }}
           >
