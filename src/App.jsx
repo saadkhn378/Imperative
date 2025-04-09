@@ -19,6 +19,7 @@ import DigitalProduct from "./pages/DigitalProduct";
 import SmartInfra from "./pages/SmartInfra";
 import WorldMap from "./sections/WorldMap";
 import ProductsSection from "./sections/ProductsSection";
+import IndustryExpertise from "./sections/IndustryExpertise";
 
 function App() {
   return (
@@ -40,11 +41,11 @@ function App() {
                 <Hero />
                 <About />
                 <Marquee/>
+                <IndustryExpertise/>
                 <Products />
                 <ProductsSection/>
                 <Solutions/>
                 <Services />
-                <Industries/>
                 <Testimonials />
                 <WorldMap/>
               </>
