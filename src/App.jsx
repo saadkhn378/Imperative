@@ -28,7 +28,7 @@ function App() {
         <Header />
         <main className="flex-1"> {/* Pushes footer to bottom */}
           <Routes>
-            <Route path="/overview" element={<Overview />} />
+            <Route path="/know-us/overview" element={<Overview />} />
             <Route path="/join-us" element={<Joinus/>}/>
             <Route path="/contact" element={<Contact />} />
             <Route path="/group-companies" element={<GroupCompanies/>}/>
