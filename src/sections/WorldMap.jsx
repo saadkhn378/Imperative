@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useDragControls } from "framer-motion"
 import gsap from "gsap"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -10,6 +10,7 @@ import CompanyMarker from "../pages/CompanyMarker"
 import CompanyDetails from "../pages/CompanyDetails"
 import { companies, industryColors } from "../data/companies"
 import { indiaCountryGeoJSON, indiaStatesGeoJSON } from "../data/geoData"
+import { MapPin, Calendar, Users, Info } from "lucide-react"
 
 // Fix for Leaflet icon issue
 delete L.Icon.Default.prototype._getIconUrl
@@ -33,6 +34,7 @@ const WorldMap = () => {
   const [showIndustries, setShowIndustries] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const mapRef = useRef(null)
+  const dragControls = useDragControls()
 
   // Set mounted state
   const mapContainerRef = useRef(null)
@@ -157,6 +159,14 @@ const WorldMap = () => {
     [toggleState],
   )
 
+  // Function to handle drag end for the pull indicator
+  const handleDragEnd = (event, info) => {
+    if (info.offset.y > 50) {
+      // If dragged down more than 50px, close the panel
+      setSelectedCompany(null)
+    }
+  }
+
   // Loading state
   if (!isMounted) {
     return (
@@ -220,7 +230,7 @@ const WorldMap = () => {
               {/* State boundaries - hidden */}
               <GeoJSON data={indiaStatesGeoJSON} style={stateStyle} onEachFeature={onEachStateFeature} />
 
-              {/* Company markers - with disableTooltip flag for mobile */}
+              {/* Company markers */}
               {filteredCompanies.map((company) => (
                 <CompanyMarker
                   key={company.id}
@@ -228,7 +238,6 @@ const WorldMap = () => {
                   selectedCompany={selectedCompany}
                   setSelectedCompany={handleCompanySelect}
                   industryColors={industryColors}
-                  disableTooltip={true} // Disable any tooltips or popups on the map
                 />
               ))}
             </MapContainer>
@@ -274,7 +283,7 @@ const WorldMap = () => {
           </div>
         </motion.div>
 
-        {/* Company details card - Mobile version */}
+        {/* Enhanced Company details card - Mobile version with functional pull indicator */}
         <AnimatePresence mode="wait">
           {selectedCompany && isMobile && (
             <motion.div
@@ -294,45 +303,85 @@ const WorldMap = () => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 300, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              drag="y"
+              dragControls={dragControls}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
+              dragListener={false} // Only allow drag from the pull indicator
             >
-              <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+              {/* Functional pull indicator */}
+              <div
+                className="pt-3 pb-1 px-4 cursor-grab active:cursor-grabbing touch-none"
+                onPointerDown={(e) => dragControls.start(e)}
+                onClick={() => setSelectedCompany(null)} // Also close on click
+              >
+                <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+              </div>
 
               <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                {/* Original header with industry color */}
                 <div className="p-4 text-white" style={{ backgroundColor: industryColors[selectedCompany.industry] }}>
                   <h3 className="text-lg font-semibold">{selectedCompany.name}</h3>
                   <p className="text-sm opacity-90">{selectedCompany.industry}</p>
                 </div>
 
+                {/* Enhanced company details with icons */}
                 <div className="p-4">
                   <div className="grid grid-cols-1 gap-3">
-                    <div>
-                      <h4 className="text-xs font-medium text-gray-500">LOCATION</h4>
-                      <p className="text-sm">
-                        {selectedCompany.city}, {selectedCompany.state}
-                      </p>
-                    </div>
-
-                    <div>
-                      <h4 className="text-xs font-medium text-gray-500">FOUNDED</h4>
-                      <p className="text-sm">{selectedCompany.founded}</p>
-                    </div>
-
-                    {selectedCompany.employees && (
+                    {/* Location */}
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5">
+                        <MapPin size={18} className="text-gray-400" />
+                      </div>
                       <div>
-                        <h4 className="text-xs font-medium text-gray-500">EMPLOYEES</h4>
-                        <p className="text-sm">{selectedCompany.employees.toLocaleString()}</p>
+                        <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide">Location</h4>
+                        <p className="text-sm text-gray-800">
+                          {selectedCompany.city}, {selectedCompany.state}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Founded */}
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5">
+                        <Calendar size={18} className="text-gray-400" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide">Founded</h4>
+                        <p className="text-sm text-gray-800">{selectedCompany.founded}</p>
+                      </div>
+                    </div>
+
+                    {/* Employees */}
+                    {selectedCompany.employees && (
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5">
+                          <Users size={18} className="text-gray-400" />
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide">Employees</h4>
+                          <p className="text-sm text-gray-800">{selectedCompany.employees.toLocaleString()}</p>
+                        </div>
                       </div>
                     )}
 
+                    {/* Description */}
                     {selectedCompany.description && (
-                      <div>
-                        <h4 className="text-xs font-medium text-gray-500">ABOUT</h4>
-                        <p className="text-sm text-gray-700">{selectedCompany.description}</p>
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5">
+                          <Info size={18} className="text-gray-400" />
+                        </div>
+                        <div>
+                          <h4 className="text-xs font-medium text-gray-500 uppercase tracking-wide">About</h4>
+                          <p className="text-sm text-gray-700 mt-1">{selectedCompany.description}</p>
+                        </div>
                       </div>
                     )}
                   </div>
                 </div>
 
+                {/* Original close button style */}
                 <div className="p-3 border-t border-gray-100">
                   <button
                     onClick={() => setSelectedCompany(null)}

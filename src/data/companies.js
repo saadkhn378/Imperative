@@ -110,18 +110,6 @@ export const industryColors = {
       state: "Delhi",
     },
     {
-      id: 9,
-      name: "Tech Mahindra",
-      country: "India",
-      industry: "IT Services",
-      employees: 125000,
-      founded: 1986,
-      position: [17.385, 78.4867], // Hyderabad
-      description: "Provider of digital transformation, consulting and business reengineering services and solutions.",
-      city: "Hyderabad",
-      state: "Telangana",
-    },
-    {
       id: 10,
       name: "Flipkart",
       country: "India",
