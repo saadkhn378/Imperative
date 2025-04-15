@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 // Import your image at the top
 import demoImage from "../assets/images/demo.png"
@@ -9,7 +9,7 @@ import eduImage from "../assets/images/edu.png"
 import healthImage from "../assets/images/heath.png"
 
 const MachineSlider = () => {
-  // Initial machines data
+  // Initial machines data - all with the same orange color
   const initialMachines = [
     {
       id: 1,
@@ -20,7 +20,7 @@ const MachineSlider = () => {
       categories: ["Banking Kiosk", "Financial Services", "Self-Service"],
       primaryAction: "EXPLORE ALL KIOSK'S",
       secondaryAction: "Explore Kiosk Offerings",
-      bgColor: "bg-orange-500",
+      bgColor: "bg-orange-500", // Same orange color for all machines
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ const MachineSlider = () => {
       categories: ["Healthcare Kiosk", "Medical Services", "Patient Experience"],
       primaryAction: "VIEW HEALTHCARE SOLUTIONS",
       secondaryAction: "Explore Healthcare Options",
-      bgColor: "bg-blue-600",
+      bgColor: "bg-orange-500", // Same orange color for all machines
     },
     {
       id: 3,
@@ -42,7 +42,7 @@ const MachineSlider = () => {
       categories: ["Educational Kiosk", "Learning Tools", "Campus Solutions"],
       primaryAction: "DISCOVER EDUCATION KIOSKS",
       secondaryAction: "Explore Educational Features",
-      bgColor: "bg-green-600",
+      bgColor: "bg-orange-500", // Same orange color for all machines
     },
   ]
 
@@ -52,6 +52,18 @@ const MachineSlider = () => {
   const [isTablet, setIsTablet] = useState(false)
   const [selectedMachineId, setSelectedMachineId] = useState(initialMachines[1].id)
   const [currentDetails, setCurrentDetails] = useState(initialMachines[1])
+
+  // Refs and animations for header
+  const headerRef = useRef(null)
+  const headerControls = useAnimation()
+  const isHeaderInView = useInView(headerRef, { once: true, amount: 0.3 })
+
+  // Animate header when in view
+  useEffect(() => {
+    if (isHeaderInView) {
+      headerControls.start("visible")
+    }
+  }, [isHeaderInView, headerControls])
 
   // Check screen size on mount and resize with improved breakpoints
   useEffect(() => {
@@ -99,7 +111,7 @@ const MachineSlider = () => {
       }
       // If clicking the right machine (index 2)
       else if (clickedIndex === 2) {
-        // Move right to center, center to left
+        // Move right to center, center becomes left
         ;[newMachines[0], newMachines[1], newMachines[2]] = [newMachines[1], newMachines[2], newMachines[0]]
       }
 
@@ -117,7 +129,7 @@ const MachineSlider = () => {
     }
   }
 
-  // Handle swipe with optimized transition
+  // Handle swipe with optimized transition - only triggered by explicit user swipe
   const handleSwipe = (direction) => {
     if (isTransitioning) return
 
@@ -210,7 +222,7 @@ const MachineSlider = () => {
     }
   }
 
-  // Handle touch events for mobile swipe
+  // Handle touch events for mobile swipe - only on the machine area
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const minSwipeDistance = 50
@@ -240,21 +252,95 @@ const MachineSlider = () => {
   // Calculate overlap amount for design - responsive based on screen size
   const overlapAmount = isMobile ? "1.5rem" : isTablet ? "2rem" : "3rem"
 
+  // Header animation variants
+  const headerVariants = {
+    hidden: {
+      opacity: 0,
+      y: -20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const wordVariants = {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      rotateX: 45,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  }
+
   return (
-    <div
-      className="font-met flex flex-col items-center w-full overflow-hidden"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-4 md:mb-6 px-4 text-center">
-        {isMobile ? "Transforming Transactions with Self-Service & Automation" : "Transforming Transactions with Self-Service & Automation"}
-      </h2>
+    <div className="flex flex-col items-center w-full overflow-hidden">
+      {/* Animated Header */}
+      <motion.div
+        ref={headerRef}
+        className="w-full text-center mb-8 sm:mb-10 md:mb-12 px-4 sm:px-6 md:px-8 overflow-hidden"
+        initial="hidden"
+        animate={headerControls}
+        variants={headerVariants}
+      >
+        <div className="inline-block relative pb-4">
+          {/* Animated underline that appears after text animation */}
+          <motion.div
+            className="absolute h-1 bg-orange-500 bottom-0 left-0 right-0"
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{
+              scaleX: 1,
+              opacity: 1,
+              transition: {
+                delay: 0.8,
+                duration: 0.6,
+                ease: [0.22, 1, 0.36, 1],
+              },
+            }}
+            style={{ transformOrigin: "left", zIndex: 1 }}
+          />
+
+          <motion.h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight relative z-10">
+            {/* Split text into words for staggered animation */}
+            {"TRANSFORMING TRANSACTIONS WITH SELF-SERVICE & AUTOMATION".split(" ").map((word, i) => (
+              <motion.span
+                key={i}
+                className="inline-block mx-1"
+                variants={wordVariants}
+                style={{ transformOrigin: "bottom" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.h1>
+        </div>
+      </motion.div>
 
       {/* Container with relative positioning for content flow */}
-      <div className="w-full relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
+      <div className="w-full relative">
         {/* 3D perspective container */}
-        <div className="w-full relative z-10" style={{ perspective: "1500px" }}>
+        <div
+          className="w-full relative z-10"
+          style={{ perspective: "1500px" }}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           {/* Machine slider section with 3D transitions */}
           <div
             className="flex justify-center items-center gap-0 px-2 sm:px-4 min-h-[200px] sm:min-h-[240px] md:min-h-[300px] lg:min-h-[340px]"
@@ -280,7 +366,7 @@ const MachineSlider = () => {
                     transformOrigin: index === 0 ? "right center" : index === 2 ? "left center" : "center center",
                   }}
                 >
-                  {/* Title above side images only */}
+                  {/* Title above side images only - normal color */}
                   {isSideImage && (
                     <div className="mb-1 sm:mb-2 text-center">
                       <h3 className="text-xs sm:text-sm font-semibold truncate max-w-20 sm:max-w-28 md:max-w-32 lg:max-w-40">
@@ -318,24 +404,28 @@ const MachineSlider = () => {
           </div>
         </div>
 
-        {/* Featured machine details section - positioned with negative margin for better integration */}
+        {/* Featured machine details section - consistently orange for all machines */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentDetails.id}
-            className={`
-              w-full ${currentDetails.bgColor} text-white p-4 sm:p-6 md:p-8 rounded-lg relative
-              rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8
-            `}
+            className="w-full bg-orange-500 text-white p-4 sm:p-6 md:p-8 relative
+            rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8"
             style={{
               marginTop: `-${overlapAmount}`,
               clipPath: "polygon(0 15px, 100% 15px, 100% 100%, 0% 100%)",
+              width: "100vw",
+              marginLeft: "calc(-50vw + 50%)",
+              left: 0,
+              right: 0,
+              position: "relative",
+              boxSizing: "border-box",
             }}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ type: "spring", stiffness: 400, damping: 18, delay: 0.1 }}
           >
-            <div className="max-w-6xl mx-auto pt-6 sm:pt-8 md:pt-10">
+            <div className="max-w-6xl mx-auto pt-6 sm:pt-8 md:pt-10 px-3 sm:px-4 md:px-6">
               {/* Two-column layout for details - responsive grid */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10">
                 {/* Left column: Title, Description, Primary Action */}
@@ -346,7 +436,7 @@ const MachineSlider = () => {
                   <p className="text-sm md:text-base mb-4 sm:mb-5 md:mb-6 flex-grow">{currentDetails.description}</p>
                   <div className="mt-auto">
                     <motion.button
-                      className={`w-full sm:w-auto ${currentDetails.bgColor} text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100 flex items-center justify-center sm:justify-start gap-2`}
+                      className="w-full sm:w-auto bg-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100 flex items-center justify-center sm:justify-start gap-2"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -356,13 +446,13 @@ const MachineSlider = () => {
                   </div>
                 </div>
 
-                {/* Right column: Categories only - with dynamic background color matching the machine */}
-                <div className="flex flex-col justify-start items-end mt-5 lg:mt-0">
+                {/* Right column: Categories only - with orange background color for all machines */}
+                <div className="flex flex-col justify-center items-start mt-5 lg:mt-0">
                   <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-start w-full">
                     {currentDetails.categories.map((category, index) => (
                       <motion.button
                         key={index}
-                        className={`${currentDetails.bgColor} text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full border-2 border-white text-xs sm:text-sm md:text-base font-medium shadow-sm hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100`}
+                        className="bg-orange-500 text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full border-2 border-white text-xs sm:text-sm md:text-base font-medium shadow-sm hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                       >

@@ -46,7 +46,7 @@ function App() {
                 <Products />
                 <ProductsSection/>
                 <Solutions/>
-                <Services />
+                {/* <Services /> */}
                 <MachineSlider/>
                 <Testimonials />
                 <WorldMap/>
