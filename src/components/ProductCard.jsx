@@ -164,12 +164,20 @@ const ProductCard = ({ product, isAnyHovered, isThisHovered, onHover, onClick, i
         {/* Expanded content with cool image animation */}
         <motion.div
           ref={expandedRef}
-          className="absolute top-0 h-full overflow-hidden rounded-lg border border-slate-200 shadow-lg bg-black"
-          initial={{ left: 140, opacity: 0, width: 0 }}
+          className="absolute overflow-hidden rounded-lg border border-slate-200 shadow-lg bg-black"
+          initial={{
+            left: 140,
+            opacity: 0,
+            width: 0,
+            height: "300px",
+            top: "0px",
+          }}
           animate={{
             left: 140,
             opacity: isThisHovered ? 1 : 0,
             width: isThisHovered ? "calc(100% - 130px)" : 0,
+            height: isThisHovered ? "360px" : "300px", // Increase height
+            top: isThisHovered ? "-30px" : "0px", // Move up to grow from both directions
           }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
@@ -258,6 +266,3 @@ const ParticlesOverlay = () => {
 }
 
 export default ProductCard
-
-
-

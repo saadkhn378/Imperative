@@ -21,7 +21,9 @@ const ProductsList = ({ products, hoveredId, setHoveredId }) => {
   }
 
   return (
-    <div className={isMobile ? "flex flex-col space-y-2" : "flex justify-between gap-4 w-full"}>
+    <div
+      className={`${isMobile ? "flex flex-col space-y-2" : "flex justify-between gap-4 w-full"} mt-16 sm:mt-20 md:mt-24`}
+    >
       {products.map((product) => (
         <ProductCard
           key={product.id}
@@ -38,4 +40,3 @@ const ProductsList = ({ products, hoveredId, setHoveredId }) => {
 }
 
 export default ProductsList
-
