@@ -16,22 +16,14 @@ import {
 } from "react-icons/fa";
 import {
   BiBuilding,
-  BiHistory,
-  BiTargetLock,
   BiUserCircle,
   BiGroup,
   BiTrophy,
-  BiDonateHeart,
-  BiNews,
-  BiMessageSquareDetail,
-  BiNetworkChart,
-  BiBriefcase,
 } from "react-icons/bi";
 import {
   GiFactory,
   GiHealthNormal,
   GiBank,
-  GiOilPump,
   GiShoppingBag,
   GiTruck,
   GiWorld,
@@ -41,14 +33,10 @@ import {
   GiGrowth,
 } from "react-icons/gi";
 import {
-  FaImage,
-  FaVideo,
   FaCalendarAlt,
   FaUsers,
   FaTrophy,
   FaHandshake,
-  FaGlobe,
-  FaNewspaper,
 } from "react-icons/fa";
 
 // FlyoutLink component for regular menu items

@@ -2,12 +2,14 @@
 import { motion } from "framer-motion"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Autoplay, EffectFade, Pagination } from "swiper/modules"
+import { useEffect, useState } from "react"
 
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/effect-fade"
 import "swiper/css/pagination"
 import { Link } from "react-router-dom"
+
 
 const slides = [
   {
@@ -43,64 +45,39 @@ const slides = [
 ]
 
 function Hero() {
-  // Detect if we're on a mobile device
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Check if we're on a mobile device
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Initial check
+    checkIfMobile()
+
+    // Add event listener for window resize
+    window.addEventListener("resize", checkIfMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
 
   return (
     <section className="font-met relative w-full h-[80vh]">
-      <style jsx>{`
-        /* Custom pagination bullets */
-        .swiper-pagination-bullet {
-          width: 10px;
-          height: 10px;
-          opacity: 1;
-          background: rgba(255, 255, 255, 0.5);
-          transition: all 0.3s ease;
-        }
-        
-        .swiper-pagination-bullet-active {
-          background: #fff;
-          width: 20px;
-          border-radius: 5px;
-        }
-        
-        /* Simpler Ken Burns effect with reduced animation for mobile */
-        @media (min-width: 768px) {
-          .desktop-zoom {
-            animation: simple-zoom 20s ease alternate infinite;
-            transform-origin: center;
-          }
-          
-          @keyframes simple-zoom {
-            0% {
-              transform: scale(1);
-            }
-            100% {
-              transform: scale(1.05);
-            }
-          }
-        }
-      `}</style>
-
       <Swiper
         modules={[Autoplay, EffectFade, Pagination]}
-        effect="fade" // Using simpler fade effect instead of creative for better performance
+        effect="fade"
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
         }}
         pagination={{
           clickable: true,
-          renderBullet: (index, className) => `<span class="${className}"></span>`,
         }}
         loop={true}
         className="w-full h-full"
-        preloadImages={false}
-        lazy={{
-          loadPrevNext: true,
-          loadPrevNextAmount: 1,
-        }}
-        speed={800} // Slightly faster transitions
+        speed={800}
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={slide.id} className="relative w-full h-full">
@@ -108,10 +85,9 @@ function Hero() {
               <img
                 src={slide.image || "/placeholder.svg"}
                 alt={slide.title}
-                className={`swiper-lazy object-cover w-full h-full ${!isMobile ? "desktop-zoom" : ""}`}
+                className={`object-cover w-full h-full ${!isMobile ? "desktop-zoom" : ""}`}
                 loading="lazy"
               />
-              <div className="swiper-lazy-preloader"></div>
               <div className="absolute inset-0 bg-black/40" />
             </div>
             <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">

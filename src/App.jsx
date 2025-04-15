@@ -20,6 +20,7 @@ import SmartInfra from "./pages/SmartInfra";
 import WorldMap from "./sections/WorldMap";
 import ProductsSection from "./sections/ProductsSection";
 import IndustryExpertise from "./sections/IndustryExpertise";
+import MachineSlider from "./sections/MachineSlider";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
                 <ProductsSection/>
                 <Solutions/>
                 <Services />
+                <MachineSlider/>
                 <Testimonials />
                 <WorldMap/>
               </>
