@@ -1,12 +1,10 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion"
+import { motion, useInView, useAnimation } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 // Import your image at the top
 import demoImage from "../assets/images/demo.png"
-import eduImage from "../assets/images/edu.png"
-import healthImage from "../assets/images/heath.png"
 
 const MachineSlider = () => {
   // Initial machines data - all with the same orange color
@@ -24,7 +22,7 @@ const MachineSlider = () => {
     },
     {
       id: 2,
-      image: healthImage,
+      image: demoImage,
       title: "HEALTHCARE INFORMATION KIOSK",
       description:
         "Streamlines patient check-in, provides medical information, and reduces administrative burden on healthcare staff.",
@@ -35,7 +33,7 @@ const MachineSlider = () => {
     },
     {
       id: 3,
-      image: eduImage,
+      image: demoImage,
       title: "EDUCATIONAL INTERACTIVE KIOSK",
       description:
         "Enhances learning experiences with interactive content, wayfinding capabilities, and information access for students and visitors.",
@@ -46,12 +44,23 @@ const MachineSlider = () => {
     },
   ]
 
-  const [machines, setMachines] = useState(initialMachines)
+  // Store the original order of machines for reference
+  const [originalMachines] = useState([...initialMachines])
+
+  // Current machines in display order
+  const [machines, setMachines] = useState([...initialMachines])
+
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isTablet, setIsTablet] = useState(false)
   const [selectedMachineId, setSelectedMachineId] = useState(initialMachines[1].id)
   const [currentDetails, setCurrentDetails] = useState(initialMachines[1])
+  const [rotationDirection, setRotationDirection] = useState(null) // 'left' or 'right'
+  const [clickedMachineIndex, setClickedMachineIndex] = useState(null) // Track which machine was clicked
+
+  // Simplified approach: track display positions directly
+  // This array represents which machine is in which position: [leftMachine, centerMachine, rightMachine]
+  const [displayOrder, setDisplayOrder] = useState([0, 1, 2])
 
   // Refs and animations for header
   const headerRef = useRef(null)
@@ -82,142 +91,175 @@ const MachineSlider = () => {
     return () => window.removeEventListener("resize", checkScreenSize)
   }, [])
 
-  // Function to handle machine selection with optimized transition
+  // Function to handle machine selection with enhanced smooth transition
   const handleMachineSelect = (machineId) => {
-    if (isTransitioning || selectedMachineId === machineId) return
+    if (isTransitioning) return
+
+    // Find the clicked machine
+    const clickedMachine = machines.find((m) => m.id === machineId)
+    if (!clickedMachine) return
+
+    // Find the index of the clicked machine in the current display order
+    const clickedIndex = machines.findIndex((m) => m.id === machineId)
+
+    // Determine which position (left, center, right) was clicked
+    const clickedPosition = displayOrder.indexOf(clickedIndex)
+
+    // If center was clicked, do nothing
+    if (clickedPosition === 1) return
 
     setIsTransitioning(true)
 
-    // Find the clicked machine to immediately update details
-    const clickedMachine = machines.find((m) => m.id === machineId)
-    if (clickedMachine) {
-      // Update details immediately for smoother experience
-      setCurrentDetails(clickedMachine)
+    // Set the clicked machine index for animation targeting
+    setClickedMachineIndex(clickedIndex)
+
+    // Determine rotation direction based on which position was clicked
+    if (clickedPosition === 0) {
+      // Left machine was clicked - rotate left
+      setRotationDirection("left")
+
+      // Rotate the display order: [left, center, right] -> [right, left, center]
+      const newOrder = [displayOrder[2], displayOrder[0], displayOrder[1]]
+      setDisplayOrder(newOrder)
+
+      // Update details to show the machine that was clicked (left machine)
+      const leftMachine = machines[displayOrder[0]]
+      setCurrentDetails(leftMachine)
+      setSelectedMachineId(leftMachine.id)
+    } else if (clickedPosition === 2) {
+      // Right machine was clicked - rotate right
+      setRotationDirection("right")
+
+      // Rotate the display order: [left, center, right] -> [center, right, left]
+      const newOrder = [displayOrder[1], displayOrder[2], displayOrder[0]]
+      setDisplayOrder(newOrder)
+
+      // Update details to show the machine that was clicked (right machine)
+      const rightMachine = machines[displayOrder[2]]
+      setCurrentDetails(rightMachine)
+      setSelectedMachineId(rightMachine.id)
     }
 
-    // Find the index of the clicked machine
-    const clickedIndex = machines.findIndex((machine) => machine.id === machineId)
-    // Find the index of the current center machine
-    const centerIndex = 1
-
-    if (clickedIndex !== centerIndex) {
-      // Create a new array for the rotation effect
-      const newMachines = [...machines]
-
-      // If clicking the left machine (index 0)
-      if (clickedIndex === 0) {
-        // Move left to center, center to right
-        ;[newMachines[0], newMachines[1], newMachines[2]] = [newMachines[2], newMachines[0], newMachines[1]]
-      }
-      // If clicking the right machine (index 2)
-      else if (clickedIndex === 2) {
-        // Move right to center, center becomes left
-        ;[newMachines[0], newMachines[1], newMachines[2]] = [newMachines[1], newMachines[2], newMachines[0]]
-      }
-
-      // Apply the rotation effect immediately
-      setMachines(newMachines)
-      setSelectedMachineId(machineId)
-
-      // Reset transitioning after a shorter animation time
-      setTimeout(() => {
-        setIsTransitioning(false)
-      }, 400)
-    } else {
-      // If clicking the center machine, just reset the transition state
+    // Reset transitioning and clicked index after animation completes
+    setTimeout(() => {
       setIsTransitioning(false)
-    }
+      setClickedMachineIndex(null)
+      setRotationDirection(null)
+    }, 800)
   }
 
-  // Handle swipe with optimized transition - only triggered by explicit user swipe
+  // Handle swipe with enhanced smooth transition
   const handleSwipe = (direction) => {
     if (isTransitioning) return
 
     setIsTransitioning(true)
-
-    // Create a new array for the rotation effect
-    const newMachines = [...machines]
-    let targetMachine
+    setRotationDirection(direction)
 
     if (direction === "left") {
-      // Rotate left: right becomes center, center becomes left, left becomes right
-      ;[newMachines[0], newMachines[1], newMachines[2]] = [newMachines[1], newMachines[2], newMachines[0]]
-      targetMachine = newMachines[1]
+      // Swipe left - right machine moves to center
+      const rightMachineIndex = displayOrder[2]
+      const rightMachine = machines[rightMachineIndex]
+
+      // Update details
+      setCurrentDetails(rightMachine)
+      setSelectedMachineId(rightMachine.id)
+
+      // Set clicked machine for animation
+      setClickedMachineIndex(rightMachineIndex)
+
+      // Rotate the display order: [left, center, right] -> [center, right, left]
+      setDisplayOrder([displayOrder[1], displayOrder[2], displayOrder[0]])
     } else if (direction === "right") {
-      // Rotate right: left becomes center, center becomes right, right becomes left
-      ;[newMachines[0], newMachines[1], newMachines[2]] = [newMachines[2], newMachines[0], newMachines[1]]
-      targetMachine = newMachines[1]
+      // Swipe right - left machine moves to center
+      const leftMachineIndex = displayOrder[0]
+      const leftMachine = machines[leftMachineIndex]
+
+      // Update details
+      setCurrentDetails(leftMachine)
+      setSelectedMachineId(leftMachine.id)
+
+      // Set clicked machine for animation
+      setClickedMachineIndex(leftMachineIndex)
+
+      // Rotate the display order: [left, center, right] -> [right, left, center]
+      setDisplayOrder([displayOrder[2], displayOrder[0], displayOrder[1]])
     }
 
-    // Update details immediately for smoother experience
-    if (targetMachine) {
-      setCurrentDetails(targetMachine)
-      setSelectedMachineId(targetMachine.id)
-    }
-
-    // Apply the rotation immediately
-    setMachines(newMachines)
-
-    // Reset transitioning after a shorter animation time
+    // Reset transitioning after animation completes
     setTimeout(() => {
       setIsTransitioning(false)
-    }, 400)
+      setClickedMachineIndex(null)
+      setRotationDirection(null)
+    }, 800)
   }
 
-  // Define animation variants for machine positions - adjusted to prevent center image from popping
+  // Get position name (left, center, right) for a machine index
+  const getPositionName = (index) => {
+    const position = displayOrder.indexOf(index)
+    return position === 0 ? "left" : position === 1 ? "center" : "right"
+  }
+
+  // Define animation variants for machine positions with enhanced smooth transition
   const getVariants = (index) => {
-    // Default positions - adjusted for better consistency across screen sizes
+    const imageScale = 1.0
+
     const positions = {
       left: {
-        scale: isMobile ? 0.8 : isTablet ? 0.85 : 0.9, // Increased scale for side images
-        x: isMobile ? "-15vw" : isTablet ? "-16vw" : "-18vw", // Adjusted position for better spacing
-        y: 0,
-        rotateY: isMobile ? -15 : -20, // Less rotation on smaller screens
-        opacity: 0.8, // Increased opacity for better visibility
+        scale: imageScale,
+        x: isMobile ? "-120%" : isTablet ? "-18vw" : "-20vw",
+        y: isMobile ? -10 : -60,
+        rotateY: isMobile ? -30 : -20,
+        opacity: 0.7,
         zIndex: 0,
+        filter: "brightness(0.9)",
       },
       center: {
-        scale: isMobile ? 0.95 : 1, // Slightly reduced scale on mobile to prevent popping
-        x: "0vw",
+        scale: imageScale,
+        x:isMobile ? "-45%" : isTablet ? "18vw" : "20vw",
         y: 0,
         rotateY: 0,
         opacity: 1,
         zIndex: 10,
       },
       right: {
-        scale: isMobile ? 0.8 : isTablet ? 0.85 : 0.9, // Increased scale for side images
-        x: isMobile ? "15vw" : isTablet ? "16vw" : "18vw", // Adjusted position for better spacing
-        y: 0,
-        rotateY: isMobile ? 15 : 20, // Less rotation on smaller screens
-        opacity: 0.8, // Increased opacity for better visibility
+        scale: imageScale,
+        x: isMobile ? "30%" : isTablet ? "18vw" : "20vw",
+        y: isMobile ? -10 : -60,
+        rotateY: isMobile ? 30 : 20,
+        opacity: 0.7,
         zIndex: 0,
+        filter: "brightness(0.9)",
       },
     }
 
-    const positionNames = ["left", "center", "right"]
-    const position = positionNames[index]
+    const position = getPositionName(index)
+    const isClickedMachine = index === clickedMachineIndex
+
+    if (isClickedMachine) {
+      return {
+        animate: {
+          ...positions[position],
+          transition: {
+            type: "spring",
+            stiffness: 80,
+            damping: 12,
+            mass: 0.8,
+            duration: 0.8,
+          },
+        },
+      }
+    }
 
     return {
-      initial: {
-        ...positions[position],
-        opacity: 0,
-        rotateY: position === "left" ? -90 : position === "right" ? 90 : 0,
-      },
       animate: {
         ...positions[position],
-        opacity: positions[position].opacity,
-      },
-      exit: {
-        ...positions[position === "left" ? "right" : position === "right" ? "left" : "center"],
-        opacity: 0,
-        rotateY: position === "left" ? 90 : position === "right" ? -90 : 0,
-      },
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 18,
-        mass: 0.8,
-        duration: 0.4,
+        transition: {
+          type: "spring",
+          stiffness: 90,
+          damping: 15,
+          mass: 0.8,
+          duration: 0.7,
+        },
       },
     }
   }
@@ -250,22 +292,22 @@ const MachineSlider = () => {
   }
 
   // Calculate overlap amount for design - responsive based on screen size
-  const overlapAmount = isMobile ? "1.5rem" : isTablet ? "2rem" : "3rem"
+  const overlapAmount = isMobile ? "1rem" : isTablet ? "4rem" : "6rem"
 
   // Header animation variants
   const headerVariants = {
     hidden: {
       opacity: 0,
-      y: -20,
+      y: -30,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        duration: 0.9,
+        ease: [0.25, 0.1, 0.25, 1.0],
+        staggerChildren: 0.12,
+        delayChildren: 0.1,
       },
     },
   }
@@ -273,27 +315,51 @@ const MachineSlider = () => {
   const wordVariants = {
     hidden: {
       opacity: 0,
-      y: 20,
-      rotateX: 45,
+      y: 30,
+      rotateX: 60,
+      scale: 0.9,
     },
     visible: {
       opacity: 1,
       y: 0,
       rotateX: 0,
+      scale: 1,
       transition: {
         type: "spring",
-        stiffness: 100,
-        damping: 12,
+        stiffness: 120,
+        damping: 10,
+        mass: 0.8,
       },
     },
   }
 
+  // Calculate image sizes for better mobile presentation
+  const getImageSize = (position) => {
+    const isCenter = position === "center"
+    if (isCenter) {
+      return isMobile ? "w-40 h-60" : isTablet ? "w-44 h-60" : "w-48 h-100"
+    } else {
+      return isMobile ? "w-36 h-52" : isTablet ? "w-40 h-56" : "w-48 h-full"
+    }
+  }
+
+  // Get the full title for the machine at the given position
+  const getTitleForPosition = (position) => {
+    if (position === "left") {
+      return machines[displayOrder[0]].title
+    } else if (position === "center") {
+      return machines[displayOrder[1]].title
+    } else {
+      return machines[displayOrder[2]].title
+    }
+  }
+
   return (
-    <div className="flex flex-col items-center w-full overflow-hidden">
-      {/* Animated Header */}
+    <div className="font-met flex flex-col items-center w-full overflow-hidden">
+      {/* Animated Header - adjusted padding for mobile */}
       <motion.div
         ref={headerRef}
-        className="w-full text-center mb-8 sm:mb-10 md:mb-12 px-4 sm:px-6 md:px-8 overflow-hidden"
+        className="w-full text-center mb-6 sm:mb-8 md:mb-12 px-3 sm:px-6 md:px-8 overflow-hidden"
         initial="hidden"
         animate={headerControls}
         variants={headerVariants}
@@ -308,7 +374,7 @@ const MachineSlider = () => {
               opacity: 1,
               transition: {
                 delay: 0.8,
-                duration: 0.6,
+                duration: 0.8,
                 ease: [0.22, 1, 0.36, 1],
               },
             }}
@@ -331,140 +397,146 @@ const MachineSlider = () => {
         </div>
       </motion.div>
 
-      {/* Container with relative positioning for content flow */}
+      {/* Container with enhanced mobile spacing */}
       <div className="w-full relative">
-        {/* 3D perspective container */}
         <div
           className="w-full relative z-10"
-          style={{ perspective: "1500px" }}
+          style={{ perspective: "2000px" }}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {/* Machine slider section with 3D transitions */}
-          <div
-            className="flex justify-center items-center gap-0 px-2 sm:px-4 min-h-[200px] sm:min-h-[240px] md:min-h-[300px] lg:min-h-[340px]"
-            style={{ transformStyle: "preserve-3d" }}
-          >
+          <div className="flex justify-center items-center gap-0 px-2 sm:px-4 min-h-[200px] sm:min-h-[240px] md:min-h-[300px] lg:min-h-[340px] relative">
             {machines.map((machine, index) => {
-              const { initial, animate, exit, transition } = getVariants(index)
-              const isSideImage = index !== 1
-              const isCenter = index === 1
+              const position = getPositionName(index)
+              const isSideImage = position !== "center"
+              const isCenter = position === "center"
+              const isClickedMachine = index === clickedMachineIndex
+              const imageSize = getImageSize(position)
+              const variants = getVariants(index)
+              const fullTitle = machine.title
+              const shortTitle = fullTitle.split(" ")[0]
 
               return (
                 <motion.div
                   key={`${machine.id}-${index}`}
-                  className="cursor-pointer flex flex-col items-center"
-                  initial={initial}
-                  animate={animate}
-                  exit={exit}
-                  transition={transition}
-                  whileHover={!isCenter && !isMobile ? { opacity: 0.9, scale: animate.scale * 1.05 } : {}}
+                  className="cursor-pointer flex flex-col items-center absolute"
+                  animate={variants.animate}
+                  whileHover={
+                    !isCenter && !isMobile
+                      ? {
+                          opacity: 0.95,
+                          filter: "brightness(1.1)",
+                          transition: { duration: 0.2 },
+                        }
+                      : {}
+                  }
                   onClick={() => handleMachineSelect(machine.id)}
                   style={{
                     transformStyle: "preserve-3d",
-                    transformOrigin: index === 0 ? "right center" : index === 2 ? "left center" : "center center",
+                    transformOrigin: "center center",
+                    zIndex: isClickedMachine ? 20 : isCenter ? 10 : 0,
+                    left: "50%",
+                    transform: "translateX(-50%)",
                   }}
                 >
-                  {/* Title above side images only - normal color */}
                   {isSideImage && (
-                    <div className="mb-1 sm:mb-2 text-center">
+                    <motion.div
+                      className="mb-1 sm:mb-2 text-center"
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2, duration: 0.3 }}
+                    >
                       <h3 className="text-xs sm:text-sm font-semibold truncate max-w-20 sm:max-w-28 md:max-w-32 lg:max-w-40">
-                        {machine.title.split(" ")[0]} {/* Display only the first word of the title */}
+                        {shortTitle}
                       </h3>
-                    </div>
+                    </motion.div>
                   )}
 
-                  <div
+                  <motion.div
                     className={`
-                      relative transition-all duration-300
-                      ${
-                        isCenter
-                          ? "w-32 h-44 sm:w-40 sm:h-56 md:w-48 md:h-68 lg:w-56 lg:h-84"
-                          : "w-24 h-36 sm:w-32 sm:h-44 md:w-40 md:h-56 lg:w-48 lg:h-68"
-                      }
+                      relative
+                      ${imageSize}
                       ${isCenter ? "rounded-t-lg" : "rounded-lg"} overflow-hidden
                     `}
-                    style={{ transformStyle: "preserve-3d" }}
                   >
                     <img
                       src={machine.image || "/placeholder.svg"}
                       alt={`Kiosk ${machine.id}`}
-                      className="w-full h-full object-cover shadow-md"
-                      style={{ backfaceVisibility: "hidden" }}
+                      className="w-full h-full object-cover"
+                      style={{
+                        backfaceVisibility: "hidden",
+                        filter: "brightness(1)",
+                      }}
                       onError={(e) => {
                         console.error("Image failed to load:", e)
                         e.currentTarget.src = "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?w=300"
                       }}
                     />
-                  </div>
+                  </motion.div>
                 </motion.div>
               )
             })}
           </div>
         </div>
 
-        {/* Featured machine details section - consistently orange for all machines */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentDetails.id}
-            className="w-full bg-orange-500 text-white p-4 sm:p-6 md:p-8 relative
-            rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8"
-            style={{
-              marginTop: `-${overlapAmount}`,
-              clipPath: "polygon(0 15px, 100% 15px, 100% 100%, 0% 100%)",
-              width: "100vw",
-              marginLeft: "calc(-50vw + 50%)",
-              left: 0,
-              right: 0,
-              position: "relative",
-              boxSizing: "border-box",
-            }}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ type: "spring", stiffness: 400, damping: 18, delay: 0.1 }}
-          >
-            <div className="max-w-6xl mx-auto pt-6 sm:pt-8 md:pt-10 px-3 sm:px-4 md:px-6">
-              {/* Two-column layout for details - responsive grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10">
-                {/* Left column: Title, Description, Primary Action */}
-                <div className="flex flex-col">
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 md:mb-4">
-                    {currentDetails.title}
-                  </h2>
-                  <p className="text-sm md:text-base mb-4 sm:mb-5 md:mb-6 flex-grow">{currentDetails.description}</p>
-                  <div className="mt-auto">
+        <div
+          className="w-full bg-orange-500 text-white p-4 sm:p-6 md:p-8 relative rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8"
+          style={{
+            marginTop: `-${overlapAmount}`,
+            clipPath: "polygon(0 15px, 100% 15px, 100% 100%, 0% 100%)",
+            width: "100vw",
+            marginLeft: "calc(-50vw + 50%)",
+            left: 0,
+            right: 0,
+            position: "relative",
+            boxSizing: "border-box",
+          }}
+        >
+          <div className="max-w-6xl mx-auto pt-6 sm:pt-8 md:pt-10 px-3 sm:px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10">
+              <div className="flex flex-col text-center lg:text-right">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-3 md:mb-4">
+                  {currentDetails.title}
+                </h2>
+                <p className="text-sm md:text-base mb-4 sm:mb-5 md:mb-6 flex-grow">
+                  {currentDetails.description}
+                </p>
+                <div className="mt-auto flex justify-center lg:justify-end">
+                  <motion.button
+                    className="w-full sm:w-auto bg-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-orange-500 active:bg-white active:text-orange-500 transition-all duration-100 flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {currentDetails.primaryAction}
+                    <motion.div
+                      initial={{ x: 0 }}
+                      whileHover={{ x: 5 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                    </motion.div>
+                  </motion.button>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center lg:items-end mb-20">
+                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-5 justify-center lg:justify-end w-full">
+                  {currentDetails.categories.map((category, index) => (
                     <motion.button
-                      className="w-full sm:w-auto bg-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100 flex items-center justify-center sm:justify-start gap-2"
-                      whileHover={{ scale: 1.05 }}
+                      key={index}
+                      className="bg-orange-500 text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full border-2 border-white text-xs sm:text-sm md:text-base font-medium shadow-sm hover:bg-white hover:text-orange-500 active:bg-white active:text-orange-500 transition-all duration-100"
+                      whileHover={{ scale: 1.08, boxShadow: "0 3px 10px rgba(0,0,0,0.1)" }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {currentDetails.primaryAction}
-                      <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                      {category}
                     </motion.button>
-                  </div>
-                </div>
-
-                {/* Right column: Categories only - with orange background color for all machines */}
-                <div className="flex flex-col justify-center items-start mt-5 lg:mt-0">
-                  <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 justify-start w-full">
-                    {currentDetails.categories.map((category, index) => (
-                      <motion.button
-                        key={index}
-                        className="bg-orange-500 text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-3 rounded-full border-2 border-white text-xs sm:text-sm md:text-base font-medium shadow-sm hover:bg-white hover:text-black active:bg-white active:text-black transition-all duration-100"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {category}
-                      </motion.button>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -21,6 +21,9 @@ import WorldMap from "./sections/WorldMap";
 import ProductsSection from "./sections/ProductsSection";
 import IndustryExpertise from "./sections/IndustryExpertise";
 import MachineSlider from "./sections/MachineSlider";
+import AwardsRecognition from "./pages/AwardsRecognition";
+import Leadership from "./pages/Leadership";
+import OurTeam from "./pages/OurTeam";
 
 function App() {
   return (
@@ -30,6 +33,9 @@ function App() {
         <main className="flex-1"> {/* Pushes footer to bottom */}
           <Routes>
             <Route path="/know-us/overview" element={<Overview />} />
+            <Route path="/know-us/awards-recognitions" element={<AwardsRecognition/>}/>
+            <Route path="/know-us/leadership-team" element={<Leadership/>}/>
+            <Route path="/know-us/our-team" element={<OurTeam/>}/>
             <Route path="/join-us" element={<Joinus/>}/>
             <Route path="/contact" element={<Contact />} />
             <Route path="/group-companies" element={<GroupCompanies/>}/>
@@ -43,7 +49,7 @@ function App() {
                 <About />
                 <Marquee/>
                 <IndustryExpertise/>
-                <Products />
+                {/* <Products /> */}
                 <ProductsSection/>
                 <Solutions/>
                 {/* <Services /> */}
