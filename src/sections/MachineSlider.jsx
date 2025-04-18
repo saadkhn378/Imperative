@@ -215,7 +215,7 @@ const MachineSlider = () => {
       },
       center: {
         scale: imageScale,
-        x:isMobile ? "-45%" : isTablet ? "18vw" : "20vw",
+        x:isMobile ? "-45%" : isTablet ? "0vw" : "0vw",
         y: 0,
         rotateY: 0,
         opacity: 1,
