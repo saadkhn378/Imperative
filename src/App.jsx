@@ -24,6 +24,7 @@ import MachineSlider from "./sections/MachineSlider";
 import AwardsRecognition from "./pages/AwardsRecognition";
 import Leadership from "./pages/Leadership";
 import OurTeam from "./pages/OurTeam";
+import PartnersShowcase from "./sections/PartnersShowcase";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                 <Hero />
                 <About />
                 <Marquee/>
+                <PartnersShowcase/>
                 <IndustryExpertise/>
                 {/* <Products /> */}
                 <ProductsSection/>

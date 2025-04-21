@@ -58,6 +58,36 @@
     width: 20px;
     border-radius: 5px;
   }
+  .swiper-marquee {
+    overflow: visible !important;
+  }
+  
+  .swiper-marquee .swiper-wrapper {
+    transition-timing-function: linear !important;
+  }
+  
+  /* Add fade edges to the marquee */
+  .swiper-marquee::before,
+  .swiper-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .swiper-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  }
+  
+  .swiper-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+  }
+  
   
   /* Simpler Ken Burns effect with reduced animation for mobile */
   @media (min-width: 768px) {

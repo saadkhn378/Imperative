@@ -77,8 +77,12 @@ const MachineSlider = () => {
   // Check screen size on mount and resize with improved breakpoints
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 640)
-      setIsTablet(window.innerWidth >= 640 && window.innerWidth < 1024)
+      const width = window.innerWidth
+      setIsMobile(width < 768) // Increase mobile breakpoint from 640px to 768px
+      setIsTablet(width >= 768 && width < 1280) // Adjust tablet range from 768px to 1280px
+
+      // Force re-render of images when screen size changes
+      setMachines([...initialMachines])
     }
 
     // Initial check
@@ -201,40 +205,46 @@ const MachineSlider = () => {
 
   // Define animation variants for machine positions with enhanced smooth transition
   const getVariants = (index) => {
+    // Use the same scale for all images to prevent pop effect
     const imageScale = 1.0
 
+    // Enhanced positions with more responsive values for mobile
     const positions = {
       left: {
-        scale: imageScale,
-        x: isMobile ? "-120%" : isTablet ? "-18vw" : "-20vw",
-        y: isMobile ? -10 : -60,
-        rotateY: isMobile ? -30 : -20,
-        opacity: 0.7,
+        scale: isMobile ? 0.85 : imageScale, // Slightly smaller on mobile
+        x: isMobile ? "-42vw" : isTablet ? "-18vw" : "-20vw", // Adjusted for better mobile alignment
+        y: isMobile ? 0 : -60, // Remove vertical offset on mobile
+        rotateY: isMobile ? -10 : -20, // Reduce rotation angle on mobile for better visibility
+        opacity: isMobile ? 0.9 : 0.8, // Increase opacity on mobile
         zIndex: 0,
-        filter: "brightness(0.9)",
+        filter: "brightness(0.95)",
       },
       center: {
-        scale: imageScale,
-        x:isMobile ? "-45%" : isTablet ? "0vw" : "0vw",
-        y: 0,
+        scale: isMobile ? 1.0 : imageScale, // Full size on mobile
+        x: isMobile ? "-19vw" : isTablet ? "0vw" : "0vw", // Adjusted for better mobile alignment
+        y: isMobile ? "4vw":0,
         rotateY: 0,
         opacity: 1,
         zIndex: 10,
       },
       right: {
-        scale: imageScale,
-        x: isMobile ? "30%" : isTablet ? "18vw" : "20vw",
-        y: isMobile ? -10 : -60,
-        rotateY: isMobile ? 30 : 20,
-        opacity: 0.7,
+        scale: isMobile ? 0.85 : imageScale, // Slightly smaller on mobile
+        x: isMobile ? "15vw" : isTablet ? "18vw" : "20vw", // Adjusted for better mobile alignment
+        y: isMobile ? 0 : -60, // Remove vertical offset on mobile
+        rotateY: isMobile ? 10 : 20, // Reduce rotation angle on mobile for better visibility
+        opacity: isMobile ? 0.9 : 0.8, // Increase opacity on mobile
         zIndex: 0,
-        filter: "brightness(0.9)",
+        filter: "brightness(0.95)",
       },
     }
 
+    // Get current position name (left, center, right) based on displayOrder
     const position = getPositionName(index)
+
+    // Determine if this is the clicked machine
     const isClickedMachine = index === clickedMachineIndex
 
+    // Custom animation for the clicked machine
     if (isClickedMachine) {
       return {
         animate: {
@@ -250,15 +260,16 @@ const MachineSlider = () => {
       }
     }
 
+    // Default animations for all machines - smooth transition between positions
     return {
       animate: {
         ...positions[position],
         transition: {
           type: "spring",
-          stiffness: 90,
-          damping: 15,
+          stiffness: 80,
+          damping: 12,
           mass: 0.8,
-          duration: 0.7,
+          duration: 0.8,
         },
       },
     }
@@ -292,7 +303,7 @@ const MachineSlider = () => {
   }
 
   // Calculate overlap amount for design - responsive based on screen size
-  const overlapAmount = isMobile ? "1rem" : isTablet ? "4rem" : "6rem"
+  const overlapAmount = isMobile ? "2.5rem" : isTablet ? "4rem" : "6rem" // Increase mobile overlap from 1.5rem to 2.5rem
 
   // Header animation variants
   const headerVariants = {
@@ -333,13 +344,12 @@ const MachineSlider = () => {
     },
   }
 
-  // Calculate image sizes for better mobile presentation
+  // Calculate sizes based on position to prevent pop effect
   const getImageSize = (position) => {
-    const isCenter = position === "center"
-    if (isCenter) {
-      return isMobile ? "w-40 h-60" : isTablet ? "w-44 h-60" : "w-48 h-100"
+    if (position === "center") {
+      return isMobile ? "w-40 h-60" : isTablet ? "w-44 h-60" : "w-48 h-100" // Adjusted center image size for mobile
     } else {
-      return isMobile ? "w-36 h-52" : isTablet ? "w-40 h-56" : "w-48 h-full"
+      return isMobile ? "w-24 h-36" : isTablet ? "w-40 h-56" : "w-48 h-full" // Increased side image size for better visibility
     }
   }
 
@@ -355,11 +365,11 @@ const MachineSlider = () => {
   }
 
   return (
-    <div className="font-met flex flex-col items-center w-full overflow-hidden">
-      {/* Animated Header - adjusted padding for mobile */}
+    <div className="flex flex-col items-center w-full overflow-hidden">
+      {/* Animated Header */}
       <motion.div
         ref={headerRef}
-        className="w-full text-center mb-6 sm:mb-8 md:mb-12 px-3 sm:px-6 md:px-8 overflow-hidden"
+        className="w-full text-center mb-8 sm:mb-10 md:mb-15 px-4 sm:px-6 md:px-8 overflow-hidden"
         initial="hidden"
         animate={headerControls}
         variants={headerVariants}
@@ -397,16 +407,21 @@ const MachineSlider = () => {
         </div>
       </motion.div>
 
-      {/* Container with enhanced mobile spacing */}
+      {/* Container with relative positioning for content flow */}
       <div className="w-full relative">
+        {/* 3D perspective container with deeper perspective for more dramatic rotation */}
         <div
           className="w-full relative z-10"
-          style={{ perspective: "2000px" }}
+          style={{ perspective: isMobile ? "1500px" : "2000px" }} // Reduced perspective on mobile
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          <div className="flex justify-center items-center gap-0 px-2 sm:px-4 min-h-[200px] sm:min-h-[240px] md:min-h-[300px] lg:min-h-[340px] relative">
+          {/* Machine slider section with 3D transitions */}
+          <div
+            className="flex justify-center items-center gap-0 px-2 sm:px-4 min-h-[280px] sm:min-h-[300px] md:min-h-[320px] lg:min-h-[360px]"
+            style={{ transformStyle: "preserve-3d" }}
+          >
             {machines.map((machine, index) => {
               const position = getPositionName(index)
               const isSideImage = position !== "center"
@@ -415,7 +430,7 @@ const MachineSlider = () => {
               const imageSize = getImageSize(position)
               const variants = getVariants(index)
               const fullTitle = machine.title
-              const shortTitle = fullTitle.split(" ")[0]
+              const shortTitle = fullTitle.split(" ")[0] // First word of the title
 
               return (
                 <motion.div
@@ -436,10 +451,12 @@ const MachineSlider = () => {
                     transformStyle: "preserve-3d",
                     transformOrigin: "center center",
                     zIndex: isClickedMachine ? 20 : isCenter ? 10 : 0,
-                    left: "50%",
-                    transform: "translateX(-50%)",
+                    left: "50%", // Center all items
+                    marginLeft: isMobile ? "0" : "-5%", // No offset on mobile
+                    transform: isMobile ? "translateX(-50%)" : "none", // Center properly on mobile
                   }}
                 >
+                  {/* Title above side images only - normal color */}
                   {isSideImage && (
                     <motion.div
                       className="mb-1 sm:mb-2 text-center"
@@ -447,8 +464,8 @@ const MachineSlider = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2, duration: 0.3 }}
                     >
-                      <h3 className="text-xs sm:text-sm font-semibold truncate max-w-20 sm:max-w-28 md:max-w-32 lg:max-w-40">
-                        {shortTitle}
+                      <h3 className="text-xs sm:text-sm font-semibold truncate max-w-24 sm:max-w-28 md:max-w-32 lg:max-w-40">
+                        {shortTitle} {/* Display only the first word of the title */}
                       </h3>
                     </motion.div>
                   )}
@@ -458,15 +475,18 @@ const MachineSlider = () => {
                       relative
                       ${imageSize}
                       ${isCenter ? "rounded-t-lg" : "rounded-lg"} overflow-hidden
+                      ${isMobile ? "" : ""} 
+                      ${isMobile && !isCenter ? "mx-2" : ""}
                     `}
                   >
                     <img
                       src={machine.image || "/placeholder.svg"}
                       alt={`Kiosk ${machine.id}`}
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full ${isMobile ? "object-contain" : "object-cover"}`}
                       style={{
                         backfaceVisibility: "hidden",
-                        filter: "brightness(1)",
+                        // Same brightness for all images to prevent pop effect
+                        filter: isMobile ? "brightness(1.1)" : "brightness(1)",
                       }}
                       onError={(e) => {
                         console.error("Image failed to load:", e)
@@ -480,13 +500,16 @@ const MachineSlider = () => {
           </div>
         </div>
 
+        {/* Featured machine details section - consistently orange for all machines */}
         <div
-          className="w-full bg-orange-500 text-white p-4 sm:p-6 md:p-8 relative rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8"
+          className="w-full bg-orange-500 text-white p-4 sm:p-6 md:p-8 relative
+          rounded-t-none border-t-0 shadow-lg mt-6 sm:mt-8"
           style={{
             marginTop: `-${overlapAmount}`,
             clipPath: "polygon(0 15px, 100% 15px, 100% 100%, 0% 100%)",
-            width: "100vw",
-            marginLeft: "calc(-50vw + 50%)",
+            width: "100%", // Change from 100vw to 100% to prevent horizontal scrolling issues
+            maxWidth: "100vw",
+            marginLeft: isMobile ? "0" : "calc(-50vw + 50%)", // Don't use negative margins on mobile
             left: 0,
             right: 0,
             position: "relative",
@@ -494,15 +517,15 @@ const MachineSlider = () => {
           }}
         >
           <div className="max-w-6xl mx-auto pt-6 sm:pt-8 md:pt-10 px-3 sm:px-4 md:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 md:gap-8 lg:gap-10">
-              <div className="flex flex-col text-center lg:text-right">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 sm:mb-3 md:mb-4">
+            {/* Two-column layout for details - responsive grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+              {/* Left column: Title, Description, Primary Action - Center on mobile, right-aligned on larger screens */}
+              <div className="flex flex-col px-4 sm:pr-8 md:pr-12 lg:pr-20 text-center sm:text-right">
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 md:mb-4">
                   {currentDetails.title}
                 </h2>
-                <p className="text-sm md:text-base mb-4 sm:mb-5 md:mb-6 flex-grow">
-                  {currentDetails.description}
-                </p>
-                <div className="mt-auto flex justify-center lg:justify-end">
+                <p className="text-sm md:text-base mb-3 sm:mb-4 md:mb-6 flex-grow">{currentDetails.description}</p>
+                <div className="mt-auto flex justify-center sm:justify-end">
                   <motion.button
                     className="w-full sm:w-auto bg-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-orange-500 active:bg-white active:text-orange-500 transition-all duration-100 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}
@@ -520,8 +543,9 @@ const MachineSlider = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center lg:items-end mb-20">
-                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-5 justify-center lg:justify-end w-full">
+              {/* Right column: Categories - Center on mobile, right-aligned on larger screens */}
+              <div className="flex flex-col justify-center items-center sm:items-end px-4 sm:pr-8 md:pr-12 lg:pr-20 mb-10 sm:mb-20">
+                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-5 justify-center sm:justify-end w-full">
                   {currentDetails.categories.map((category, index) => (
                     <motion.button
                       key={index}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet"
 import { motion, AnimatePresence, useDragControls } from "framer-motion"
 import gsap from "gsap"
@@ -21,18 +21,11 @@ L.Icon.Default.mergeOptions({
 })
 
 const WorldMap = () => {
-  // Get unique industries and states
-  const industries = useMemo(() => [...new Set(companies.map((company) => company.industry))], [])
-  const states = useMemo(() => [...new Set(companies.map((company) => company.state))], [])
-
   // State hooks
   const [selectedCompany, setSelectedCompany] = useState(null)
   const [isMounted, setIsMounted] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedIndustries, setSelectedIndustries] = useState([])
-  const [selectedState, setSelectedState] = useState(null)
-  const [showIndustries, setShowIndustries] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
+  const [detailsPosition, setDetailsPosition] = useState({ x: 20, y: 20 })
   const mapRef = useRef(null)
   const dragControls = useDragControls()
 
@@ -70,12 +63,6 @@ const WorldMap = () => {
     }
   }, [])
 
-  // Update showIndustries based on selectedCompany and mobile state
-  useEffect(() => {
-    // Only show industries if no company is selected AND not on mobile
-    setShowIndustries(!selectedCompany && !isMobile)
-  }, [selectedCompany, isMobile])
-
   // Handle company selection
   const handleCompanySelect = useCallback(
     (company) => {
@@ -83,46 +70,42 @@ const WorldMap = () => {
         setSelectedCompany(null) // Deselect if already selected
       } else {
         setSelectedCompany(company)
+
+        // If on mobile and we have a map reference, center the map on the selected company
+        if (isMobile && mapRef.current) {
+          mapRef.current.setView([company.lat, company.lng], 6, {
+            animate: true,
+            duration: 1,
+          })
+        } else if (!isMobile && mapRef.current) {
+          // For desktop, position the details card near the marker but not directly on it
+          // Get the map container bounds
+          const bounds = mapRef.current.getContainer().getBoundingClientRect()
+
+          // Get the marker position on the map
+          const markerPoint = mapRef.current.latLngToContainerPoint(
+            L.latLng(company.lat || company.position[0], company.lng || company.position[1]),
+          )
+
+          // Calculate position for details card
+          // Position to the right of the marker if there's enough space, otherwise to the left
+          const rightSpace = bounds.width - markerPoint.x
+          const x = rightSpace > 350 ? markerPoint.x + 20 : markerPoint.x - 350
+
+          // Position below the marker if there's enough space, otherwise above
+          const bottomSpace = bounds.height - markerPoint.y
+          const y = bottomSpace > 400 ? markerPoint.y + 20 : markerPoint.y - 400
+
+          // Set the position state
+          setDetailsPosition({
+            x: Math.max(20, Math.min(bounds.width - 350, x)),
+            y: Math.max(20, Math.min(bounds.height - 400, y)),
+          })
+        }
       }
     },
-    [selectedCompany],
+    [selectedCompany, isMobile],
   )
-
-  // Filter companies based on search and filters
-  const filteredCompanies = useMemo(() => {
-    return companies.filter((company) => {
-      const matchesSearch =
-        searchTerm === "" ||
-        company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.state.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        company.industry.toLowerCase().includes(searchTerm.toLowerCase())
-
-      const matchesIndustry = selectedIndustries.length === 0 || selectedIndustries.includes(company.industry)
-      const matchesState = selectedState === null || company.state === selectedState
-
-      return matchesSearch && matchesIndustry && matchesState
-    })
-  }, [searchTerm, selectedIndustries, selectedState])
-
-  // Toggle industry filter
-  const toggleIndustry = useCallback((industry) => {
-    setSelectedIndustries((prev) =>
-      prev.includes(industry) ? prev.filter((i) => i !== industry) : [...prev, industry],
-    )
-  }, [])
-
-  // Toggle state filter
-  const toggleState = useCallback((state) => {
-    setSelectedState((prev) => (prev === state ? null : state))
-  }, [])
-
-  // Clear all filters
-  const clearFilters = useCallback(() => {
-    setSearchTerm("")
-    setSelectedIndustries([])
-    setSelectedState(null)
-  }, [])
 
   // Style functions for GeoJSON layers - No hover effects
   const countryStyle = useCallback(() => {
@@ -145,20 +128,6 @@ const WorldMap = () => {
     }
   }, [])
 
-  // Event handlers for GeoJSON features - No hover effects
-  const onEachStateFeature = useCallback(
-    (feature, layer) => {
-      // No hover effects or tooltips
-      // Only add click handler for state selection
-      layer.on({
-        click: () => {
-          toggleState(feature.properties.name)
-        },
-      })
-    },
-    [toggleState],
-  )
-
   // Function to handle drag end for the pull indicator
   const handleDragEnd = (event, info) => {
     if (info.offset.y > 50) {
@@ -170,7 +139,7 @@ const WorldMap = () => {
   // Loading state
   if (!isMounted) {
     return (
-      <div className="relative min-h-[400px] flex items-center justify-center bg-gray-100 rounded-lg animate-pulse">
+      <div className="relative min-h-[600px] flex items-center justify-center bg-gray-100 rounded-lg animate-pulse">
         <div className="text-center">
           <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em]"></div>
           <p className="mt-2 text-gray-500">Loading map...</p>
@@ -181,26 +150,19 @@ const WorldMap = () => {
 
   return (
     <div className="font-met relative">
-      <motion.div
-        className="mb-4 flex flex-col gap-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      ></motion.div>
-
       <div className="relative">
         <motion.div
           ref={mapContainerRef}
           className="bg-white rounded-lg shadow-md p-4 mb-6 overflow-hidden map-container"
           style={{
-            height: isMobile && selectedCompany ? "60vh" : "450px",
+            height: isMobile && selectedCompany ? "70vh" : "650px", // Increased height here
             transition: "height 0.3s ease-in-out",
           }}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <div className="h-full w-[90%] mx-auto relative">
+          <div className="h-full w-[100%] mx-auto relative">
             <MapContainer
               center={[22.5937, 78.9629]} // Center of India
               zoom={4}
@@ -228,10 +190,10 @@ const WorldMap = () => {
               <GeoJSON data={indiaCountryGeoJSON} style={countryStyle} />
 
               {/* State boundaries - hidden */}
-              <GeoJSON data={indiaStatesGeoJSON} style={stateStyle} onEachFeature={onEachStateFeature} />
+              <GeoJSON data={indiaStatesGeoJSON} style={stateStyle} />
 
               {/* Company markers */}
-              {filteredCompanies.map((company) => (
+              {companies.map((company) => (
                 <CompanyMarker
                   key={company.id}
                   company={company}
@@ -242,41 +204,30 @@ const WorldMap = () => {
               ))}
             </MapContainer>
 
-            {/* Map legend with AnimatePresence - Only shown on desktop */}
-            <AnimatePresence>
-              {showIndustries && !isMobile && (
+            {/* Company details card - Desktop version as map overlay */}
+            <AnimatePresence mode="wait">
+              {selectedCompany && !isMobile && (
                 <motion.div
-                  className="absolute top-4 left-4 z-[1000] bg-white/90 p-3 rounded-md text-xs flex flex-col gap-2 backdrop-blur-sm shadow-sm max-w-[180px] max-h-[250px] overflow-y-auto"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.5 }}
+                  key={`desktop-overlay-${selectedCompany.id}`}
+                  className="absolute z-[1500]"
+                  style={{
+                    top: detailsPosition.y,
+                    left: detailsPosition.x,
+                    width: "320px",
+                    maxWidth: "calc(100% - 40px)",
+                  }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <div className="font-medium text-sm">Industries</div>
-                  {Object.entries(industryColors).map(([industry, color], index) => (
-                    <motion.div
-                      key={industry}
-                      className="flex items-center gap-2"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 + index * 0.05 }}
-                    >
-                      <div
-                        className="relative w-3 h-3 rounded-full"
-                        style={{
-                          backgroundColor: color,
-                          border: "1px solid rgba(255, 255, 255, 0.8)",
-                          boxShadow: `0 0 4px ${color}80`,
-                        }}
-                      >
-                        <div
-                          className="absolute inset-0 rounded-full animate-ping opacity-75"
-                          style={{ backgroundColor: color }}
-                        ></div>
-                      </div>
-                      <span>{industry}</span>
-                    </motion.div>
-                  ))}
+                  <div className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                    <CompanyDetails
+                      selectedCompany={selectedCompany}
+                      industryColors={industryColors}
+                      onClose={() => setSelectedCompany(null)}
+                    />
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -391,26 +342,6 @@ const WorldMap = () => {
                   </button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Company details card - Desktop version */}
-        <AnimatePresence mode="wait">
-          {selectedCompany && !isMobile && (
-            <motion.div
-              key={`desktop-${selectedCompany.id}`}
-              className="max-w-md mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-            >
-              <CompanyDetails
-                selectedCompany={selectedCompany}
-                industryColors={industryColors}
-                onClose={() => setSelectedCompany(null)}
-              />
             </motion.div>
           )}
         </AnimatePresence>
