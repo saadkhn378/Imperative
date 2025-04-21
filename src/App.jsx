@@ -25,6 +25,9 @@ import AwardsRecognition from "./pages/AwardsRecognition";
 import Leadership from "./pages/Leadership";
 import OurTeam from "./pages/OurTeam";
 import PartnersShowcase from "./sections/PartnersShowcase";
+import StatsSection from "./sections/StatsSection";
+import CenterOfExcellence from "./sections/CenterOfExcellence";
+import ConsultingServices from "./sections/ConsultingServices";
 
 function App() {
   return (
@@ -47,15 +50,18 @@ function App() {
             <Route path="/" element={
               <>
                 <Hero />
+                <StatsSection/>
                 <About />
                 <Marquee/>
                 <PartnersShowcase/>
                 <IndustryExpertise/>
                 {/* <Products /> */}
                 <ProductsSection/>
+                <CenterOfExcellence/>
                 <Solutions/>
                 {/* <Services /> */}
                 <MachineSlider/>
+                <ConsultingServices/>
                 <Testimonials />
                 <WorldMap/>
               </>

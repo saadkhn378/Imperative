@@ -212,8 +212,8 @@ const MachineSlider = () => {
     const positions = {
       left: {
         scale: isMobile ? 0.85 : imageScale, // Slightly smaller on mobile
-        x: isMobile ? "-42vw" : isTablet ? "-18vw" : "-20vw", // Adjusted for better mobile alignment
-        y: isMobile ? 0 : -60, // Remove vertical offset on mobile
+        x: isMobile ? "-42vw" : isTablet ? "-35vw" : "-20vw", // Adjusted for better mobile alignment
+        y: isMobile ? 0 : isTablet ? "-2vw" : -60, // Remove vertical offset on mobile
         rotateY: isMobile ? -10 : -20, // Reduce rotation angle on mobile for better visibility
         opacity: isMobile ? 0.9 : 0.8, // Increase opacity on mobile
         zIndex: 0,
@@ -221,16 +221,16 @@ const MachineSlider = () => {
       },
       center: {
         scale: isMobile ? 1.0 : imageScale, // Full size on mobile
-        x: isMobile ? "-19vw" : isTablet ? "0vw" : "0vw", // Adjusted for better mobile alignment
-        y: isMobile ? "4vw":0,
+        x: isMobile ? "-19vw" : isTablet ? "-3vw" : "0vw", // Adjusted for better mobile alignment
+        y: isMobile ? "4vw" : isTablet ? "3vw" : 0,
         rotateY: 0,
         opacity: 1,
         zIndex: 10,
       },
       right: {
         scale: isMobile ? 0.85 : imageScale, // Slightly smaller on mobile
-        x: isMobile ? "15vw" : isTablet ? "18vw" : "20vw", // Adjusted for better mobile alignment
-        y: isMobile ? 0 : -60, // Remove vertical offset on mobile
+        x: isMobile ? "15vw" : isTablet ? "30vw" : "20vw", // Adjusted for better mobile alignment
+        y: isMobile ? 0 : isTablet ? "-2vw" : -60, // Remove vertical offset on mobile
         rotateY: isMobile ? 10 : 20, // Reduce rotation angle on mobile for better visibility
         opacity: isMobile ? 0.9 : 0.8, // Increase opacity on mobile
         zIndex: 0,
@@ -365,7 +365,7 @@ const MachineSlider = () => {
   }
 
   return (
-    <div className="flex flex-col items-center w-full overflow-hidden">
+    <div className="font-met flex flex-col items-center w-full overflow-hidden">
       {/* Animated Header */}
       <motion.div
         ref={headerRef}
@@ -520,12 +520,12 @@ const MachineSlider = () => {
             {/* Two-column layout for details - responsive grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10">
               {/* Left column: Title, Description, Primary Action - Center on mobile, right-aligned on larger screens */}
-              <div className="flex flex-col px-4 sm:pr-8 md:pr-12 lg:pr-20 text-center sm:text-right">
+              <div className="flex flex-col px-4 lg:pr-20 text-center lg:text-right">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3 md:mb-4">
                   {currentDetails.title}
                 </h2>
                 <p className="text-sm md:text-base mb-3 sm:mb-4 md:mb-6 flex-grow">{currentDetails.description}</p>
-                <div className="mt-auto flex justify-center sm:justify-end">
+                <div className="mt-auto flex justify-center lg:justify-end">
                   <motion.button
                     className="w-full sm:w-auto bg-orange-500 text-white px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 rounded-full font-bold border-2 border-white text-sm sm:text-base md:text-lg shadow-md hover:bg-white hover:text-orange-500 active:bg-white active:text-orange-500 transition-all duration-100 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.05, boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}
@@ -544,8 +544,8 @@ const MachineSlider = () => {
               </div>
 
               {/* Right column: Categories - Center on mobile, right-aligned on larger screens */}
-              <div className="flex flex-col justify-center items-center sm:items-end px-4 sm:pr-8 md:pr-12 lg:pr-20 mb-10 sm:mb-20">
-                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-5 justify-center sm:justify-end w-full">
+              <div className="flex flex-col justify-center items-center lg:items-end px-4 lg:pr-20 mb-10 sm:mb-20">
+                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-5 justify-center lg:justify-end w-full">
                   {currentDetails.categories.map((category, index) => (
                     <motion.button
                       key={index}
@@ -566,4 +566,4 @@ const MachineSlider = () => {
   )
 }
 
-export default MachineSlider
+export default MachineSlider;
