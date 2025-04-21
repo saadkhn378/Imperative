@@ -61,7 +61,27 @@ const WorldMap = () => {
         ease: "power3.out",
       })
     }
-  }, [])
+
+    // Disable scrolling on the map container on mobile
+    if (isMobile && mapRef.current) {
+      const mapElement = mapRef.current.getContainer()
+      mapElement.style.touchAction = "none"
+      
+      // Add touch event handlers to prevent scrolling
+      const preventScroll = (e) => {
+        e.preventDefault()
+      }
+      
+      mapElement.addEventListener('touchmove', preventScroll, { passive: false })
+      
+      // Cleanup function
+      return () => {
+        if (mapElement) {
+          mapElement.removeEventListener('touchmove', preventScroll)
+        }
+      }
+    }
+  }, [isMobile])
 
   // Handle company selection
   const handleCompanySelect = useCallback(
@@ -169,15 +189,15 @@ const WorldMap = () => {
               style={{ height: "100%", width: "100%" }}
               scrollWheelZoom={false}
               doubleClickZoom={false}
-              touchZoom={false}
+              touchZoom={isMobile ? false : true} // Disable touch zoom on mobile
               boxZoom={false}
-              dragging={true}
+              dragging={isMobile ? false : true} // Disable dragging on mobile
               preferCanvas={true}
               minZoom={3}
               maxZoom={10}
               zoomControl={false}
               attributionControl={false}
-              className="z-0"
+              className={`z-0 ${isMobile ? "pointer-events-none" : ""}`} // Disable all pointer events on mobile
               ref={mapRef}
             >
               <TileLayer
@@ -192,7 +212,7 @@ const WorldMap = () => {
               {/* State boundaries - hidden */}
               <GeoJSON data={indiaStatesGeoJSON} style={stateStyle} />
 
-              {/* Company markers */}
+              {/* Company markers - Enable pointer-events even on mobile */}
               {companies.map((company) => (
                 <CompanyMarker
                   key={company.id}
