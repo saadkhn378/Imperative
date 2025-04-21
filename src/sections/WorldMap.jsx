@@ -153,16 +153,16 @@ const WorldMap = () => {
       <div className="relative">
         <motion.div
           ref={mapContainerRef}
-          className="bg-white rounded-lg shadow-md p-4 mb-6 overflow-hidden map-container"
+          className="bg-white shadow-none p-0 mb-0 overflow-hidden map-container" // Removed rounded-lg, reduced padding and margin to 0
           style={{
-            height: isMobile && selectedCompany ? "70vh" : "650px", // Increased height here
+            height: isMobile && selectedCompany ? "70vh" : "650px",
             transition: "height 0.3s ease-in-out",
           }}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <div className="h-full w-[100%] mx-auto relative">
+          <div className="h-full w-full mx-auto relative">
             <MapContainer
               center={[22.5937, 78.9629]} // Center of India
               zoom={4}

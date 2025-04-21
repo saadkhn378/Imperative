@@ -14,7 +14,7 @@ function ServiceCard(props) {
         "flex border border-[#f97316] bg-gray-100",
         isMobile
           ? "flex-col text-center px-4 py-5 rounded-[30px] w-full h-[400px]"
-          : "items-center px-5 py-6 rounded-[60px] w-[800px] h-[300px]",
+          : "items-center px-5 py-6 rounded-[60px] w-[500px] h-[300px]",
         className,
       )}
     >

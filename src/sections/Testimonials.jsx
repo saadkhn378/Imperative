@@ -266,7 +266,7 @@ const TestimonialSection = () => {
       transition={{ duration: 0.5 }}
       onClick={() => onClick(testimonial)}
     >
-      <div className="p-6 flex flex-row items-start gap-4 relative h-full">
+      <div className="font-met p-6 flex flex-row items-start gap-4 relative h-full">
         {/* Image */}
         <div className="flex-shrink-0">
           {testimonial.image ? (
@@ -340,7 +340,7 @@ const TestimonialSection = () => {
   )
 
   return (
-    <section className="font-sans py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+    <section className="font-met py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         <motion.div
           className="text-center max-w-3xl mx-auto mb-16"

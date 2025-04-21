@@ -169,7 +169,7 @@ function ConsultingServices() {
         >
           {/* Cyber Assurance Services */}
           <SwiperSlide
-            style={{ width: isMobile ? "300px" : "800px" }}
+            style={{ width: isMobile ? "300px" : "500px" }}
             className={`card-entrance ${isVisible ? "visible" : ""}`}
           >
             <ServiceCard
@@ -182,7 +182,7 @@ function ConsultingServices() {
 
           {/* Data Centre Solutions */}
           <SwiperSlide
-            style={{ width: isMobile ? "300px" : "800px" }}
+            style={{ width: isMobile ? "300px" : "500px" }}
             className={`card-entrance ${isVisible ? "visible" : ""}`}
           >
             <ServiceCard
@@ -195,7 +195,7 @@ function ConsultingServices() {
 
           {/* Partnered Software Integrations */}
           <SwiperSlide
-            style={{ width: isMobile ? "300px" : "800px" }}
+            style={{ width: isMobile ? "300px" : "500px" }}
             className={`card-entrance ${isVisible ? "visible" : ""}`}
           >
             <ServiceCard
@@ -208,7 +208,7 @@ function ConsultingServices() {
 
           {/* Smart Cities & Infra Tech */}
           <SwiperSlide
-            style={{ width: isMobile ? "300px" : "800px" }}
+            style={{ width: isMobile ? "300px" : "500px" }}
             className={`card-entrance ${isVisible ? "visible" : ""}`}
           >
             <ServiceCard
@@ -221,7 +221,7 @@ function ConsultingServices() {
 
           {/* Managed SoC Services */}
           <SwiperSlide
-            style={{ width: isMobile ? "300px" : "800px" }}
+            style={{ width: isMobile ? "300px" : "500px" }}
             className={`card-entrance ${isVisible ? "visible" : ""}`}
           >
             <ServiceCard
