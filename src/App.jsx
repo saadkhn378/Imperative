@@ -28,6 +28,9 @@ import PartnersShowcase from "./sections/PartnersShowcase";
 import StatsSection from "./sections/StatsSection";
 import CenterOfExcellence from "./sections/CenterOfExcellence";
 import ConsultingServices from "./sections/ConsultingServices";
+import { Glance } from "./sections/Glance";
+import IndustriesSection from "./sections/IndustriesSection";
+import PurposeSection from "./sections/PurposeSection";
 
 function App() {
   return (
@@ -50,12 +53,15 @@ function App() {
             <Route path="/" element={
               <>
                 <Hero />
-                <StatsSection/>
-                <About />
-                <Marquee/>
+                {/* <StatsSection/> */}
+                {/* <About />
+                <Marquee/> */}
+                <Glance/>
+                <PurposeSection/>
                 <PartnersShowcase/>
-                <IndustryExpertise/>
+                {/* <IndustryExpertise/> */}
                 {/* <Products /> */}
+                <IndustriesSection/>
                 <ProductsSection/>
                 <CenterOfExcellence/>
                 <Solutions/>

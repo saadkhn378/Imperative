@@ -7,53 +7,89 @@ import { Autoplay } from "swiper/modules"
 
 // Import Swiper styles
 import "swiper/css"
+import { useInView } from "../hooks/useInView"
 
-function PartnersShowcase() {
-  const [activeTab, setActiveTab] = useState("TRUSTED BY")
-  const [isMobile, setIsMobile] = useState(false)
-  const [isTablet, setIsTablet] = useState(false)
-
-  // Refs for each swiper instance
-  const swiperRefs = [useRef(null), useRef(null), useRef(null), useRef(null)]
-
-  // List of real companies for logo generation
-  const companies = [
-    // Tech
-    { name: "Apple", domain: "apple.com" },
-    { name: "Google", domain: "google.com" },
-    { name: "Microsoft", domain: "microsoft.com" },
-    { name: "Amazon", domain: "amazon.com" },
-    { name: "Meta", domain: "meta.com" },
-    { name: "Netflix", domain: "netflix.com" },
-    { name: "Tesla", domain: "tesla.com" },
-    { name: "IBM", domain: "ibm.com" },
-    { name: "Intel", domain: "intel.com" },
-    { name: "Oracle", domain: "oracle.com" },
-    // Finance
+// ===== COMPANY DATA =====
+// This data can be easily extended by adding more companies to any category
+const COMPANY_DATA = {
+  TRUSTED_BY: [
+    { name: "RBI", domain: "rbi.org.in" },
+    { name: "SBI", domain: "sbi.co.in" },
+    { name: "UBI", domain: "unionbankofindia.co.in" },
+    { name: "BOB", domain: "bankofbaroda.in" },
+    { name: "INDUS", domain: "indusind.com" },
+    { name: "IDFC", domain: "idfcfirstbank.com" },
+    { name: "CSB", domain: "csb.co.in" },
+    { name: "FED", domain: "fedfina.com" },
+    { name: "COSMOS", domain: "cosmosbank.com" },
+    // Add more trusted companies here
+  ],
+  PARTNERS: [
     { name: "JPMorgan Chase", domain: "jpmorganchase.com" },
     { name: "Bank of America", domain: "bankofamerica.com" },
     { name: "Wells Fargo", domain: "wellsfargo.com" },
     { name: "Citigroup", domain: "citigroup.com" },
     { name: "Goldman Sachs", domain: "goldmansachs.com" },
-    // Retail
+    { name: "Intel", domain: "intel.com" },
+    { name: "Oracle", domain: "oracle.com" },
+    { name: "Salesforce", domain: "salesforce.com" },
+    // Add more partner companies here
+  ],
+  MEMBERS: [
     { name: "Walmart", domain: "walmart.com" },
     { name: "Target", domain: "target.com" },
     { name: "Costco", domain: "costco.com" },
     { name: "Home Depot", domain: "homedepot.com" },
     { name: "Lowe's", domain: "lowes.com" },
-    // Media
+    { name: "Best Buy", domain: "bestbuy.com" },
+    { name: "Kroger", domain: "kroger.com" },
+    { name: "Walgreens", domain: "walgreens.com" },
+    // Add more member companies here
+  ],
+  EMPANELED_FINTECH: [
+    { name: "PayPal", domain: "paypal.com" },
+    { name: "Square", domain: "squareup.com" },
+    { name: "Stripe", domain: "stripe.com" },
+    { name: "Robinhood", domain: "robinhood.com" },
+    { name: "Coinbase", domain: "coinbase.com" },
+    { name: "Plaid", domain: "plaid.com" },
+    { name: "Chime", domain: "chime.com" },
+    { name: "Affirm", domain: "affirm.com" },
+    // Add more fintech companies here
+  ],
+  EMPANELED_VENDOR: [
     { name: "Disney", domain: "disney.com" },
     { name: "Comcast", domain: "comcast.com" },
     { name: "AT&T", domain: "att.com" },
     { name: "Verizon", domain: "verizon.com" },
     { name: "T-Mobile", domain: "t-mobile.com" },
-    // Other
     { name: "General Electric", domain: "ge.com" },
     { name: "Johnson & Johnson", domain: "jnj.com" },
     { name: "Procter & Gamble", domain: "pg.com" },
-    { name: "Coca-Cola", domain: "coca-cola.com" },
-    { name: "PepsiCo", domain: "pepsico.com" },
-  ]
+    // Add more vendor companies here
+  ],
+}
+
+// ===== TAB CONFIGURATION =====
+// Map of tab keys to display labels
+const TAB_LABELS = {
+  TRUSTED_BY: "TRUSTED BY",
+  PARTNERS: "PARTNERS",
+  MEMBERS: "MEMBERS",
+  EMPANELED_FINTECH: "EMPANELED FINTECH WITH",
+  EMPANELED_VENDOR: "EMPANELED VENDER WITH",
+  // Add more tabs here
+}
+
+function PartnersShowcase() {
+  const [activeTab, setActiveTab] = useState(Object.keys(TAB_LABELS)[0])
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+  const { ref: showcaseRef, isInView } = useInView({ threshold: 0.2 })
+
+  // Refs for each swiper instance
+  const swiperRefs = [useRef(null), useRef(null)]
+  const [swipersInitialized, setSwipersInitialized] = useState(false)
 
   // Check for mobile/tablet on client side
   useEffect(() => {
@@ -68,32 +104,56 @@ function PartnersShowcase() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  const tabs = ["TRUSTED BY", "PARTNERS", "MEMBERS", "EMPANELED FINTECH WITH", "EMPANELED VENDER WITH"]
-
-  // Function to get a random subset of companies
-  const getRandomCompanies = (count) => {
-    const shuffled = [...companies].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, count)
-  }
+  // Start/stop swipers based on visibility
+  useEffect(() => {
+    if (isInView) {
+      // Initialize swipers when in view
+      swiperRefs.forEach((ref) => {
+        if (ref.current && ref.current.swiper) {
+          ref.current.swiper.autoplay.start()
+        }
+      })
+      setSwipersInitialized(true)
+    } else if (swipersInitialized) {
+      // Pause swipers when out of view
+      swiperRefs.forEach((ref) => {
+        if (ref.current && ref.current.swiper) {
+          ref.current.swiper.autoplay.stop()
+        }
+      })
+    }
+  }, [isInView, swipersInitialized])
 
   // Function to generate a logo URL
   const getLogoUrl = (company) => {
     return `https://logo.clearbit.com/${company.domain}`
   }
 
-  // Generate logos for each row
-  const getLogos = (count) => {
-    return getRandomCompanies(count).map((company) => ({
+  // Get companies for the active tab
+  const getActiveTabCompanies = () => {
+    return COMPANY_DATA[activeTab] || []
+  }
+
+  // Get all logos for the active tab
+  const getLogosForActiveTab = () => {
+    const activeCompanies = getActiveTabCompanies()
+
+    // If we don't have any companies, return empty array
+    if (activeCompanies.length === 0) {
+      return []
+    }
+
+    return activeCompanies.map((company) => ({
       name: company.name,
       src: getLogoUrl(company),
     }))
   }
 
-  // Generate 4 rows of logos
-  const row1Logos = getLogos(8)
-  const row2Logos = getLogos(8)
-  const row3Logos = getLogos(8)
-  const row4Logos = getLogos(8)
+  // Split logos into two roughly equal rows
+  const allLogos = getLogosForActiveTab()
+  const midpoint = Math.ceil(allLogos.length / 2)
+  const row1Logos = allLogos.slice(0, midpoint)
+  const row2Logos = allLogos.slice(midpoint)
 
   // Animation variants for tab content transitions
   const contentVariants = {
@@ -142,25 +202,25 @@ function PartnersShowcase() {
   const getCardDimensions = () => {
     if (isMobile) {
       return {
-        width: "90px",
-        height: "50px",
-        padding: "p-2",
-        imageSize: 70,
+        width: "140px",
+        height: "80px",
+        padding: "8px",
+        imageSize: 120,
       }
     }
     if (isTablet) {
       return {
-        width: "110px",
-        height: "60px",
-        padding: "p-3",
-        imageSize: 90,
+        width: "180px",
+        height: "100px",
+        padding: "10px",
+        imageSize: 150,
       }
     }
     return {
-      width: "140px",
-      height: "70px",
-      padding: "p-4",
-      imageSize: 120,
+      width: "240px",
+      height: "120px",
+      padding: "12px",
+      imageSize: 200,
     }
   }
 
@@ -175,12 +235,14 @@ function PartnersShowcase() {
       slidesPerView: "auto",
       loop: true,
       freeMode: true,
-      spaceBetween: isMobile ? 12 : 24,
+      spaceBetween: isMobile ? 16 : 32,
       speed: baseSpeed + index * 500,
       autoplay: {
         delay: 0,
         disableOnInteraction: false,
-        reverseDirection: index % 2 === 1, // Alternate direction
+        reverseDirection: index % 2 === 1,
+        // Only start autoplay when in view
+        enabled: isInView,
       },
       allowTouchMove: false, // Disable touch/drag
     }
@@ -190,41 +252,93 @@ function PartnersShowcase() {
   const createLogoSlide = (logo, index, rowIndex) => (
     <SwiperSlide key={`row${rowIndex}-${index}`} style={{ width: "auto" }}>
       <div
-        className={`flex-shrink-0 flex items-center justify-center bg-white rounded-md ${cardDimensions.padding} shadow-sm hover:shadow-md transition-shadow`}
+        className="logo-card flex-shrink-0 flex items-center justify-center bg-white rounded-md shadow-sm border border-gray-100 cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-gray-200 hover:z-10"
         style={{
           width: cardDimensions.width,
           height: cardDimensions.height,
+          padding: cardDimensions.padding,
         }}
       >
-        <div className="relative w-full h-full flex items-center justify-center group">
+        <div className="logo-container relative w-full h-full flex items-center justify-center">
           <img
             src={logo.src || "/placeholder.svg"}
             alt={logo.name}
+            className="logo-image transition-transform duration-300 ease-in-out"
             style={{
               maxHeight: "100%",
               width: "auto",
-              maxWidth: cardDimensions.imageSize,
-              height: cardDimensions.imageSize / 2,
+              maxWidth: "90%",
+              height: "auto",
               objectFit: "contain",
-              transition: "transform 0.3s",
+              filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.1))",
             }}
-            className="group-hover:scale-110"
             onError={handleImageError}
           />
-          {!isMobile && (
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/70 rounded-md flex items-center justify-center transition-opacity duration-300">
-              <p className="text-white text-xs text-center px-1">{logo.name}</p>
-            </div>
-          )}
+          <div className="logo-overlay absolute inset-0 opacity-0 bg-black/70 rounded-md flex items-center justify-center transition-opacity duration-300">
+            <p className="text-white text-xs sm:text-sm text-center px-1">{logo.name}</p>
+          </div>
         </div>
       </div>
     </SwiperSlide>
   )
 
+  // Function to ensure we have enough logos for a smooth carousel
+  const ensureEnoughLogos = (logos) => {
+    // If we have fewer than 4 logos, duplicate them to ensure smooth scrolling
+    if (logos.length < 4) {
+      const duplicatedLogos = [...logos]
+      while (duplicatedLogos.length < 8) {
+        duplicatedLogos.push(...logos)
+      }
+      return duplicatedLogos
+    }
+    return logos
+  }
+
+  // Ensure we have enough logos for each row
+  const row1LogosExtended = ensureEnoughLogos(row1Logos)
+  const row2LogosExtended = ensureEnoughLogos(row2Logos)
+
   return (
     <>
       <style>
         {`
+          /* ===== SWIPER FADE EFFECT STYLES ===== */
+          .marquee-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+          }
+          
+          .fade-overlay-left,
+          .fade-overlay-right {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 120px;
+            pointer-events: none;
+            z-index: 20;
+          }
+          
+          .fade-overlay-left {
+            left: 0;
+            background: linear-gradient(to right, #ffffff 20%, rgba(255, 255, 255, 0) 100%);
+          }
+          
+          .fade-overlay-right {
+            right: 0;
+            background: linear-gradient(to left, #ffffff 20%, rgba(255, 255, 255, 0) 100%);
+          }
+          
+          /* ===== LOGO HOVER EFFECTS ===== */
+          .logo-card:hover .logo-image {
+            transform: scale(1.1);
+          }
+          
+          .logo-card:hover .logo-overlay {
+            opacity: 1;
+          }
+          
           /* Swiper Marquee Customizations */
           .swiper-marquee {
             overflow: visible !important;
@@ -234,33 +348,19 @@ function PartnersShowcase() {
             transition-timing-function: linear !important;
           }
           
-          /* Add fade edges to the marquee */
-          .swiper-marquee::before,
-          .swiper-marquee::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 50px;
-            height: 100%;
-            z-index: 2;
-            pointer-events: none;
-          }
-          
-          .swiper-marquee::before {
-            left: 0;
-            background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-          }
-          
-          .swiper-marquee::after {
-            right: 0;
-            background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
-          }
-          
           /* Heading Animation */
           .heading-animate {
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeInUp 1s ease forwards;
+            animation-name: fadeInUp;
+            animation-duration: 1s;
+            animation-timing-function: ease;
+            animation-fill-mode: forwards;
+            animation-play-state: paused;
+          }
+          
+          .heading-animate.in-view {
+            animation-play-state: running;
           }
           
           .heading-underline-container {
@@ -279,8 +379,16 @@ function PartnersShowcase() {
             left: 0;
             right: 0;
             margin: 0 auto;
-            animation: expandLine 1.5s ease forwards;
+            animation-name: expandLine;
+            animation-duration: 1.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: forwards;
             animation-delay: 0.5s;
+            animation-play-state: paused;
+          }
+          
+          .heading-underline.in-view {
+            animation-play-state: running;
           }
           
           @keyframes fadeInUp {
@@ -312,135 +420,103 @@ function PartnersShowcase() {
         `}
       </style>
 
-      <div className="w-full max-w-[100vw] px-2 sm:px-4 py-6 sm:py-8 overflow-hidden">
+      <div ref={showcaseRef} className="w-full max-w-[100vw] px-2 sm:px-4 py-6 sm:py-8 overflow-hidden">
         {/* Main Heading with Animation */}
         <div className="text-center mb-6 sm:mb-8 overflow-hidden">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 uppercase tracking-wide px-2 heading-animate">
+          <h1
+            className={`text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 uppercase tracking-wide px-2 heading-animate ${isInView ? "in-view" : ""}`}
+          >
             ACHIEVING EXCELLENCE TOGETHER
           </h1>
           <div className="heading-underline-container">
-            <div className="heading-underline"></div>
+            <div className={`heading-underline ${isInView ? "in-view" : ""}`}></div>
           </div>
         </div>
 
-        {/* Category Tabs - Scrollable on mobile */}
+        {/* ===== CATEGORY TABS SECTION ===== */}
         <div className="flex overflow-x-auto pb-2 sm:flex-wrap sm:justify-center gap-1 sm:gap-2 md:gap-6 mb-6 sm:mb-10 no-scrollbar">
-          {tabs.map((tab) => (
+          {Object.entries(TAB_LABELS).map(([key, label]) => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
+              key={key}
+              onClick={() => setActiveTab(key)}
               className={`px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm md:text-base font-medium transition-all duration-300 whitespace-nowrap ${
-                activeTab === tab
+                activeTab === key
                   ? "text-orange-500 border-b-2 border-orange-500 scale-105"
                   : "text-gray-700 hover:text-orange-400"
               }`}
             >
-              {tab}
+              {label}
             </button>
           ))}
         </div>
 
-        {/* Animated Content Container */}
+        {/* ===== LOGO MARQUEE SECTION ===== */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
             initial="hidden"
-            animate="visible"
+            animate={isInView ? "visible" : "hidden"}
             exit="exit"
             variants={contentVariants}
-            className="space-y-6 sm:space-y-8 md:space-y-10"
+            className="space-y-10 sm:space-y-16 md:space-y-20"
           >
             {/* Row 1 */}
-            <motion.div variants={rowVariants} className="w-full">
-              <Swiper
-                ref={swiperRefs[0]}
-                {...getSwiperSettings(0)}
-                className="swiper-marquee"
-                onMouseEnter={() => {
-                  if (!isMobile && swiperRefs[0].current && swiperRefs[0].current.swiper) {
-                    swiperRefs[0].current.swiper.autoplay.stop()
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!isMobile && swiperRefs[0].current && swiperRefs[0].current.swiper) {
-                    swiperRefs[0].current.swiper.autoplay.start()
-                  }
-                }}
-              >
-                {row1Logos.map((logo, index) => createLogoSlide(logo, index, 1))}
-                {/* Duplicate logos for smoother loop */}
-                {row1Logos.map((logo, index) => createLogoSlide(logo, index + row1Logos.length, 1))}
-              </Swiper>
-            </motion.div>
+            {row1LogosExtended.length > 0 && (
+              <motion.div variants={rowVariants} className="w-full">
+                <div className="marquee-container">
+                  <div className="fade-overlay-left"></div>
+                  <Swiper
+                    ref={swiperRefs[0]}
+                    {...getSwiperSettings(0)}
+                    className="swiper-marquee"
+                    onMouseEnter={() => {
+                      if (!isMobile && isInView && swiperRefs[0].current && swiperRefs[0].current.swiper) {
+                        swiperRefs[0].current.swiper.autoplay.stop()
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (!isMobile && isInView && swiperRefs[0].current && swiperRefs[0].current.swiper) {
+                        swiperRefs[0].current.swiper.autoplay.start()
+                      }
+                    }}
+                  >
+                    {row1LogosExtended.map((logo, index) => createLogoSlide(logo, index, 1))}
+                    {/* Duplicate logos for smoother loop */}
+                    {row1LogosExtended.map((logo, index) => createLogoSlide(logo, index + row1LogosExtended.length, 1))}
+                  </Swiper>
+                  <div className="fade-overlay-right"></div>
+                </div>
+              </motion.div>
+            )}
 
             {/* Row 2 */}
-            <motion.div variants={rowVariants} className="w-full">
-              <Swiper
-                ref={swiperRefs[1]}
-                {...getSwiperSettings(1)}
-                className="swiper-marquee"
-                onMouseEnter={() => {
-                  if (!isMobile && swiperRefs[1].current && swiperRefs[1].current.swiper) {
-                    swiperRefs[1].current.swiper.autoplay.stop()
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!isMobile && swiperRefs[1].current && swiperRefs[1].current.swiper) {
-                    swiperRefs[1].current.swiper.autoplay.start()
-                  }
-                }}
-              >
-                {row2Logos.map((logo, index) => createLogoSlide(logo, index, 2))}
-                {/* Duplicate logos for smoother loop */}
-                {row2Logos.map((logo, index) => createLogoSlide(logo, index + row2Logos.length, 2))}
-              </Swiper>
-            </motion.div>
-
-            {/* Row 3 */}
-            <motion.div variants={rowVariants} className="w-full">
-              <Swiper
-                ref={swiperRefs[2]}
-                {...getSwiperSettings(2)}
-                className="swiper-marquee"
-                onMouseEnter={() => {
-                  if (!isMobile && swiperRefs[2].current && swiperRefs[2].current.swiper) {
-                    swiperRefs[2].current.swiper.autoplay.stop()
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!isMobile && swiperRefs[2].current && swiperRefs[2].current.swiper) {
-                    swiperRefs[2].current.swiper.autoplay.start()
-                  }
-                }}
-              >
-                {row3Logos.map((logo, index) => createLogoSlide(logo, index, 3))}
-                {/* Duplicate logos for smoother loop */}
-                {row3Logos.map((logo, index) => createLogoSlide(logo, index + row3Logos.length, 3))}
-              </Swiper>
-            </motion.div>
-
-            {/* Row 4 */}
-            <motion.div variants={rowVariants} className="w-full">
-              <Swiper
-                ref={swiperRefs[3]}
-                {...getSwiperSettings(3)}
-                className="swiper-marquee"
-                onMouseEnter={() => {
-                  if (!isMobile && swiperRefs[3].current && swiperRefs[3].current.swiper) {
-                    swiperRefs[3].current.swiper.autoplay.stop()
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!isMobile && swiperRefs[3].current && swiperRefs[3].current.swiper) {
-                    swiperRefs[3].current.swiper.autoplay.start()
-                  }
-                }}
-              >
-                {row4Logos.map((logo, index) => createLogoSlide(logo, index, 4))}
-                {/* Duplicate logos for smoother loop */}
-                {row4Logos.map((logo, index) => createLogoSlide(logo, index + row4Logos.length, 4))}
-              </Swiper>
-            </motion.div>
+            {row2LogosExtended.length > 0 && (
+              <motion.div variants={rowVariants} className="w-full">
+                <div className="marquee-container">
+                  <div className="fade-overlay-left"></div>
+                  <Swiper
+                    ref={swiperRefs[1]}
+                    {...getSwiperSettings(1)}
+                    className="swiper-marquee"
+                    onMouseEnter={() => {
+                      if (!isMobile && isInView && swiperRefs[1].current && swiperRefs[1].current.swiper) {
+                        swiperRefs[1].current.swiper.autoplay.stop()
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (!isMobile && isInView && swiperRefs[1].current && swiperRefs[1].current.swiper) {
+                        swiperRefs[1].current.swiper.autoplay.start()
+                      }
+                    }}
+                  >
+                    {row2LogosExtended.map((logo, index) => createLogoSlide(logo, index, 2))}
+                    {/* Duplicate logos for smoother loop */}
+                    {row2LogosExtended.map((logo, index) => createLogoSlide(logo, index + row2LogosExtended.length, 2))}
+                  </Swiper>
+                  <div className="fade-overlay-right"></div>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
