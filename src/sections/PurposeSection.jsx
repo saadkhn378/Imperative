@@ -48,7 +48,7 @@ export default function PurposeSection() {
   }, []);
 
   return (
-    <div ref={sectionRef} className="relative max-w-6xl mx-auto mt-10 mb-10 overflow-hidden">
+    <div ref={sectionRef} className="font-met relative max-w-6xl mx-auto mt-10 mb-10 overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img

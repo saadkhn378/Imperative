@@ -2,14 +2,9 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Hero from "./sections/Hero";
-import About from "./sections/About";
-import Products from "./sections/Products";
-import Services from "./sections/Services";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./components/Footer";
 import Overview from "./pages/Overview";
-import Marquee from "./sections/Marquee";
-import Industries from "./sections/Industries";
 import Solutions from "./sections/Solutions";
 import Joinus from "./pages/Joinus";
 import Contact from "./pages/Contact";
@@ -18,19 +13,16 @@ import IndustriesWeServe from "./pages/IndustriesWeServe";
 import DigitalProduct from "./pages/DigitalProduct";
 import SmartInfra from "./pages/SmartInfra";
 import WorldMap from "./sections/WorldMap";
-import ProductsSection from "./sections/ProductsSection";
-import IndustryExpertise from "./sections/IndustryExpertise";
 import MachineSlider from "./sections/MachineSlider";
 import AwardsRecognition from "./pages/AwardsRecognition";
 import Leadership from "./pages/Leadership";
 import OurTeam from "./pages/OurTeam";
 import PartnersShowcase from "./sections/PartnersShowcase";
-import StatsSection from "./sections/StatsSection";
-import CenterOfExcellence from "./sections/CenterOfExcellence";
 import ConsultingServices from "./sections/ConsultingServices";
 import { Glance } from "./sections/Glance";
-import IndustriesSection from "./sections/IndustriesSection";
 import PurposeSection from "./sections/PurposeSection";
+import GroupCompani from "./sections/GroupCompani";
+import GlobalPresence from "./sections/GlobalPresence";
 
 function App() {
   return (
@@ -53,22 +45,15 @@ function App() {
             <Route path="/" element={
               <>
                 <Hero />
-                {/* <StatsSection/> */}
-                {/* <About />
-                <Marquee/> */}
                 <Glance/>
                 <PurposeSection/>
                 <PartnersShowcase/>
-                {/* <IndustryExpertise/> */}
-                {/* <Products /> */}
-                <IndustriesSection/>
-                <ProductsSection/>
-                <CenterOfExcellence/>
                 <Solutions/>
-                {/* <Services /> */}
                 <MachineSlider/>
                 <ConsultingServices/>
                 <Testimonials />
+                <GroupCompani/>
+                <GlobalPresence/>
                 <WorldMap/>
               </>
             } />
