@@ -21,6 +21,7 @@ import PurposeSection from "./sections/PurposeSection";
 import GroupCompani from "./sections/GroupCompani";
 import GlobalPresence from "./sections/GlobalPresence";
 import RecentBlog from "./sections/RecentBlog";
+import IndustriesSection from "./sections/IndustriesSection";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
                 <Glance/>
                 <PurposeSection/>
                 <PartnersShowcase/>
+                <IndustriesSection/>
                 <Testimonials />
                 <GroupCompani/>
                 <GlobalPresence/>
