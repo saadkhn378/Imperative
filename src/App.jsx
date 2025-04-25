@@ -5,15 +5,12 @@ import Hero from "./sections/Hero";
 import Testimonials from "./sections/Testimonials";
 import Footer from "./components/Footer";
 import Overview from "./pages/Overview";
-import Solutions from "./sections/Solutions";
 import Joinus from "./pages/Joinus";
 import Contact from "./pages/Contact";
 import GroupCompanies from "./pages/GroupCompanies";
 import IndustriesWeServe from "./pages/IndustriesWeServe";
 import DigitalProduct from "./pages/DigitalProduct";
 import SmartInfra from "./pages/SmartInfra";
-import WorldMap from "./sections/WorldMap";
-import MachineSlider from "./sections/MachineSlider";
 import AwardsRecognition from "./pages/AwardsRecognition";
 import Leadership from "./pages/Leadership";
 import OurTeam from "./pages/OurTeam";
@@ -23,6 +20,7 @@ import { Glance } from "./sections/Glance";
 import PurposeSection from "./sections/PurposeSection";
 import GroupCompani from "./sections/GroupCompani";
 import GlobalPresence from "./sections/GlobalPresence";
+import RecentBlog from "./sections/RecentBlog";
 
 function App() {
   return (
@@ -48,17 +46,14 @@ function App() {
                 <Glance/>
                 <PurposeSection/>
                 <PartnersShowcase/>
-                <Solutions/>
-                <MachineSlider/>
-                <ConsultingServices/>
                 <Testimonials />
                 <GroupCompani/>
                 <GlobalPresence/>
-                <WorldMap/>
               </>
             } />
           </Routes>
         </main>
+        <RecentBlog/>
         <Footer />
       </Router>
     </div>
