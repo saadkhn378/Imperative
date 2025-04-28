@@ -7,7 +7,7 @@ import WifiIcon from "../../assets/icons/wifi-icon.svg"
 import VirusIcon from "../../assets/icons/virus-icon.svg"
 import MultiIcon from "../../assets/icons/multi-icon.svg"
 import ScanIcon from "../../assets/icons/scan-icon.svg"
-import CircleIcon from "../../assets/icons/circle-icon.svg"
+import CircleIcon from "../../assets/icons/Circle-icon.svg"
 import InsightIcon from "../../assets/icons/insight-icon.svg"
 
 // AnimatedSection Component
