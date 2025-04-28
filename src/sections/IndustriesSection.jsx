@@ -1,70 +1,88 @@
-import React, { useRef } from 'react'
-import { motion, useInView, useAnimation, AnimatePresence } from 'framer-motion'
+"use client"
+
+import { useRef } from "react"
+import { motion, useInView, AnimatePresence } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 
 // Import all SVG icons
-import bfsiIcon from '../assets/icons/BFSI.svg'
-import healthcareIcon from '../assets/icons/healthcare-icon.svg'
-import educationIcon from '../assets/icons/education-icon.svg'
-import telecomIcon from '../assets/icons/telecom-icon.svg'
-import retailIcon from '../assets/icons/retail-icon.svg'
-import governmentIcon from '../assets/icons/government-icon.svg'
-import mediaIcon from '../assets/icons/media-icon.svg'
-import logisticsIcon from '../assets/icons/logistics-icon.svg'
-import travelIcon from '../assets/icons/travel-icon.svg'
+import bfsiIcon from "../assets/icons/BFSI.svg"
+import healthcareIcon from "../assets/icons/healthcare-icon.svg"
+import educationIcon from "../assets/icons/education-icon.svg"
+import telecomIcon from "../assets/icons/telecom-icon.svg"
+import retailIcon from "../assets/icons/retail-icon.svg"
+import governmentIcon from "../assets/icons/government-icon.svg"
+import mediaIcon from "../assets/icons/media-icon.svg"
+import logisticsIcon from "../assets/icons/logistics-icon.svg"
+import travelIcon from "../assets/icons/travel-icon.svg"
 
 function IndustriesSection() {
+  const navigate = useNavigate() // React Router's navigation hook
   const sectionRef = useRef(null)
-  const isInView = useInView(sectionRef, { 
-    once: true, 
+  const isInView = useInView(sectionRef, {
+    once: true,
     amount: 0.2,
-    margin: "0px 0px -200px 0px" // Trigger earlier for smoother experience
+    margin: "0px 0px -200px 0px", // Trigger earlier for smoother experience
   })
-  
+
+  // Navigate to the specific route for each industry
+  const navigateToIndustry = (path) => {
+    navigate(path)
+  }
+
   const industries = [
     {
       icon: bfsiIcon,
       title: "BFSI",
       description: "Secure and intelligent credit processing, onboarding & reconciliation platforms.",
+      path: "/industries/bfsi",
     },
     {
       icon: healthcareIcon,
       title: "Healthcare",
       description: "Back-office automation, patient records, telemedicine integration, billing & diagnostics.",
+      path: "/industries/healthcare",
     },
     {
       icon: educationIcon,
       title: "Education Management",
       description: "Digital learning platforms, smart ID kiosks, and automation in exams & operations.",
+      path: "/industries/education",
     },
     {
       icon: telecomIcon,
       title: "Telecom Services",
       description: "Customer support automation, onboarding verification, fraud detection, and compliance.",
+      path: "/industries/telecom",
     },
     {
       icon: retailIcon,
       title: "Retail & E-Commerce",
       description: "Smart kiosks, checkout automation, inventory intelligence, and customer engagement tools.",
+      path: "/industries/retail",
     },
     {
       icon: governmentIcon,
       title: "Government & PSU",
       description: "Digital automation for public services and citizen engagement.",
+      path: "/industries/government",
     },
     {
       icon: mediaIcon,
       title: "Media & Entertainment",
       description: "OTT platforms, digital streaming support, audience analytics, and content delivery automation.",
+      path: "/industries/media",
     },
     {
       icon: logisticsIcon,
       title: "Logistics Services",
       description: "Fleet management, smart kiosks, tracking platforms, AI-driven delivery automation.",
+      path: "/industries/logistics",
     },
     {
       icon: travelIcon,
       title: "Travel & Hospitality",
       description: "Self-service kiosks, check-in automation, smart feedback systems, and booking engines.",
+      path: "/industries/travel",
     },
   ]
 
@@ -76,104 +94,104 @@ function IndustriesSection() {
       transition: {
         staggerChildren: 0.1,
         delayChildren: 0.3,
-        when: "beforeChildren"
-      }
-    }
+        when: "beforeChildren",
+      },
+    },
   }
 
   const headingVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.6, 
-        ease: [0.215, 0.61, 0.355, 1] 
-      }
-    }
+      transition: {
+        duration: 0.6,
+        ease: [0.215, 0.61, 0.355, 1],
+      },
+    },
   }
 
   const underlineVariants = {
     hidden: { width: 0 },
-    visible: { 
+    visible: {
       width: "12rem",
-      transition: { 
-        duration: 0.8, 
+      transition: {
+        duration: 0.8,
         ease: [0.215, 0.61, 0.355, 1],
-        delay: 0.2
-      }
-    }
+        delay: 0.2,
+      },
+    },
   }
 
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: i => ({ 
-      opacity: 1, 
+    visible: (i) => ({
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.5, 
+      transition: {
+        duration: 0.5,
         ease: [0.215, 0.61, 0.355, 1],
-        delay: 0.2 + i * 0.08 
-      }
+        delay: 0.2 + i * 0.08,
+      },
     }),
-    hover: { 
+    hover: {
       y: -8,
       boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-      transition: { 
-        type: "spring", 
-        stiffness: 300, 
-        damping: 15 
-      }
-    }
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+      },
+    },
   }
 
   const iconVariants = {
     hidden: { scale: 0, opacity: 0 },
-    visible: { 
-      scale: 1, 
+    visible: {
+      scale: 1,
       opacity: 1,
-      transition: { 
-        type: "spring", 
-        stiffness: 260, 
+      transition: {
+        type: "spring",
+        stiffness: 260,
         damping: 20,
-        delay: 0.1 
-      }
+        delay: 0.1,
+      },
     },
-    hover: { 
+    hover: {
       rotate: [0, -10, 10, -5, 0],
       scale: 1.1,
-      transition: { 
+      transition: {
         duration: 0.5,
-        ease: "easeInOut" 
-      }
-    }
+        ease: "easeInOut",
+      },
+    },
   }
 
   const titleVariants = {
     hidden: { opacity: 0, x: -20 },
-    visible: i => ({ 
-      opacity: 1, 
+    visible: (i) => ({
+      opacity: 1,
       x: 0,
-      transition: { 
+      transition: {
         duration: 0.5,
-        delay: 0.3 + i * 0.08
-      }
-    })
+        delay: 0.3 + i * 0.08,
+      },
+    }),
   }
 
   const descriptionVariants = {
     hidden: { opacity: 0 },
-    visible: i => ({ 
+    visible: (i) => ({
       opacity: 1,
-      transition: { 
+      transition: {
         duration: 0.5,
-        delay: 0.4 + i * 0.08
-      }
-    })
+        delay: 0.4 + i * 0.08,
+      },
+    }),
   }
 
   return (
-    <motion.div 
+    <motion.div
       ref={sectionRef}
       className="font-met py-16 px-4 md:px-6 lg:px-8 bg-white overflow-hidden"
       initial="hidden"
@@ -182,38 +200,32 @@ function IndustriesSection() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 relative">
-          <motion.h2 
-            className="text-3xl font-bold relative inline-block"
-            variants={headingVariants}
-          >
+          <motion.h2 className="text-3xl font-bold relative inline-block" variants={headingVariants}>
             INDUSTRIES WE SERVE
-            <motion.span 
+            <motion.span
               className="absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 h-[2px] bg-orange-500"
               variants={underlineVariants}
               style={{ originX: 0.5 }}
             ></motion.span>
           </motion.h2>
         </div>
-        
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <AnimatePresence>
             {industries.map((industry, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
-                className="bg-gray-100 p-8 rounded-sm flex flex-col items-start"
+                className="bg-gray-100 p-8 rounded-sm flex flex-col items-start cursor-pointer"
                 custom={index}
                 variants={cardVariants}
                 whileHover="hover"
                 initial="hidden"
                 animate={isInView ? "visible" : "hidden"}
+                onClick={() => navigateToIndustry(industry.path)}
+                role="button"
+                aria-label={`Navigate to ${industry.title} page`}
               >
-                <motion.div 
-                  className="mb-4"
-                  variants={iconVariants}
-                  whileHover="hover"
-                >
+                <motion.div className="mb-4" variants={iconVariants} whileHover="hover">
                   <motion.img
                     src={industry.icon}
                     alt={`${industry.title} icon`}
@@ -222,18 +234,10 @@ function IndustriesSection() {
                     className="text-orange-500"
                   />
                 </motion.div>
-                <motion.h3 
-                  className="text-xl font-bold mb-3"
-                  custom={index}
-                  variants={titleVariants}
-                >
+                <motion.h3 className="text-xl font-bold mb-3" custom={index} variants={titleVariants}>
                   {industry.title}
                 </motion.h3>
-                <motion.p 
-                  className="text-gray-700 text-sm"
-                  custom={index}
-                  variants={descriptionVariants}
-                >
+                <motion.p className="text-gray-700 text-sm" custom={index} variants={descriptionVariants}>
                   {industry.description}
                 </motion.p>
               </motion.div>

@@ -22,6 +22,10 @@ import GroupCompani from "./sections/GroupCompani";
 import GlobalPresence from "./sections/GlobalPresence";
 import RecentBlog from "./sections/RecentBlog";
 import IndustriesSection from "./sections/IndustriesSection";
+import Bfsi from "./pages/industries/bfsi";
+import Healthcare from "./pages/industries/Healthcare";
+import Retail from "./pages/industries/Retail";
+import Media from "./pages/industries/Media";
 
 function App() {
   return (
@@ -40,6 +44,10 @@ function App() {
             <Route path="/industries-we-serve" element={<IndustriesWeServe/>}/>
             <Route path="/digital-product" element={<DigitalProduct/>}/>
             <Route path="/smart-infra" element={<SmartInfra/>}/>
+            <Route path="/industries/bfsi" element={<Bfsi/>}/>
+            <Route path="/industries/healthcare" element={<Healthcare/>}/>
+            <Route path="/industries/retail" element={<Retail/>}/>
+            <Route path="/industries/media" element={<Media/>}/>
 
             <Route path="/" element={
               <>
