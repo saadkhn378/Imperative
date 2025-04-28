@@ -512,14 +512,14 @@ const BackOffice = () => {
                 <AnimatedSection animation="slideLeft" delay={0.3} className="md:col-span-7">
                   <h2 className="text-3xl font-bold mb-4">Real-World Impact</h2>
                   <p className="mb-8">
-                  Our solutions have consistently delivered measurable results, enhancing operational efficiency,
-                    increasing sales, and improving customer satisfaction for retail businesses.
+                  Our solutions aren't just innovative—they deliver measurable improvements across every stage of the
+                    back-office lifecycle, from faster processing to enhanced accuracy and compliance.
                   </p>
 
                   <div className="space-y-6">
                     <StatCounter
-                      title="Increase in Online Sales Conversion Rates"
-                      value={50}
+                      title="Faster Document processing"
+                      value={65}
                       description=" Boosted online sales by 50% with optimized journeys and recommendations."
                     />
 

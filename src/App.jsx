@@ -26,6 +26,7 @@ import Bfsi from "./pages/industries/bfsi";
 import Healthcare from "./pages/industries/Healthcare";
 import Retail from "./pages/industries/Retail";
 import Media from "./pages/industries/Media";
+import BackOffice from "./pages/industries/BackOffice";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             <Route path="/industries/healthcare" element={<Healthcare/>}/>
             <Route path="/industries/retail" element={<Retail/>}/>
             <Route path="/industries/media" element={<Media/>}/>
+            <Route path="/industries/telecom" element={<BackOffice/>}/>
 
             <Route path="/" element={
               <>
