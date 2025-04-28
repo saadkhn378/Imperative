@@ -22,7 +22,7 @@ import GroupCompani from "./sections/GroupCompani";
 import GlobalPresence from "./sections/GlobalPresence";
 import RecentBlog from "./sections/RecentBlog";
 import IndustriesSection from "./sections/IndustriesSection";
-import Bfsi from "./pages/industries/bfsi";
+import Bfsi from "./pages/industries/Bfsi";
 import Healthcare from "./pages/industries/Healthcare";
 import Retail from "./pages/industries/Retail";
 import Media from "./pages/industries/Media";
