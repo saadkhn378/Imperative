@@ -13,9 +13,10 @@ const LocationCard = () => {
           <div>
             <h3 className="font-medium">Address</h3>
             <p className="text-gray-600">
-              123 Innovation Drive,<br />
-              Tech Park, Silicon Valley,<br />
-              California, 94043
+            Imperative Business Ventures Limited
+209 – A Wing, Centrum Business Square, Road
+No 16, Near Lotus IT Park, Wagle Estate, Thane
+(West), Maharashtra - 400604
             </p>
           </div>
         </div>
@@ -26,7 +27,7 @@ const LocationCard = () => {
             <h3 className="font-medium">Phone</h3>
             <p className="text-gray-600">
               <a href="tel:+1-123-456-7890" className="hover:text-orange-600 transition-colors">
-                +1 (123) 456-7890
+              +91-22-62558700
               </a>
             </p>
           </div>
@@ -38,7 +39,7 @@ const LocationCard = () => {
             <h3 className="font-medium">Email</h3>
             <p className="text-gray-600">
               <a href="mailto:info@company.com" className="hover:text-orange-600 transition-colors">
-                info@company.com
+              info@theimperative.in
               </a>
             </p>
           </div>

@@ -21,6 +21,15 @@ import governmentIcon from "../assets/icons/government-icon.svg"
 import mediaIcon from "../assets/icons/media-icon.svg"
 import logisticsIcon from "../assets/icons/logistics-icon.svg"
 import travelIcon from "../assets/icons/travel-icon.svg"
+// Add these imports at the top with the other icon imports
+import { FaCalendarAlt } from "react-icons/fa"
+import { MdCelebration } from "react-icons/md"
+import { RiNewspaperLine } from "react-icons/ri"
+
+// Remove these icon imports that are no longer needed
+// import eventIcon from "../assets/icons/event-icon.svg"
+// import celebrationsIcon from "../assets/icons/celebrations-icon.svg"
+// import pressReleaseIcon from "../assets/icons/press-icon.svg"
 
 const Header = () => {
   const [hoverTimeout, setHoverTimeout] = useState(null)
@@ -311,14 +320,6 @@ const Header = () => {
 
           <div
             className="relative group"
-            onMouseEnter={() => handleMouseEnter("investors")}
-            onMouseLeave={handleMouseLeave}
-          >
-            <FlyoutLink to="/investors">Investors</FlyoutLink>
-          </div>
-
-          <div
-            className="relative group"
             onMouseEnter={() => handleMouseEnter("knowledge")}
             onMouseLeave={handleMouseLeave}
           >
@@ -348,7 +349,6 @@ const Header = () => {
           </div>
         </nav>
       </div>
-
       {/* Secondary Navigation */}
       <div className="relative">
         <div className="container mx-auto">
@@ -488,7 +488,6 @@ const Header = () => {
           </nav>
         </div>
       </div>
-
       <div>
         <div className="container mx-auto">
           <AnimatePresence>
@@ -546,7 +545,6 @@ const Header = () => {
           </AnimatePresence>
         </div>
       </div>
-
       {/* Company mega menu */}
       <AnimatePresence>
         {activeMenu === "company" && (
@@ -653,7 +651,6 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
-
       {/* Industries mega menu */}
       <AnimatePresence>
         {activeMenu === "industries" && (
@@ -859,48 +856,73 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
-
       <AnimatePresence>
         {activeMenu === "gallery" && (
-          <motion.div
-            className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10"
-            onMouseEnter={() => handleMouseEnter("gallery")}
-            onMouseLeave={handleMouseLeave}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={menuVariants}
-          >
-            <div className="space-y-1">
-              <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                <Link
-                  to="/gallery/event"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
-                >
-                  Event
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                <Link
-                  to="/gallery/celebrations"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
-                >
-                  Celebrations
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                <Link
-                  to="/gallery/press-release"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
-                >
-                  Press Release
-                </Link>
-              </motion.div>
-            </div>
-          </motion.div>
+          <>
+            {/* Invisible connector to prevent hover gap */}
+            <div
+              className="absolute left-0 w-full h-4 bg-transparent z-10"
+              onMouseEnter={() => handleMouseEnter("gallery")}
+            ></div>
+
+            <motion.div
+              className="absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-20"
+              onMouseEnter={() => handleMouseEnter("gallery")}
+              onMouseLeave={handleMouseLeave}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={menuVariants}
+            >
+              <div className="container mx-auto py-8 px-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <Link to="/gallery/event" className="flex flex-col items-center text-center group">
+                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                        <FaCalendarAlt className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
+                      </div>
+                    </motion.div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        Events
+                      </h3>
+                      <p className="text-sm text-gray-600">Corporate events, conferences, and industry gatherings.</p>
+                    </div>
+                  </Link>
+
+                  <Link to="/gallery/celebrations" className="flex flex-col items-center text-center group">
+                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                        <MdCelebration className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
+                      </div>
+                    </motion.div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        Celebrations
+                      </h3>
+                      <p className="text-sm text-gray-600">Team achievements, milestones, and company celebrations.</p>
+                    </div>
+                  </Link>
+
+                  <Link to="/gallery/press-release" className="flex flex-col items-center text-center group">
+                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                        <RiNewspaperLine className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
+                      </div>
+                    </motion.div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        Press Release
+                      </h3>
+                      <p className="text-sm text-gray-600">Company announcements, news, and media coverage.</p>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-
       {/* Technology options menu */}
       <AnimatePresence>
         {activeTechOption === "technology" && (
@@ -1087,7 +1109,6 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
-
       {/* Outsourcing options menu */}
       <AnimatePresence>
         {activeOutsourcingOption === "outsourcing" && (
@@ -1252,7 +1273,6 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
-
       {/* Consulting options menu */}
       <AnimatePresence>
         {activeConsultingOption === "consulting" && (

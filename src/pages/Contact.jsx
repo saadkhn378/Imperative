@@ -1,8 +1,6 @@
 import React from "react";
 import ContactForm from "../components/ContactForm";
 import LocationCard from "../components/LocationCard";
-import GoogleMap from "../components/GoogleMap";
-import RegionCards from "../components/RegionCards";
 
 const Contact = () => {
   return (
@@ -19,16 +17,6 @@ const Contact = () => {
             <LocationCard />
           </div>
 
-          <div className="mt-16 mb-12">
-            <RegionCards />
-          </div>
-
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-6">Find Us on the Map</h2>
-            <div className="h-[400px] rounded-lg overflow-hidden shadow-lg relative">
-              <GoogleMap />
-            </div>
-          </div>
         </div>
       </main>
     </div>
