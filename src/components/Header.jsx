@@ -1309,18 +1309,9 @@ const Header = () => {
                   <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                     <Link to="/consulting/system-integration" className="group">
                       <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        System Integration
+                        System Integration & OEM Channel Partnership
                       </h4>
                       <p className="text-sm text-gray-600">Seamless integration of diverse systems and technologies</p>
-                    </Link>
-                  </motion.div>
-
-                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                    <Link to="/consulting/oem-partnership" className="group">
-                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        OEM - Channel Partnership
-                      </h4>
-                      <p className="text-sm text-gray-600">Strategic alliances with leading technology providers</p>
                     </Link>
                   </motion.div>
                 </div>
