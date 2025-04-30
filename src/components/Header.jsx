@@ -27,6 +27,8 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState(null)
   const [activeTechOption, setActiveTechOption] = useState(null)
   const [activeOutsourcingOption, setActiveOutsourcingOption] = useState(null)
+  const [activeConsultingOption, setActiveConsultingOption] = useState(null)
+  const [activeIndustriesOption, setActiveIndustriesOption] = useState(null)
   const [activeTechSection, setActiveTechSection] = useState("digital-transformation")
   const [activeOutsourcingSection, setActiveOutsourcingSection] = useState("bpo")
   const [activeSubOption, setActiveSubOption] = useState(null)
@@ -35,6 +37,9 @@ const Header = () => {
   const techLinkRef = useRef(null)
   const outsourcingMenuRef = useRef(null)
   const outsourcingLinkRef = useRef(null)
+  const consultingMenuRef = useRef(null)
+  const consultingLinkRef = useRef(null)
+  const industriesLinkRef = useRef(null)
 
   // Handle clicks outside to close menus
   useEffect(() => {
@@ -56,6 +61,19 @@ const Header = () => {
       ) {
         setActiveOutsourcingOption(null)
       }
+
+      if (
+        consultingMenuRef.current &&
+        !consultingMenuRef.current.contains(event.target) &&
+        consultingLinkRef.current &&
+        !consultingLinkRef.current.contains(event.target)
+      ) {
+        setActiveConsultingOption(null)
+      }
+
+      if (industriesLinkRef.current && !industriesLinkRef.current.contains(event.target)) {
+        setActiveIndustriesOption(null)
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside)
@@ -69,9 +87,11 @@ const Header = () => {
       clearTimeout(hoverTimeout)
       setHoverTimeout(null)
     }
-    // Close technology menu when hovering over other main navigation items
+    // Close all secondary navigation menus when hovering over primary navigation
     setActiveTechOption(null)
     setActiveOutsourcingOption(null)
+    setActiveConsultingOption(null)
+    setActiveIndustriesOption(null)
     setActiveMenu(menu)
   }
 
@@ -91,6 +111,8 @@ const Header = () => {
     // Close other menus when hovering over technology
     setActiveMenu(null)
     setActiveOutsourcingOption(null)
+    setActiveConsultingOption(null)
+    setActiveIndustriesOption(null)
     setActiveTechOption("technology")
   }
 
@@ -110,6 +132,8 @@ const Header = () => {
     // Close other menus when hovering over outsourcing
     setActiveMenu(null)
     setActiveTechOption(null)
+    setActiveConsultingOption(null)
+    setActiveIndustriesOption(null)
     setActiveOutsourcingOption("outsourcing")
   }
 
@@ -121,12 +145,71 @@ const Header = () => {
     setHoverTimeout(timeout)
   }
 
+  const handleConsultingMouseEnter = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout)
+      setHoverTimeout(null)
+    }
+    // Close other menus when hovering over consulting
+    setActiveMenu(null)
+    setActiveTechOption(null)
+    setActiveOutsourcingOption(null)
+    setActiveIndustriesOption(null)
+    setActiveConsultingOption("consulting")
+  }
+
+  const handleConsultingMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setActiveConsultingOption(null)
+    }, 500) // Longer delay for consulting menu to give more time to move to the menu
+
+    setHoverTimeout(timeout)
+  }
+
+  const handleIndustriesMouseEnter = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout)
+      setHoverTimeout(null)
+    }
+    // Close other menus when hovering over industries
+    setActiveMenu(null)
+    setActiveTechOption(null)
+    setActiveOutsourcingOption(null)
+    setActiveConsultingOption(null)
+    setActiveIndustriesOption("industries")
+    setActiveMenu("industries")
+  }
+
+  const handleIndustriesMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setActiveIndustriesOption(null)
+      setActiveMenu(null)
+    }, 500) // Longer delay for industries menu to give more time to move to the menu
+
+    setHoverTimeout(timeout)
+  }
+
+  const handleIndustriesMenuMouseEnter = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout)
+      setHoverTimeout(null)
+    }
+    setActiveIndustriesOption("industries")
+    setActiveMenu("industries")
+  }
+
   const handleSecondaryNavMouseEnter = (option) => {
     if (option !== "technology") {
       setActiveTechOption(null)
     }
     if (option !== "outsourcing") {
       setActiveOutsourcingOption(null)
+    }
+    if (option !== "consulting") {
+      setActiveConsultingOption(null)
+    }
+    if (option !== "industries") {
+      setActiveIndustriesOption(null)
     }
   }
 
@@ -217,12 +300,21 @@ const Header = () => {
             <FlyoutLink to="/company">Company</FlyoutLink>
           </div>
 
+          {/*1. First, remove the Industries section from the primary navigation by deleting or commenting out this block (around line 180-185):*/}
+          {/*<div*/}
+          {/*  className="relative group"*/}
+          {/*  onMouseEnter={() => handleMouseEnter("industries")}*/}
+          {/*  onMouseLeave={handleMouseLeave}*/}
+          {/*>*/}
+          {/*  <FlyoutLink to="/industries">Industries</FlyoutLink>*/}
+          {/*</div>*/}
+
           <div
             className="relative group"
-            onMouseEnter={() => handleMouseEnter("industries")}
+            onMouseEnter={() => handleMouseEnter("investors")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/industries">Industries</FlyoutLink>
+            <FlyoutLink to="/investors">Investors</FlyoutLink>
           </div>
 
           <div
@@ -270,6 +362,10 @@ const Header = () => {
                 onClick={(e) => {
                   e.preventDefault()
                   setActiveTechOption(activeTechOption === "technology" ? null : "technology")
+                  setActiveOutsourcingOption(null)
+                  setActiveConsultingOption(null)
+                  setActiveIndustriesOption(null)
+                  setActiveMenu(null)
                 }}
               >
                 Technology
@@ -299,6 +395,10 @@ const Header = () => {
                 onClick={(e) => {
                   e.preventDefault()
                   setActiveOutsourcingOption(activeOutsourcingOption === "outsourcing" ? null : "outsourcing")
+                  setActiveTechOption(null)
+                  setActiveConsultingOption(null)
+                  setActiveIndustriesOption(null)
+                  setActiveMenu(null)
                 }}
               >
                 Outsourcing
@@ -321,12 +421,69 @@ const Header = () => {
             </div>
             <div className="relative">
               <Link
+                ref={consultingLinkRef}
                 to="/consulting"
-                className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
-                onMouseEnter={() => handleSecondaryNavMouseEnter("consulting")}
+                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeConsultingOption === "consulting" ? "text-orange-500" : ""}`}
+                onMouseEnter={handleConsultingMouseEnter}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setActiveConsultingOption(activeConsultingOption === "consulting" ? null : "consulting")
+                  setActiveTechOption(null)
+                  setActiveOutsourcingOption(null)
+                  setActiveIndustriesOption(null)
+                  setActiveMenu(null)
+                }}
               >
                 Consulting
+                {activeConsultingOption === "consulting" && (
+                  <motion.span
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                    layoutId="consultingIndicator"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    exit={{ scaleX: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
               </Link>
+              {/* Extended hover area to prevent gaps */}
+              <div
+                className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
+                onMouseEnter={handleConsultingMouseEnter}
+              ></div>
+            </div>
+            <div className="relative">
+              <Link
+                ref={industriesLinkRef}
+                to="/industries"
+                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeIndustriesOption === "industries" ? "text-orange-500" : ""}`}
+                onMouseEnter={handleIndustriesMouseEnter}
+                onClick={(e) => {
+                  e.preventDefault()
+                  setActiveIndustriesOption(activeIndustriesOption === "industries" ? null : "industries")
+                  setActiveMenu(activeMenu === "industries" ? null : "industries")
+                  setActiveTechOption(null)
+                  setActiveOutsourcingOption(null)
+                  setActiveConsultingOption(null)
+                }}
+              >
+                Industries
+                {activeIndustriesOption === "industries" && (
+                  <motion.span
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                    layoutId="industriesIndicator"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    exit={{ scaleX: 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
+              </Link>
+              {/* Extended hover area to prevent gaps */}
+              <div
+                className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
+                onMouseEnter={handleIndustriesMouseEnter}
+              ></div>
             </div>
           </nav>
         </div>
@@ -335,9 +492,10 @@ const Header = () => {
       <div>
         <div className="container mx-auto">
           <AnimatePresence>
+            {/*3. Update the position of the Industries indicator by modifying the left value in the activeMenu === "industries" motion.div (around line 290):*/}
             {activeMenu === "industries" && (
               <motion.div
-                className="h-1 bg-orange-500 w-24 mx-auto relative left-[60px]"
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[0px]"
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -496,7 +654,6 @@ const Header = () => {
         )}
       </AnimatePresence>
 
-
       {/* Industries mega menu */}
       <AnimatePresence>
         {activeMenu === "industries" && (
@@ -504,13 +661,13 @@ const Header = () => {
             {/* Invisible connector to prevent hover gap */}
             <div
               className="absolute left-0 w-full h-4 bg-transparent z-10"
-              onMouseEnter={() => handleMouseEnter("industries")}
+              onMouseEnter={handleIndustriesMenuMouseEnter}
             ></div>
 
             <motion.div
               className="absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-20"
-              onMouseEnter={() => handleMouseEnter("industries")}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={handleIndustriesMenuMouseEnter}
+              onMouseLeave={handleIndustriesMouseLeave}
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -996,29 +1153,25 @@ const Header = () => {
                         transition={{ duration: 0.3 }}
                       >
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/research-analysis" className="group">
+                          <Link to="/outsourcing/bpo/backoffice" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
                               Back-Office operations (Non-Voice)
                             </h4>
-                            <p className="text-sm text-gray-600">
-                              Efficient support for core business tasks
-                            </p>
+                            <p className="text-sm text-gray-600">Efficient support for core business tasks</p>
                           </Link>
                         </motion.div>
 
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/social-media" className="group">
+                          <Link to="/outsourcing/bpo/voice-support" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
                               Voice Support Services
                             </h4>
-                            <p className="text-sm text-gray-600">
-                              Human-led,real-time customer assistance.
-                            </p>
+                            <p className="text-sm text-gray-600">Human-led,real-time customer assistance.</p>
                           </Link>
                         </motion.div>
 
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/back-office" className="group">
+                          <Link to="/outsourcing/bpo/ai-process" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
                               Ai Enabled Process Automation Platforms
                             </h4>
@@ -1039,6 +1192,15 @@ const Header = () => {
                         transition={{ duration: 0.3 }}
                       >
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                          <Link to="/outsourcing/kpo/research-analysis" className="group">
+                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                              Research and Analysis (R&A)
+                            </h4>
+                            <p className="text-sm text-gray-600">Unlocking insights through data,trends and strategy</p>
+                          </Link>
+                        </motion.div>
+
+                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                           <Link to="/outsourcing/kpo/research-development" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
                               Research and Development (R&D)
@@ -1050,12 +1212,23 @@ const Header = () => {
                         </motion.div>
 
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/legal-process" className="group">
+                          <Link to="/outsourcing/kpo/lpo" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
                               Legal Process Outsourcing (LPO)
                             </h4>
                             <p className="text-sm text-gray-600">
                               Enabling legal support through efficient outsourcing.
+                            </p>
+                          </Link>
+                        </motion.div>
+
+                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                          <Link to="/outsourcing/kpo/social-media" className="group">
+                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                              Social Media Marketing
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              Elevating brands with strategy,analytics and engagement
                             </p>
                           </Link>
                         </motion.div>
@@ -1070,27 +1243,66 @@ const Header = () => {
                             </p>
                           </Link>
                         </motion.div>
-
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/voice-support" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Voice Support Services
-                            </h4>
-                            <p className="text-sm text-gray-600">Human-led, real-time customer assistance.</p>
-                          </Link>
-                        </motion.div>
-
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/ai-automation" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              AI Enabled Process Automation Platforms
-                            </h4>
-                            <p className="text-sm text-gray-600">Smart bots driving process speed and accuracy.</p>
-                          </Link>
-                        </motion.div>
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Consulting options menu */}
+      <AnimatePresence>
+        {activeConsultingOption === "consulting" && (
+          <>
+            {/* Invisible connector to prevent hover gap */}
+            <div
+              className="absolute left-0 w-full h-8 bg-transparent z-10"
+              onMouseEnter={handleConsultingMouseEnter}
+            ></div>
+
+            <motion.div
+              ref={consultingMenuRef}
+              className="absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-20"
+              onMouseEnter={handleConsultingMouseEnter}
+              onMouseLeave={handleConsultingMouseLeave}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={menuVariants}
+            >
+              <div className="container mx-auto py-8 px-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                    <Link to="/consulting/cyber-assurance" className="group">
+                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        Cyber Assurance
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Comprehensive security solutions to protect your digital assets
+                      </p>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                    <Link to="/consulting/system-integration" className="group">
+                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        System Integration
+                      </h4>
+                      <p className="text-sm text-gray-600">Seamless integration of diverse systems and technologies</p>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                    <Link to="/consulting/oem-partnership" className="group">
+                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                        OEM - Channel Partnership
+                      </h4>
+                      <p className="text-sm text-gray-600">Strategic alliances with leading technology providers</p>
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>

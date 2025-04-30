@@ -27,8 +27,8 @@ import Retail from "./pages/industries/Retail";
 import Media from "./pages/industries/Media";
 import BackOffice from "./pages/industries/BackOffice";
 import Logistics from "./pages/industries/Logistics";
-import ResearchAnalysis from "./pages/outsourcing/bpo/ResearchAnalysis";
-import SocialMedia from "./pages/outsourcing/bpo/SocialMedia";
+import SocialMedia from "./pages/outsourcing/kpo/SocialMedia";
+import ResearchAnalysis from "./pages/outsourcing/kpo/ResearchAnalysis";
 
 function App() {
   return (
@@ -53,8 +53,10 @@ function App() {
             <Route path="/industries/media" element={<Media/>}/>
             <Route path="/industries/telecom" element={<BackOffice/>}/>
             <Route path="/industries/logistics" element={<Logistics/>}/>
-            <Route path="/outsourcing/bpo/research-analysis" element={<ResearchAnalysis/>}/>
-            <Route path="/outsourcing/bpo/social-media" element={<SocialMedia/>}/>
+            <Route path="/career" element={<Joinus />} />
+            <Route path="/contact-us" element={<Contact />} />
+            <Route path="/outsourcing/kpo/research-analysis" element={<ResearchAnalysis/>}/>
+            <Route path="/outsourcing/kpo/social-media" element={<SocialMedia/>}/>
 
             <Route path="/" element={
               <>
