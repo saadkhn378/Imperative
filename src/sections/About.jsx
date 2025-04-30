@@ -171,7 +171,7 @@ const Counter = ({ value, label, icon: Icon, duration = 2 }) => {
   );
 };
 
-const About = () => {
+const AboutUs = () => {
   const [activeTab, setActiveTab] = useState("company");
   
   const containerVariants = {
@@ -259,4 +259,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default AboutUs;

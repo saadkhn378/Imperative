@@ -21,10 +21,6 @@ import governmentIcon from "../assets/icons/government-icon.svg"
 import mediaIcon from "../assets/icons/media-icon.svg"
 import logisticsIcon from "../assets/icons/logistics-icon.svg"
 import travelIcon from "../assets/icons/travel-icon.svg"
-// Add these imports at the top with the other icon imports
-import { FaCalendarAlt } from "react-icons/fa"
-import { MdCelebration } from "react-icons/md"
-import { RiNewspaperLine } from "react-icons/ri"
 
 // Remove these icon imports that are no longer needed
 // import eventIcon from "../assets/icons/event-icon.svg"
@@ -289,6 +285,11 @@ const Header = () => {
     },
   }
 
+  useEffect(() => {
+    // Reset sub-option when tech section changes
+    setActiveSubOption(null)
+  }, [activeTechSection])
+
   return (
     <header className="font-met w-full relative border-b border-gray-200">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -317,6 +318,14 @@ const Header = () => {
           {/*>*/}
           {/*  <FlyoutLink to="/industries">Industries</FlyoutLink>*/}
           {/*</div>*/}
+
+          <div
+            className="relative group"
+            onMouseEnter={() => handleMouseEnter("investors")}
+            onMouseLeave={handleMouseLeave}
+          >
+            <FlyoutLink to="/investors">Investors</FlyoutLink>
+          </div>
 
           <div
             className="relative group"
@@ -856,6 +865,7 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
+      {/* Gallery mega menu - Updated to match the image */}
       <AnimatePresence>
         {activeMenu === "gallery" && (
           <>
@@ -866,7 +876,8 @@ const Header = () => {
             ></div>
 
             <motion.div
-              className="absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-20"
+              className="absolute bg-white border border-gray-200 shadow-md z-20 rounded-sm"
+              style={{ top: "100%", right: "200px" }}
               onMouseEnter={() => handleMouseEnter("gallery")}
               onMouseLeave={handleMouseLeave}
               initial="hidden"
@@ -874,48 +885,25 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <Link to="/gallery/event" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <FaCalendarAlt className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
-                      </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Events
-                      </h3>
-                      <p className="text-sm text-gray-600">Corporate events, conferences, and industry gatherings.</p>
-                    </div>
+              <div className="py-2 px-6 min-w-[150px]">
+                <div className="flex flex-col">
+                  <Link
+                    to="/gallery/event"
+                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                  >
+                    Event
                   </Link>
-
-                  <Link to="/gallery/celebrations" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <MdCelebration className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
-                      </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Celebrations
-                      </h3>
-                      <p className="text-sm text-gray-600">Team achievements, milestones, and company celebrations.</p>
-                    </div>
+                  <Link
+                    to="/gallery/celebrations"
+                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                  >
+                    Celebrations
                   </Link>
-
-                  <Link to="/gallery/press-release" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <RiNewspaperLine className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition-colors duration-300" />
-                      </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Press Release
-                      </h3>
-                      <p className="text-sm text-gray-600">Company announcements, news, and media coverage.</p>
-                    </div>
+                  <Link
+                    to="/gallery/press-release"
+                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                  >
+                    Press Release
                   </Link>
                 </div>
               </div>
@@ -943,23 +931,32 @@ const Header = () => {
               <div className="container mx-auto py-8 px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <motion.a
-                      href="/technology/digital-transformation"
-                      onClick={(e) => handleTechSectionClick("digital-transformation", e)}
-                      className={`block ${activeTechSection === "digital-transformation" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
+                    <motion.div
                       whileHover={{ x: activeTechSection !== "digital-transformation" ? 5 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <h3
-                        className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
-                          activeTechSection === "digital-transformation"
-                            ? "border-b border-orange-500"
-                            : "border-b border-gray-200"
-                        }`}
+                      <Link
+                        to="/technology/digital-transformation"
+                        onClick={(e) => {
+                          handleTechSectionClick("digital-transformation", e)
+                          // Allow navigation after state update
+                          setTimeout(() => {
+                            window.location.href = "/technology/digital-transformation"
+                          }, 100)
+                        }}
+                        className={`block ${activeTechSection === "digital-transformation" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
-                        Imperative Digital Transformation
-                      </h3>
-                    </motion.a>
+                        <h3
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
+                            activeTechSection === "digital-transformation"
+                              ? "border-b border-orange-500"
+                              : "border-b border-gray-200"
+                          }`}
+                        >
+                          Imperative Digital Transformation
+                        </h3>
+                      </Link>
+                    </motion.div>
 
                     <AnimatePresence>
                       {activeTechSection === "digital-transformation" && (
@@ -970,66 +967,87 @@ const Header = () => {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <motion.a
-                            href="/technology/digital-transformation/platforms"
-                            onClick={(e) => handleSubOptionClick("digital-platforms", e)}
-                            className="block"
-                            whileHover={{ x: 5 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <h4
-                              className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                activeSubOption === "digital-platforms"
-                                  ? "text-orange-500"
-                                  : "text-gray-900 hover:text-orange-500"
-                              }`}
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link
+                              to="/technology/digital-transformation/platforms"
+                              onClick={(e) => {
+                                handleSubOptionClick("digital-platforms", e)
+                                // Allow navigation after state update
+                                setTimeout(() => {
+                                  window.location.href = "/technology/digital-transformation/platforms"
+                                }, 100)
+                              }}
+                              className="block"
                             >
-                              Digital Platforms
-                            </h4>
-                            <p className="text-sm text-gray-600">AI-powered platforms for every industry.</p>
-                          </motion.a>
+                              <h4
+                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                  activeSubOption === "digital-platforms"
+                                    ? "text-orange-500"
+                                    : "text-gray-900 hover:text-orange-500"
+                                }`}
+                              >
+                                Digital Platforms
+                              </h4>
+                              <p className="text-sm text-gray-600">AI-powered platforms for every industry.</p>
+                            </Link>
+                          </motion.div>
 
-                          <motion.a
-                            href="/technology/digital-transformation/services"
-                            onClick={(e) => handleSubOptionClick("digital-services", e)}
-                            className="block"
-                            whileHover={{ x: 5 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <h4
-                              className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                activeSubOption === "digital-services"
-                                  ? "text-orange-500"
-                                  : "text-gray-900 hover:text-orange-500"
-                              }`}
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link
+                              to="/technology/digital-transformation/services"
+                              onClick={(e) => {
+                                handleSubOptionClick("digital-services", e)
+                                // Allow navigation after state update
+                                setTimeout(() => {
+                                  window.location.href = "/technology/digital-transformation/services"
+                                }, 100)
+                              }}
+                              className="block"
                             >
-                              Digital Services
-                            </h4>
-                            <p className="text-sm text-gray-600">Custom development, automation, and integration.</p>
-                          </motion.a>
+                              <h4
+                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                  activeSubOption === "digital-services"
+                                    ? "text-orange-500"
+                                    : "text-gray-900 hover:text-orange-500"
+                                }`}
+                              >
+                                Digital Services
+                              </h4>
+                              <p className="text-sm text-gray-600">Custom development, automation, and integration.</p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
 
                   <div>
-                    <motion.a
-                      href="/technology/smart-infrastructure"
-                      onClick={(e) => handleTechSectionClick("smart-infrastructure", e)}
-                      className={`block ${activeTechSection === "smart-infrastructure" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
+                    <motion.div
                       whileHover={{ x: activeTechSection !== "smart-infrastructure" ? 5 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <h3
-                        className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
-                          activeTechSection === "smart-infrastructure"
-                            ? "border-b border-orange-500"
-                            : "border-b border-gray-200"
-                        }`}
+                      <Link
+                        to="/technology/smart-infrastructure"
+                        onClick={(e) => {
+                          handleTechSectionClick("smart-infrastructure", e)
+                          // Allow navigation after state update
+                          setTimeout(() => {
+                            window.location.href = "/technology/smart-infrastructure"
+                          }, 100)
+                        }}
+                        className={`block ${activeTechSection === "smart-infrastructure" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
-                        Imperative- Smart Infrastructure
-                      </h3>
-                    </motion.a>
+                        <h3
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
+                            activeTechSection === "smart-infrastructure"
+                              ? "border-b border-orange-500"
+                              : "border-b border-gray-200"
+                          }`}
+                        >
+                          Imperative- Smart Infrastructure
+                        </h3>
+                      </Link>
+                    </motion.div>
 
                     <AnimatePresence>
                       {activeTechSection === "smart-infrastructure" && (
@@ -1040,26 +1058,32 @@ const Header = () => {
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <motion.a
-                            href="/technology/smart-infrastructure/products"
-                            onClick={(e) => handleSubOptionClick("smart-infra-products", e)}
-                            className="block"
-                            whileHover={{ x: 5 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <h4
-                              className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                activeSubOption === "smart-infra-products"
-                                  ? "text-orange-500"
-                                  : "text-gray-900 hover:text-orange-500"
-                              }`}
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link
+                              to="/technology/smart-infrastructure/products"
+                              onClick={(e) => {
+                                handleSubOptionClick("smart-infra-products", e)
+                                // Allow navigation after state update
+                                setTimeout(() => {
+                                  window.location.href = "/technology/smart-infrastructure/products"
+                                }, 100)
+                              }}
+                              className="block"
                             >
-                              Imperative Smart Infra Products
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Industry-ready kiosks for seamless service delivery.
-                            </p>
-                          </motion.a>
+                              <h4
+                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                  activeSubOption === "smart-infra-products"
+                                    ? "text-orange-500"
+                                    : "text-gray-900 hover:text-orange-500"
+                                }`}
+                              >
+                                Imperative Smart Infra Products
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Industry-ready kiosks for seamless service delivery.
+                              </p>
+                            </Link>
+                          </motion.div>
 
                           <AnimatePresence>
                             {activeSubOption === "smart-infra-products" && (
@@ -1072,28 +1096,28 @@ const Header = () => {
                               >
                                 <ul className="space-y-2">
                                   <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                                    <a
-                                      href="/technology/smart-infrastructure/products/kiosks"
+                                    <Link
+                                      to="/technology/smart-infrastructure/products/kiosks"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
                                     >
                                       Self-Service Kiosks
-                                    </a>
+                                    </Link>
                                   </motion.li>
                                   <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                                    <a
-                                      href="/technology/smart-infrastructure/products/displays"
+                                    <Link
+                                      to="/technology/smart-infrastructure/products/displays"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
                                     >
                                       Smart Display Solutions
-                                    </a>
+                                    </Link>
                                   </motion.li>
                                   <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                                    <a
-                                      href="/technology/smart-infrastructure/products/terminals"
+                                    <Link
+                                      to="/technology/smart-infrastructure/products/terminals"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
                                     >
                                       Interactive Terminals
-                                    </a>
+                                    </Link>
                                   </motion.li>
                                 </ul>
                               </motion.div>

@@ -40,6 +40,9 @@ import ResearchAnalysis from "./pages/outsourcing/kpo/ResearchAnalysis";
 import HealthCare from "./pages/outsourcing/kpo/Healthcare";
 import LegalProcess from "./pages/outsourcing/kpo/LegalProcess";
 import ResearchDevelopment from "./pages/outsourcing/kpo/ResearchDevelopment";
+import Backofficeop from "./pages/outsourcing/bpo/Backofficeop";
+import Voicesupport from "./pages/outsourcing/bpo/Voicesupport";
+import ItServices from "./pages/technology/ITService";
 
 function App() {
   return (
@@ -80,12 +83,20 @@ function App() {
             <Route path="/industries/telecom" element={<BackOffice />} />
             <Route path="/industries/logistics" element={<Logistics />} />
 
+
+            <Route path="technology/digital-transformation/services" element={<ItServices />} />
+          {/* Outsourcing - KPO */}
+          <Route path="/outsourcing/bpo/backoffice" element={<Backofficeop />} />
+          <Route path="/outsourcing/bpo/voice-support" element={<Voicesupport />} />
+
             {/* Outsourcing - KPO */}
             <Route path="/outsourcing/kpo/research-analysis" element={<ResearchAnalysis />} />
             <Route path="/outsourcing/kpo/social-media" element={<SocialMedia />} />
             <Route path="/outsourcing/kpo/healthcare" element={<HealthCare />} />
             <Route path="/outsourcing/kpo/lpo" element={<LegalProcess />} />
             <Route path="/outsourcing/kpo/research-development" element={<ResearchDevelopment />} />
+
+            <Route path="/company/about-us" element={<Overview />} />
 
             {/* Other Pages */}
             <Route path="/digital-product" element={<DigitalProduct />} />
