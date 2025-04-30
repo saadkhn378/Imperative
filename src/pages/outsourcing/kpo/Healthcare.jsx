@@ -61,76 +61,81 @@ const AnimatedSection = ({ children, className = "", animation = "fadeIn", delay
 };
 
 // Main Component
-const Healthcare = () => {
+const HealthCare = () => {
   // Data
   const services = [
     {
-      title: "Data Analytics",
-      description: "Transform raw data into predictive models and strategic dashboards.",
+      title: "Clinical Data Management",
+      description: "Secure and organize patient records, lab reports, and prescriptions.",
       icon: barChartIcon,
     },
     {
-      title: "Market Research",
-      description: "Analyze customer behavior, competitor trends, and industry dynamics.",
+      title: "Medical Research & Analysis",
+      description: "Support epidemiological research, clinical trials, and insights generation.",
       icon: lineChartIcon,
     },
     {
-      title: "Business Research",
-      description: "Evaluate business models, financial outlooks, and new market opportunities.",
+      title: "Pharmaceutical R&D",
+      description: "Enable faster drug discovery cycles and structured regulatory submissions.",
       icon: usersIcon,
     },
     {
-      title: "Competitive Intelligence",
-      description: "Monitor competitor activity, product benchmarks, and market positioning.",
+      title: "Bioinformatics",
+      description: "Analyze genomic and patient data using advanced ML tools.",
       icon: trendingUpIcon,
     },
   ];
 
   const realWorldImpacts = [
     {
-      title: "Faster Time-to-Market",
-      description: "Cut go-to-market time by 40% through rapid, agile development cycles.",
+      title: "Faster Digitization",
+      description: "60% faster patient record digitization through automated workflows.",
     },
     {
-      title: "Innovation That Protects",
-      description: "Supported 10+ client patent filings with inventive design and technical validation.",
+      title: "Data Accuracy",
+      description: " Achieved 99.7% accuracy in lab data uploads and integration.",
     },
     {
-      title: "Smarter Prototyping",
-      description: "Improved prototype success rates using simulation-driven design processes.",
+      title: "Research Enablement",
+      description: " Adopted in over 5 clinical trials to standardize and streamline data capture.",
     },
     {
-      title: "Cost-Efficient Solutions",
-      description: "Reduced product development costs by 25% through optimized material selection and design efficiency.",
+      title: " Operational Efficiency",
+      description: "Reduced administrative processing time by 40% through integrated system automation.",
     },
   ];
 
   const trends = [
     {
-      title: "AI-Driven Predictive Research",
-      description: "Leverage machine learning to anticipate trends and customer behaviors before they happen.",
-      image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80",
-    },
-    {
-      title: "Real-Time Voice-of-Customer Analytics",
-      description: "Capture and analyze customer feedback instantly to stay aligned with evolving needs.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      title: "Micro-Segmentation and Persona Modeling",
-      description: "Target audiences with precision by creating detailed customer profiles and clusters.",
-      image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      title: "Data Storytelling for C-Level Alignment",
-      description: "Transform complex data into compelling narratives for informed leadership decisions.",
-      image: "https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    },
-    {
-      title: "Benchmarking with Competitive Intelligence",
-      description: "Compare performance with industry standards and rivals to identify gaps and opportunities.",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80",
-    },
+        title: "AI in Diagnosis Support Systems",
+        description: "Enhancing clinical decision-making through AI-based recommendations.",
+        image:
+          "https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      },
+      {
+        title: " Mobile-First Health Data Access",
+        description: "Empowering patients and providers with secure, anytime data access.",
+        image:
+          "https://images.unsplash.com/photo-1576089172869-4f5f6f315620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      },
+      {
+        title: "Personalized Medicine",
+        description: "Tailored treatment plans based on genetic profiles and individual health data.",
+        image:
+          "https://images.unsplash.com/photo-1579154204601-01588f351e67?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      },
+      {
+        title: "Virtual Reality Therapy",
+        description: "Immersive VR experiences for pain management and mental health treatment.",
+        image:
+          "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2078&q=80",
+      },
+      {
+        title: "Blockchain Health Records",
+        description: "Secure, interoperable patient data management across healthcare providers.",
+        image:
+          "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      },
   ];
 
   return (
@@ -138,17 +143,17 @@ const Healthcare = () => {
       {/* Hero Section */}
       <section className="relative w-full h-[600px] overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2015&q=80"
-          alt="Data analysis background with magnifying glass"
+          src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+          alt="Healthcare professionals in a modern medical facility"
           className="absolute inset-0 w-full h-full object-cover brightness-50"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
           <AnimatedSection animation="slideUp">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">RESEARCH AND ANALYSIS (R&A)</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">HEALTHCARE</h1>
           </AnimatedSection>
           <AnimatedSection animation="slideUp" delay={200}>
-            <p className="text-xl md:text-2xl text-white/90 max-w-2xl">Informed Decisions Powered by Insights</p>
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl">Enhancing Operational Efficiency and Patient Experience</p>
           </AnimatedSection>
         </div>
       </section>
@@ -160,8 +165,8 @@ const Healthcare = () => {
             <AnimatedSection animation="slideRight">
               <div className="relative h-[450px] rounded-lg overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1591696205602-2f950c417cb9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Desk with analytics tools and calculator"
+                  src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  alt="Doctor consulting with patient in modern medical office"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
@@ -175,24 +180,12 @@ const Healthcare = () => {
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={200}>
                 <p className="text-gray-700 mb-6 text-lg">
-                  In an era defined by rapid change, fierce competition, and ever-evolving consumer expectations,
-                  organizations can no longer rely on intuition alone to drive growth. Making informed, timely decisions
-                  has become a critical differentiator—and this is where Imperative's Research & Analysis (R&A) services
-                  step in.
-                </p>
-              </AnimatedSection>
-              <AnimatedSection animation="fadeIn" delay={300}>
-                <p className="text-gray-700 mb-6 text-lg">
-                  We help businesses cut through complexity with precision, turning scattered data into strategic
-                  intelligence.
+                Digital transformation in healthcare is reshaping the way care is delivered and managed. It requires seamless coordination between clinical workflows, administrative systems, and regulatory frameworks. At Imperative, we empower hospitals, diagnostic providers, and healthtech platforms with AI-enabled modular solutions. Our services are designed to improve operational agility, ensure data security, and enhance the patient journey. From electronic health records to advanced analytics, we help organizations harness technology for better outcomes. 
                 </p>
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={400}>
                 <p className="text-gray-700 mb-10 text-lg">
-                  By leveraging advanced analytics, deep domain expertise, and industry benchmarking, our R&A platforms
-                  deliver real-time, research-backed insights that enable smarter decisions, reduce risks, and uncover
-                  hidden opportunities. Whether it's understanding customer behavior, tracking competitive moves, or
-                  evaluating new markets, our insights empower leaders to act with clarity and confidence.
+                With deep domain expertise, our teams deliver customized solutions aligned with industry regulations. Ultimately, our goal is to simplify complex processes and elevate the standard of care.
                 </p>
               </AnimatedSection>
               <AnimatedSection animation="slideUp" delay={500}>
@@ -219,8 +212,7 @@ const Healthcare = () => {
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-16 text-lg">
-              Our comprehensive suite of research and analytics services is designed to deliver actionable insights that
-              support strategic planning, operational efficiency, and market leadership.
+            We deliver end-to-end support across clinical and research functions to drive innovation and efficiency.
             </p>
           </AnimatedSection>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -257,8 +249,8 @@ const Healthcare = () => {
             className="absolute right-0 top-12 w-[45%] h-[550px] z-10 hidden lg:block"
           >
             <img
-              src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-              alt="Lab scene with researcher reviewing data"
+              src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2080&q=80"
+              alt="Advanced medical technology in a modern hospital setting"
               className="w-full h-full object-cover rounded-l-lg shadow-xl"
             />
           </AnimatedSection>
@@ -270,11 +262,7 @@ const Healthcare = () => {
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={200}>
                 <p className="text-gray-700 text-lg">
-                  Our applied R&D approach is designed to deliver tangible, measurable results that directly contribute
-                  to the success of your product. By leveraging agile methodologies, advanced engineering tools, and
-                  collaborative frameworks, we drive faster innovation and ensure seamless market entry. Our results
-                  speak for themselves, with a proven track record of reducing time-to-market, protecting intellectual
-                  property, and enhancing prototype success rates.
+                Our solutions have demonstrated significant impact across speed, precision, and research enablement. By automating critical processes, we help healthcare organizations accelerate patient care and research outcomes. Our focus on data accuracy and system integration ensures consistent, reliable performance across operations.
                 </p>
               </AnimatedSection>
             </div>
@@ -311,7 +299,7 @@ const Healthcare = () => {
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-6 text-lg">
-            Partnering with Imperative means gaining a research-driven edge—where expert teams, smart reporting, and strategic alignment come together to drive smarter decisions.
+            We provide flexible and secure healthcare solutions tailored to institutional and regional needs.
             </p>
           </AnimatedSection>
           <AnimatedSection animation="scaleUp" delay={300}>
@@ -327,16 +315,15 @@ const Healthcare = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Multi-Domain Research Teams</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">REGULATORY COMPLIANCE</h3>
                   <p className="text-gray-700 mb-6 text-lg">
-                  Leverage expertise across various industries to get comprehensive, nuanced insights tailored to your business
+                  Fully compliant with HIPAA, ISO 27001 standards.
                   </p>
                 </div>
                 <div className="relative h-[320px] md:flex-1">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Hand drawing evaluation stars"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="Doctor consulting with patient in a compassionate manner"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
                   />
@@ -352,15 +339,15 @@ const Healthcare = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Visual & Interactive Reporting</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">SEAMLESS INTEGRATION</h3>
                   <p className="text-gray-700 text-lg">
-                  Clear, engaging dashboards for easy data interpretation
+                  Compatible with HIMS, LIS, PACS, and other core healthcare systems.
                   </p>
                 </div>
                 <div className="relative h-[160px]">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
-                    alt="Gear patterns representing integration"
+                    src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80"
+                    alt="Medical research and data analysis"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -376,15 +363,15 @@ const Healthcare = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Fast & Accurate Delivery</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">SCALABLE DEPLOYMENT</h3>
                   <p className="text-gray-700 text-lg">
-                  Quick turnaround without compromising precision.
+                  Easily deployable across hospital networks and care centers.
                   </p>
                 </div>
                 <div className="relative h-[160px]">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Security checkmark representing IP protection"
+                    src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+                    alt="Advanced medical technology and equipment"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -401,15 +388,15 @@ const Healthcare = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 relative z-10 md:max-w-[55%]">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Strategy-Ready Insights</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">LOCALIZED ACCESS</h3>
                   <p className="text-gray-700 text-lg">
-                  Our research seamlessly blends into your decision-making processes, turning insights into tangible business actions
+                  Multi-role access with support for regional languages and localization.
                   </p>
                 </div>
                 <div className="absolute right-0 top-0 w-[45%] h-full">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80"
-                    alt="Team collaborating on a project"
+                    src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="Healthcare team collaborating on patient care"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -425,12 +412,11 @@ const Healthcare = () => {
       <section className="py-28 bg-white mt-10">
         <div className="container mx-auto px-4">
           <AnimatedSection animation="slideUp">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-5">RESEARCH AND ANALYSIS (R&A) TRENDS</h2>
+            <h2 className="text-4xl font-bold text-center text-gray-800 mb-5">INNOVATION TRENDS IN HEALTHCARE</h2>
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-6 text-lg">
-              The future of research lies in blending AI, real-time data, and human-centric storytelling to drive
-              smarter, faster decision-making.
+            Healthcare is rapidly adopting intelligent technologies to personalize care and optimize delivery.
             </p>
           </AnimatedSection>
           <AnimatedSection animation="scaleUp" delay={300}>
@@ -506,4 +492,4 @@ const Healthcare = () => {
   );
 };
 
-export default Healthcare;
+export default HealthCare;
