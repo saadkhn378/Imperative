@@ -219,14 +219,6 @@ const Header = () => {
 
           <div
             className="relative group"
-            onMouseEnter={() => handleMouseEnter("offerings")}
-            onMouseLeave={handleMouseLeave}
-          >
-            <FlyoutLink to="/offerings">Offerings</FlyoutLink>
-          </div>
-
-          <div
-            className="relative group"
             onMouseEnter={() => handleMouseEnter("industries")}
             onMouseLeave={handleMouseLeave}
           >
@@ -235,12 +227,26 @@ const Header = () => {
 
           <div
             className="relative group"
-            onMouseEnter={() => handleMouseEnter("carrier")}
+            onMouseEnter={() => handleMouseEnter("knowledge")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/carrier">Carrier</FlyoutLink>
+            <FlyoutLink to="/knowledge">Knowledge</FlyoutLink>
           </div>
 
+          <div
+            className="relative group"
+            onMouseEnter={() => handleMouseEnter("career")}
+            onMouseLeave={handleMouseLeave}
+          >
+            <FlyoutLink to="/career">Career</FlyoutLink>
+          </div>
+          <div
+            className="relative group"
+            onMouseEnter={() => handleMouseEnter("gallery")}
+            onMouseLeave={handleMouseLeave}
+          >
+            <FlyoutLink to="/gallery">Gallery</FlyoutLink>
+          </div>
           <div
             className="relative group"
             onMouseEnter={() => handleMouseEnter("contact")}
@@ -490,65 +496,6 @@ const Header = () => {
         )}
       </AnimatePresence>
 
-      {/* Offerings mega menu */}
-      <AnimatePresence>
-        {activeMenu === "offerings" && (
-          <>
-            {/* Invisible connector to prevent hover gap */}
-            <div
-              className="absolute left-0 w-full h-4 bg-transparent z-10"
-              onMouseEnter={() => handleMouseEnter("offerings")}
-            ></div>
-
-            <motion.div
-              className="absolute left-0 w-full bg-white border-b border-gray-200 shadow-md z-20"
-              onMouseEnter={() => handleMouseEnter("offerings")}
-              onMouseLeave={handleMouseLeave}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={menuVariants}
-            >
-              <div className="container mx-auto py-8 px-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <Link to="/offerings/it-products" className="group">
-                    <motion.h3
-                      className="font-semibold text-gray-900 text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Imperative IT Products
-                    </motion.h3>
-                    <p className="text-sm text-gray-600">AI-powered platforms for every industry.</p>
-                  </Link>
-
-                  <Link to="/offerings/it-services" className="group">
-                    <motion.h3
-                      className="font-semibold text-gray-900 text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Imperative IT services
-                    </motion.h3>
-                    <p className="text-sm text-gray-600">Custom development, automation, and integration.</p>
-                  </Link>
-
-                  <Link to="/offerings/smart-infra" className="group">
-                    <motion.h3
-                      className="font-semibold text-gray-900 text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300"
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      Imperative Smart Infra Products
-                    </motion.h3>
-                    <p className="text-sm text-gray-600">Industry-ready kiosks for seamless service delivery.</p>
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
 
       {/* Industries mega menu */}
       <AnimatePresence>
@@ -757,10 +704,10 @@ const Header = () => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {activeMenu === "contact" && (
+        {activeMenu === "gallery" && (
           <motion.div
             className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10"
-            onMouseEnter={() => handleMouseEnter("contact")}
+            onMouseEnter={() => handleMouseEnter("gallery")}
             onMouseLeave={handleMouseLeave}
             initial="hidden"
             animate="visible"
@@ -770,7 +717,7 @@ const Header = () => {
             <div className="space-y-1">
               <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                 <Link
-                  to="/contact/event"
+                  to="/gallery/event"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
                 >
                   Event
@@ -778,7 +725,7 @@ const Header = () => {
               </motion.div>
               <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                 <Link
-                  to="/contact/celebrations"
+                  to="/gallery/celebrations"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
                 >
                   Celebrations
@@ -786,7 +733,7 @@ const Header = () => {
               </motion.div>
               <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                 <Link
-                  to="/contact/press-release"
+                  to="/gallery/press-release"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-500 transition-colors duration-300"
                 >
                   Press Release
@@ -1051,10 +998,10 @@ const Header = () => {
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                           <Link to="/outsourcing/bpo/research-analysis" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Research and Analysis (R&A)
+                              Back-Office operations (Non-Voice)
                             </h4>
                             <p className="text-sm text-gray-600">
-                              Unlocking insights through data, trends, and strategy.
+                              Efficient support for core business tasks
                             </p>
                           </Link>
                         </motion.div>
@@ -1062,10 +1009,10 @@ const Header = () => {
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                           <Link to="/outsourcing/bpo/social-media" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Social Media Marketing
+                              Voice Support Services
                             </h4>
                             <p className="text-sm text-gray-600">
-                              Elevating brands with strategy, analytics, and engagement.
+                              Human-led,real-time customer assistance.
                             </p>
                           </Link>
                         </motion.div>
@@ -1073,9 +1020,9 @@ const Header = () => {
                         <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                           <Link to="/outsourcing/bpo/back-office" className="group">
                             <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Back-Office Operations (Non-VOICE)
+                              Ai Enabled Process Automation Platforms
                             </h4>
-                            <p className="text-sm text-gray-600">Efficient support for core business tasks.</p>
+                            <p className="text-sm text-gray-600">Smart bots driving process and accuracy.</p>
                           </Link>
                         </motion.div>
                       </motion.div>

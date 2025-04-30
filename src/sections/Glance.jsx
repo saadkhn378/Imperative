@@ -338,7 +338,7 @@ export function Glance() {
         `}
       </style>
 
-      <div className="glance-container">
+      <div className="font-met glance-container">
         {/* Title with underline exactly as in image */}
         <div
           ref={titleRef}

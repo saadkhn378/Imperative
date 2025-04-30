@@ -15,7 +15,6 @@ import AwardsRecognition from "./pages/AwardsRecognition";
 import Leadership from "./pages/Leadership";
 import OurTeam from "./pages/OurTeam";
 import PartnersShowcase from "./sections/PartnersShowcase";
-import ConsultingServices from "./sections/ConsultingServices";
 import { Glance } from "./sections/Glance";
 import PurposeSection from "./sections/PurposeSection";
 import GroupCompani from "./sections/GroupCompani";
@@ -28,6 +27,8 @@ import Retail from "./pages/industries/Retail";
 import Media from "./pages/industries/Media";
 import BackOffice from "./pages/industries/BackOffice";
 import Logistics from "./pages/industries/Logistics";
+import ResearchAnalysis from "./pages/outsourcing/bpo/ResearchAnalysis";
+import SocialMedia from "./pages/outsourcing/bpo/SocialMedia";
 
 function App() {
   return (
@@ -52,6 +53,8 @@ function App() {
             <Route path="/industries/media" element={<Media/>}/>
             <Route path="/industries/telecom" element={<BackOffice/>}/>
             <Route path="/industries/logistics" element={<Logistics/>}/>
+            <Route path="/outsourcing/bpo/research-analysis" element={<ResearchAnalysis/>}/>
+            <Route path="/outsourcing/bpo/social-media" element={<SocialMedia/>}/>
 
             <Route path="/" element={
               <>

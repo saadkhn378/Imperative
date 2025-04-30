@@ -420,7 +420,7 @@ function PartnersShowcase() {
         `}
       </style>
 
-      <div ref={showcaseRef} className="w-full max-w-[100vw] px-2 sm:px-4 py-6 sm:py-8 overflow-hidden">
+      <div ref={showcaseRef} className="font-met w-full max-w-[100vw] px-2 sm:px-4 py-6 sm:py-8 overflow-hidden">
         {/* Main Heading with Animation */}
         <div className="text-center mb-6 sm:mb-8 overflow-hidden">
           <h1
