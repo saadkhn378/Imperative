@@ -43,11 +43,13 @@ import ResearchDevelopment from "./pages/outsourcing/kpo/ResearchDevelopment";
 import Backofficeop from "./pages/outsourcing/bpo/Backofficeop";
 import Voicesupport from "./pages/outsourcing/bpo/Voicesupport";
 import ItServices from "./pages/technology/ITService";
+import ChatWidget from "./components/ChatWidget";
 
 function App() {
   return (
     <div className="flex flex-col min-h-screen">
       <Router>
+      <ChatWidget/>
         <Header />
         <main className="flex-1">
           <Routes>
