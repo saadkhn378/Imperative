@@ -291,7 +291,7 @@ const Header = () => {
   }, [activeTechSection])
 
   return (
-    <header className="font-met w-full relative border-b border-gray-200">
+    <header className="font-met w-full relative border-b border-gray-200 z-80">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
           <Link to="/">
@@ -947,11 +947,10 @@ const Header = () => {
                         className={`block ${activeTechSection === "digital-transformation" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
                         <h3
-                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
-                            activeTechSection === "digital-transformation"
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${activeTechSection === "digital-transformation"
                               ? "border-b border-orange-500"
                               : "border-b border-gray-200"
-                          }`}
+                            }`}
                         >
                           Imperative Digital Transformation
                         </h3>
@@ -961,64 +960,75 @@ const Header = () => {
                     <AnimatePresence>
                       {activeTechSection === "digital-transformation" && (
                         <motion.div
-                          className="mt-6 space-y-8"
+                          className="mt-6 space-y-8 "
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
                           exit={{ opacity: 0, height: 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                            <Link
-                              to="/technology/digital-transformation/platforms"
-                              onClick={(e) => {
-                                handleSubOptionClick("digital-platforms", e)
-                                // Allow navigation after state update
-                                setTimeout(() => {
-                                  window.location.href = "/technology/digital-transformation/platforms"
-                                }, 100)
-                              }}
-                              className="block"
+                          <div className="flex space-x-8">
+                            <motion.div
+                              whileHover={{ x: 5 }}
+                              transition={{ duration: 0.2 }}
+                              className="flex-1"
                             >
-                              <h4
-                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                  activeSubOption === "digital-platforms"
-                                    ? "text-orange-500"
-                                    : "text-gray-900 hover:text-orange-500"
-                                }`}
+                              <Link
+                                to="/technology/digital-transformation/platforms"
+                                onClick={(e) => {
+                                  handleSubOptionClick("digital-platforms", e);
+                                  setTimeout(() => {
+                                    window.location.href = "/technology/digital-transformation/platforms";
+                                  }, 100);
+                                }}
+                                className="block"
                               >
-                                Digital Platforms
-                              </h4>
-                              <p className="text-sm text-gray-600">AI-powered platforms for every industry.</p>
-                            </Link>
-                          </motion.div>
+                                <h4
+                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "digital-platforms"
+                                      ? "text-orange-500"
+                                      : "text-gray-900 hover:text-orange-500"
+                                    }`}
+                                >
+                                  Digital Platforms
+                                </h4>
+                                <p className="text-sm text-gray-600">
+                                  AI-powered platforms for every industry.
+                                </p>
+                              </Link>
+                            </motion.div>
 
-                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                            <Link
-                              to="/technology/digital-transformation/services"
-                              onClick={(e) => {
-                                handleSubOptionClick("digital-services", e)
-                                // Allow navigation after state update
-                                setTimeout(() => {
-                                  window.location.href = "/technology/digital-transformation/services"
-                                }, 100)
-                              }}
-                              className="block"
+                            <motion.div
+                              whileHover={{ x: 5 }}
+                              transition={{ duration: 0.2 }}
+                              className="flex-1"
                             >
-                              <h4
-                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                  activeSubOption === "digital-services"
-                                    ? "text-orange-500"
-                                    : "text-gray-900 hover:text-orange-500"
-                                }`}
+                              <Link
+                                to="/technology/digital-transformation/services"
+                                onClick={(e) => {
+                                  handleSubOptionClick("digital-services", e);
+                                  setTimeout(() => {
+                                    window.location.href = "/technology/digital-transformation/services";
+                                  }, 100);
+                                }}
+                                className="block"
                               >
-                                Digital Services
-                              </h4>
-                              <p className="text-sm text-gray-600">Custom development, automation, and integration.</p>
-                            </Link>
-                          </motion.div>
+                                <h4
+                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "digital-services"
+                                      ? "text-orange-500"
+                                      : "text-gray-900 hover:text-orange-500"
+                                    }`}
+                                >
+                                  Digital Services
+                                </h4>
+                                <p className="text-sm text-gray-600">
+                                  Custom development, automation, and integration.
+                                </p>
+                              </Link>
+                            </motion.div>
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
+
                   </div>
 
                   <div>
@@ -1038,11 +1048,10 @@ const Header = () => {
                         className={`block ${activeTechSection === "smart-infrastructure" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
                         <h3
-                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
-                            activeTechSection === "smart-infrastructure"
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${activeTechSection === "smart-infrastructure"
                               ? "border-b border-orange-500"
                               : "border-b border-gray-200"
-                          }`}
+                            }`}
                         >
                           Imperative- Smart Infrastructure
                         </h3>
@@ -1071,11 +1080,10 @@ const Header = () => {
                               className="block"
                             >
                               <h4
-                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                  activeSubOption === "smart-infra-products"
+                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "smart-infra-products"
                                     ? "text-orange-500"
                                     : "text-gray-900 hover:text-orange-500"
-                                }`}
+                                  }`}
                               >
                                 Imperative Smart Infra Products
                               </h4>
@@ -1164,9 +1172,8 @@ const Header = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <h3
-                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${
-                          activeOutsourcingSection === "bpo" ? "border-b-2 border-orange-500" : ""
-                        }`}
+                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${activeOutsourcingSection === "bpo" ? "border-b-2 border-orange-500" : ""
+                          }`}
                       >
                         Business Process Outsourcing (BPO)
                       </h3>
@@ -1179,9 +1186,8 @@ const Header = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <h3
-                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${
-                          activeOutsourcingSection === "kpo" ? "border-b-2 border-orange-500" : ""
-                        }`}
+                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${activeOutsourcingSection === "kpo" ? "border-b-2 border-orange-500" : ""
+                          }`}
                       >
                         Knowledge Process Outsourcing (KPO)
                       </h3>
