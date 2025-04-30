@@ -65,18 +65,18 @@ const ResearchDevelopment = () => {
   // Data
   const services = [
     {
-      title: "Data Analytics",
-      description: "Transform raw data into predictive models and strategic dashboards.",
+      title: "Engineering Design",
+      description: "Develop 2D/3D models, run simulations, and create proof-of-concepts.",
       icon: barChartIcon,
     },
     {
-      title: "Market Research",
-      description: "Analyze customer behavior, competitor trends, and industry dynamics.",
+      title: "Product Development",
+      description: "Rapid prototyping, iterative testing, and validation through agile sprints.",
       icon: lineChartIcon,
     },
     {
-      title: "Business Research",
-      description: "Evaluate business models, financial outlooks, and new market opportunities.",
+      title: "Material Research",
+      description: "Explore sustainable, high-performance materials tailored to product needs.",
       icon: usersIcon,
     },
   ];
@@ -102,36 +102,35 @@ const ResearchDevelopment = () => {
 
   const trends = [
     {
-        title: "Video-First Content Strategy",
-        description: "Short-form video content continues to dominate engagement metrics across all major platforms.",
-        image:
-          "https://images.unsplash.com/photo-1626785774573-4b799315345d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
-      },
-      {
-        title: "Social Commerce Integration",
-        description: "Seamless shopping experiences embedded directly within social media platforms drive conversions.",
-        image:
-          "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      },
-      {
-        title: "AI-Powered Personalization",
-        description: "Machine learning algorithms deliver hyper-personalized content to specific audience segments.",
-        image:
-          "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      },
-      {
-        title: "Authentic Community Building",
-        description: "Brands focus on creating genuine connections through transparent and values-driven content.",
-        image:
-          "https://images.unsplash.com/photo-1556155092-490a1ba16284?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      },
-      {
-        title: "Cross-Platform Content Strategy",
-        description:
-          "Integrated approaches that maintain brand consistency while optimizing for each platform's unique features.",
-        image:
-          "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
-      },
+      title: "AI-Driven Research",
+      description: "Machine learning algorithms accelerating discovery and innovation processes.",
+      image:
+        "https://images.unsplash.com/photo-1740677335600-66c45c5b8d79?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+    {
+      title: "Open Innovation Models",
+      description: "Collaborative ecosystems breaking down traditional R&D barriers for faster breakthroughs.",
+      image:
+        "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    },
+    {
+      title: "Sustainable Development",
+      description: "Research focused on environmentally responsible products and processes.",
+      image:
+        "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80",
+    },
+    {
+      title: "Digital Twin Technology",
+      description: "Virtual replicas enabling advanced simulation and testing of products before physical production.",
+      image:
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    },
+    {
+      title: "Quantum Computing Applications",
+      description: "Leveraging quantum capabilities to solve previously impossible research challenges.",
+      image:
+        "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    },
   ];
 
   return (
@@ -139,8 +138,8 @@ const ResearchDevelopment = () => {
       {/* Hero Section */}
       <section className="relative w-full h-[600px] overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
-          alt="Social media marketing concept with smartphone and social icons"
+          src="https://plus.unsplash.com/premium_photo-1663047132722-024ff0ef9517?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Scientists working in a modern research laboratory"
           className="absolute inset-0 w-full h-full object-cover brightness-50"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
@@ -161,8 +160,8 @@ const ResearchDevelopment = () => {
             <AnimatedSection animation="slideRight">
               <div className="relative h-[450px] rounded-lg overflow-hidden shadow-xl">
                 <img
-                  src="https://images.unsplash.com/photo-1611926653458-09294b3142bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                  alt="Social media marketing strategy planning"
+                  src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  alt="Research scientists analyzing data and conducting experiments"
                   className="absolute inset-0 w-full h-full object-cover"
                 />
               </div>
@@ -176,24 +175,12 @@ const ResearchDevelopment = () => {
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={200}>
                 <p className="text-gray-700 mb-6 text-lg">
-                  In an era defined by rapid change, fierce competition, and ever-evolving consumer expectations,
-                  organizations can no longer rely on intuition alone to drive growth. Making informed, timely decisions
-                  has become a critical differentiator—and this is where Imperative's Research & Analysis (R&A) services
-                  step in.
-                </p>
-              </AnimatedSection>
-              <AnimatedSection animation="fadeIn" delay={300}>
-                <p className="text-gray-700 mb-6 text-lg">
-                  We help businesses cut through complexity with precision, turning scattered data into strategic
-                  intelligence.
+                At Imperative, we accelerate the journey from concept to commercialization. Our R&D services are designed to turn bold ideas into tangible, market-ready products. We work closely with clients to bring structure, speed, and precision to the innovation process. Using agile development, we rapidly prototype, test, and refine ideas. Our engineering design capabilities allow us to simulate, model, and validate early concepts effectively. 
                 </p>
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={400}>
                 <p className="text-gray-700 mb-10 text-lg">
-                  By leveraging advanced analytics, deep domain expertise, and industry benchmarking, our R&A platforms
-                  deliver real-time, research-backed insights that enable smarter decisions, reduce risks, and uncover
-                  hidden opportunities. Whether it's understanding customer behavior, tracking competitive moves, or
-                  evaluating new markets, our insights empower leaders to act with clarity and confidence.
+                Collaboration is at the core of our approach, ensuring cross-functional alignment and faster iteration. With Imperative, innovation isn’t just a goal—it’s a process we help you master.
                 </p>
               </AnimatedSection>
               <AnimatedSection animation="slideUp" delay={500}>
@@ -220,8 +207,7 @@ const ResearchDevelopment = () => {
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-16 text-lg">
-              Our comprehensive suite of social media marketing services is designed to elevate your brand's digital
-              presence and drive meaningful engagement across all platforms.
+            Our R&D services are tailored to support every stage of the innovation lifecycle—combining design, development, and emerging technologies to bring ideas to life.
             </p>
           </AnimatedSection>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -260,8 +246,8 @@ const ResearchDevelopment = () => {
             className="absolute right-0 top-12 w-[45%] h-[550px] z-10 hidden lg:block"
           >
             <img
-              src="https://images.unsplash.com/photo-1611162618071-b39a2ec055fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
-              alt="Social media marketing dashboard with analytics"
+              src="https://plus.unsplash.com/premium_photo-1663045354422-344ef4642ebf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Advanced laboratory equipment and research setup"
               className="w-full h-full object-cover rounded-l-lg shadow-xl"
             />
           </AnimatedSection>
@@ -314,7 +300,7 @@ const ResearchDevelopment = () => {
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-6 text-lg">
-            Partnering with Imperative means gaining a research-driven edge—where expert teams, smart reporting, and strategic alignment come together to drive smarter decisions.
+            We bring together the right mix of talent, tools, and trust to turn your R&D vision into a validated, market-ready product.
             </p>
           </AnimatedSection>
           <AnimatedSection animation="scaleUp" delay={300}>
@@ -330,15 +316,15 @@ const ResearchDevelopment = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Multi-Domain Research Teams</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">MVP EXCELLENCE</h3>
                   <p className="text-gray-700 mb-6 text-lg">
-                  Leverage expertise across various industries to get comprehensive, nuanced insights tailored to your business
+                  With a strong track record in building and delivering minimum viable products, we help you launch faster and smarter
                   </p>
                 </div>
                 <div className="relative h-[320px] md:flex-1">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80"
-                    alt="Social media platforms on smartphone"
+                    src="https://plus.unsplash.com/premium_photo-1663013593208-94a166250fcd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Scientists analyzing research results and outcomes"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.10 }}
                     transition={{ duration: 0.5 }}
@@ -355,15 +341,15 @@ const ResearchDevelopment = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Visual & Interactive Reporting</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">SEAMLESS INTEGRATION</h3>
                   <p className="text-gray-700 text-lg">
-                  Clear, engaging dashboards for easy data interpretation
+                  We specialize in integrating hardware and software for cohesive, intelligent product solutions.
                   </p>
                 </div>
                 <div className="relative h-[160px]">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Data analytics dashboard"
+                    src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="Scientific research and data analysis"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -379,15 +365,15 @@ const ResearchDevelopment = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Fast & Accurate Delivery</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">TRUSTED IP PRACTICES</h3>
                   <p className="text-gray-700 text-lg">
-                  Quick turnaround without compromising precision.
+                  Your ideas are protected through secure, reliable intellectual property management systems.
                   </p>
                 </div>
                 <div className="relative h-[160px]">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Creative team brainstorming"
+                    src="https://images.unsplash.com/photo-1576670158706-8d5b044b61da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Advanced research technology and equipment"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -404,15 +390,15 @@ const ResearchDevelopment = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 relative z-10 md:max-w-[55%]">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Strategy-Ready Insights</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">CROSS-FUNCTIONAL EXPERTISE</h3>
                   <p className="text-gray-700 text-lg">
-                  Our research seamlessly blends into your decision-making processes, turning insights into tangible business actions
+                  Our teams combine deep technical knowledge with design thinking and strategic insight.
                   </p>
                 </div>
                 <div className="absolute right-0 top-0 w-[45%] h-full">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                    alt="Integrated marketing team meeting"
+                    src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                    alt="Research team collaborating on scientific project"
                     className="absolute inset-0 w-full h-full object-cover"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
@@ -428,12 +414,11 @@ const ResearchDevelopment = () => {
       <section className="py-28 bg-white mt-10">
         <div className="container mx-auto px-4">
           <AnimatedSection animation="slideUp">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-5">RESEARCH AND ANALYSIS (R&A) TRENDS</h2>
+            <h2 className="text-4xl font-bold text-center text-gray-800 mb-5"> INDUSTRY TRENDS WE’RE TAPPING INTO</h2>
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-6 text-lg">
-              The future of research lies in blending AI, real-time data, and human-centric storytelling to drive
-              smarter, faster decision-making.
+            We embrace emerging R&D trends that push the boundaries of innovation and help bring the next
             </p>
           </AnimatedSection>
           <AnimatedSection animation="scaleUp" delay={300}>

@@ -39,6 +39,7 @@ import SocialMedia from "./pages/outsourcing/kpo/SocialMedia";
 import ResearchAnalysis from "./pages/outsourcing/kpo/ResearchAnalysis";
 import HealthCare from "./pages/outsourcing/kpo/Healthcare";
 import LegalProcess from "./pages/outsourcing/kpo/LegalProcess";
+import ResearchDevelopment from "./pages/outsourcing/kpo/ResearchDevelopment";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
             <Route path="/outsourcing/kpo/social-media" element={<SocialMedia />} />
             <Route path="/outsourcing/kpo/healthcare" element={<HealthCare />} />
             <Route path="/outsourcing/kpo/lpo" element={<LegalProcess />} />
+            <Route path="/outsourcing/kpo/research-development" element={<ResearchDevelopment />} />
 
             {/* Other Pages */}
             <Route path="/digital-product" element={<DigitalProduct />} />

@@ -88,20 +88,20 @@ const ResearchAnalysis = () => {
 
   const realWorldImpacts = [
     {
-      title: "Faster Time-to-Market",
-      description: "Cut go-to-market time by 40% through rapid, agile development cycles.",
+      title: "Boosted Sales Conversions",
+      description: "Achieved a 35% increase in conversions through targeted market segmentation strategies.",
     },
     {
-      title: "Innovation That Protects",
-      description: "Supported 10+ client patent filings with inventive design and technical validation.",
+      title: "Delivered Actionable Dashboards",
+      description: "Created and deployed over 100 AI-powered dashboards to support data-driven decision-making.",
     },
     {
-      title: "Smarter Prototyping",
-      description: "Improved prototype success rates using simulation-driven design processes.",
+      title: " Minimized Market-Entry Risk",
+      description: "Reduced risks associated with new market entry using deep competitor intelligence and benchmarking.",
     },
     {
-      title: "Cost-Efficient Solutions",
-      description: "Reduced product development costs by 25% through optimized material selection and design efficiency.",
+      title: " Improved Strategic Agility",
+      description: "Enabled faster, more informed responses to market shifts through real-time analytics and reporting.",
     },
   ];
 
@@ -219,8 +219,7 @@ const ResearchAnalysis = () => {
           </AnimatedSection>
           <AnimatedSection animation="fadeIn" delay={200}>
             <p className="text-center text-gray-700 max-w-3xl mx-auto mb-16 text-lg">
-              Our comprehensive suite of research and analytics services is designed to deliver actionable insights that
-              support strategic planning, operational efficiency, and market leadership.
+            Our insights don’t just inform—they transform by translating complex data into clear, strategic actions that have helped clients across industries boost performance, optimize decision-making, and unlock new growth opportunities with measurable, real-world results.
             </p>
           </AnimatedSection>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -327,7 +326,7 @@ const ResearchAnalysis = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Multi-Domain Research Teams</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">MULTI-DOMAIN RESEARCH TEAMS</h3>
                   <p className="text-gray-700 mb-6 text-lg">
                   Leverage expertise across various industries to get comprehensive, nuanced insights tailored to your business
                   </p>
@@ -352,7 +351,7 @@ const ResearchAnalysis = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Visual & Interactive Reporting</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">VISUAL & INTERACTIVE REPORTING</h3>
                   <p className="text-gray-700 text-lg">
                   Clear, engaging dashboards for easy data interpretation
                   </p>
@@ -376,7 +375,7 @@ const ResearchAnalysis = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 flex-1">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">Fast & Accurate Delivery</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4">FAST & ACCURATE DELIVERY</h3>
                   <p className="text-gray-700 text-lg">
                   Quick turnaround without compromising precision.
                   </p>
@@ -401,7 +400,7 @@ const ResearchAnalysis = () => {
                 transition={{ duration: 0.3 }}
               >
                 <div className="p-10 relative z-10 md:max-w-[55%]">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-6">Strategy-Ready Insights</h3>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-6">STRATEGY-READY INSIGHTS</h3>
                   <p className="text-gray-700 text-lg">
                   Our research seamlessly blends into your decision-making processes, turning insights into tangible business actions
                   </p>
