@@ -145,10 +145,10 @@ const ResearchDevelopment = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
           <AnimatedSection animation="slideUp">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">RESEARCH AND ANALYSIS (R&A)</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">RESEARCH & DEVELOPMENT (R&D)</h1>
           </AnimatedSection>
           <AnimatedSection animation="slideUp" delay={200}>
-            <p className="text-xl md:text-2xl text-white/90 max-w-2xl">Informed Decisions Powered by Insights</p>
+            <p className="text-xl md:text-2xl text-white/90 max-w-2xl">Accelerating Innovation through Applied R&D</p>
           </AnimatedSection>
         </div>
       </section>
