@@ -16,7 +16,7 @@ const fadeInUp = {
 
 const BenefitsSection = () => {
   return (
-    <section className="bg-white px-4 md:px-16 py-16">
+    <section className="font-met bg-white px-4 md:px-16 py-16">
       {/* Header */}
       <div className="text-center mb-10">
         <h2 className="text-[16px] font-bold uppercase text-gray-800">

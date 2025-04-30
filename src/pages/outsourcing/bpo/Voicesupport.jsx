@@ -263,7 +263,7 @@ const Voicesupport = () => {
               </AnimatedSection>
               <AnimatedSection animation="fadeIn" delay={200}>
                 <p className="text-gray-700 text-lg">
-                  Our tailored back-office solutions have created measurable impact by significantly enhancing operational efficiency, ensuring near-perfect accuracy, and enabling seamless scalability for enterprises across BFSI, insurance, telecom, and other demanding industries—proving that smart process design combined with expert execution drives lasting value.
+                At Imperative, every customer interaction is an opportunity to deliver real value—boosting satisfaction, streamlining operations, and supporting business growth. Our voice support goes beyond answering calls, focusing on fast resolution, trust-building, and data-driven insights.
                 </p>
               </AnimatedSection>
             </div>

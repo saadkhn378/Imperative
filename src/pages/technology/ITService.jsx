@@ -9,7 +9,7 @@ import StaffAugmentationSection from '../../components/IT services/StaffAugmenta
 
 const ItServices = () => {
   return (
-    <div className="w-full">
+    <div className="w-full font-met">
     <HeroBanner/>
    <Differentiators/>
    <WhatWeDoSlider/>
