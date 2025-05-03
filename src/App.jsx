@@ -105,9 +105,8 @@ function App() {
             <Route path="/outsourcing/kpo/lpo" element={<LegalProcess />} />
             <Route path="/outsourcing/kpo/research-development" element={<ResearchDevelopment />} />
 
-            consulting/cyber-assurance
+
             <Route path="/consulting/cyber-assurance" element={<CyberAssurence />} />
-            consulting/system-integration
             <Route path="/consulting/system-integration" element={<Systeminte />} />
 
 

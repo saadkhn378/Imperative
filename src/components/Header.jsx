@@ -227,6 +227,11 @@ const Header = () => {
     e.preventDefault()
     setActiveTechSection(section)
     setActiveSubOption(null) // Reset sub-option when changing sections
+
+    // Remove or comment out the following setTimeout block that causes navigation
+    // setTimeout(() => {
+    //   window.location.href = "/technology/digital-transformation"
+    // }, 100)
   }
 
   const handleOutsourcingSectionClick = (section, e) => {
@@ -234,19 +239,16 @@ const Header = () => {
     setActiveOutsourcingSection(section)
     setActiveSubOption(null) // Reset sub-option when changing sections
 
-    // Add a small delay to ensure state updates before animations
-    setTimeout(() => {
-      // Force a re-render by toggling a state
-      setActiveOutsourcingOption((prev) => {
-        if (prev) return "outsourcing"
-        return prev
-      })
-    }, 10)
+    // No need for setTimeout or state toggling that might cause issues
   }
 
   const handleSubOptionClick = (option, e) => {
     e.preventDefault()
     setActiveSubOption(option)
+    // Remove or comment out the following setTimeout block
+    // setTimeout(() => {
+    //   window.location.href = "/technology/digital-transformation/platforms"
+    // }, 100)
   }
 
   // Header load animation variants
@@ -453,10 +455,10 @@ const Header = () => {
       animate="visible"
       variants={headerContainerVariants}
     >
-      <div className="container mx-auto px-4 py-2 flex justify-center items-center">
+      <div className="container mx-auto px-4 py-1 flex justify-center items-center">
         <nav className="hidden md:flex items-center">
           <motion.div
-            className="relative group px-4"
+            className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("investors")}
             onMouseLeave={handleMouseLeave}
@@ -483,7 +485,7 @@ const Header = () => {
           </motion.span>
 
           <motion.div
-            className="relative group px-4"
+            className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("knowledge")}
             onMouseLeave={handleMouseLeave}
@@ -510,7 +512,7 @@ const Header = () => {
           </motion.span>
 
           <motion.div
-            className="relative group px-4"
+            className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("career")}
             onMouseLeave={handleMouseLeave}
@@ -537,7 +539,7 @@ const Header = () => {
           </motion.span>
 
           <motion.div
-            className="relative group px-4"
+            className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("gallery")}
             onMouseLeave={handleMouseLeave}
@@ -564,7 +566,7 @@ const Header = () => {
           </motion.span>
 
           <motion.div
-            className="relative group px-4"
+            className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("contact")}
             onMouseLeave={handleMouseLeave}
@@ -586,7 +588,7 @@ const Header = () => {
       <div className="relative">
         <div className="container mx-auto">
           <motion.nav
-            className="hidden md:flex items-center justify-center space-x-14 py-6"
+            className="hidden md:flex items-center justify-center space-x-10 py-3"
             variants={secondaryNavVariants}
             initial="hidden"
             animate="visible"
@@ -599,7 +601,7 @@ const Header = () => {
                 whileHover="hover"
                 className="overflow-hidden"
               >
-                <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-12 w-auto" />
+                <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-10 w-auto" />
               </motion.div>
             </Link>
             <motion.div className="relative" variants={secondaryNavItemVariants}>
@@ -771,6 +773,7 @@ const Header = () => {
           </motion.nav>
         </div>
       </div>
+      {/* Remove this entire div block
       <div>
         <div className="container mx-auto">
           <AnimatePresence>
@@ -846,7 +849,7 @@ const Header = () => {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </div> */}
       {/* Company mega menu */}
       <AnimatePresence>
         {activeMenu === "company" && (
@@ -1298,10 +1301,10 @@ const Header = () => {
                         to="/technology/digital-transformation"
                         onClick={(e) => {
                           handleTechSectionClick("digital-transformation", e)
-                          // Allow navigation after state update
-                          setTimeout(() => {
-                            window.location.href = "/technology/digital-transformation"
-                          }, 100)
+                          // Remove or comment out the following setTimeout block
+                          // setTimeout(() => {
+                          //   window.location.href = "/technology/digital-transformation"
+                          // }, 100)
                         }}
                         className={`block ${activeTechSection === "digital-transformation" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
@@ -1331,10 +1334,8 @@ const Header = () => {
                               <Link
                                 to="/technology/digital-transformation/platforms"
                                 onClick={(e) => {
-                                  handleSubOptionClick("digital-platforms", e)
-                                  setTimeout(() => {
-                                    window.location.href = "/technology/digital-transformation/platforms"
-                                  }, 100)
+                                  // Only update the state, but allow navigation
+                                  setActiveSubOption("digital-platforms")
                                 }}
                                 className="block"
                               >
@@ -1355,10 +1356,8 @@ const Header = () => {
                               <Link
                                 to="/technology/digital-transformation/services"
                                 onClick={(e) => {
-                                  handleSubOptionClick("digital-services", e)
-                                  setTimeout(() => {
-                                    window.location.href = "/technology/digital-transformation/services"
-                                  }, 100)
+                                  // Only update the state, but allow navigation
+                                  setActiveSubOption("digital-services")
                                 }}
                                 className="block"
                               >
@@ -1391,10 +1390,10 @@ const Header = () => {
                         to="/technology/smart-infrastructure"
                         onClick={(e) => {
                           handleTechSectionClick("smart-infrastructure", e)
-                          // Allow navigation after state update
-                          setTimeout(() => {
-                            window.location.href = "/technology/smart-infrastructure"
-                          }, 100)
+                          // Remove or comment out the following setTimeout block
+                          // setTimeout(() => {
+                          //   window.location.href = "/technology/smart-infrastructure"
+                          // }, 100)
                         }}
                         className={`block ${activeTechSection === "smart-infrastructure" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
@@ -1420,24 +1419,8 @@ const Header = () => {
                           transition={{ duration: 0.3 }}
                         >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                            <Link
-                              to="/technology/smart-infrastructure/products"
-                              onClick={(e) => {
-                                handleSubOptionClick("smart-infra-products", e)
-                                // Allow navigation after state update
-                                setTimeout(() => {
-                                  window.location.href = "/technology/smart-infrastructure/products"
-                                }, 100)
-                              }}
-                              className="block"
-                            >
-                              <h4
-                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
-                                  activeSubOption === "smart-infra-products"
-                                    ? "text-orange-500"
-                                    : "text-gray-900 hover:text-orange-500"
-                                }`}
-                              >
+                            <Link to="/technology/smart-infrastructure/products" className="block">
+                              <h4 className="font-semibold text-lg mb-2 text-gray-900 hover:text-orange-500 transition-colors duration-300">
                                 Imperative Smart Infra Products
                               </h4>
                               <p className="text-sm text-gray-600">
@@ -1445,54 +1428,6 @@ const Header = () => {
                               </p>
                             </Link>
                           </motion.div>
-
-                          <AnimatePresence>
-                            {activeSubOption === "smart-infra-products" && (
-                              <motion.div
-                                className="mt-4 ml-4 border-l-2 border-orange-500 pl-4 pt-2"
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                <ul className="space-y-2">
-                                  <motion.li
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                  >
-                                    <Link
-                                      to="/technology/smart-infrastructure/products/kiosks"
-                                      className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
-                                    >
-                                      Self-Service Kiosks
-                                    </Link>
-                                  </motion.li>
-                                  <motion.li
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                  >
-                                    <Link
-                                      to="/technology/smart-infrastructure/products/displays"
-                                      className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
-                                    >
-                                      Smart Display Solutions
-                                    </Link>
-                                  </motion.li>
-                                  <motion.li
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                                  >
-                                    <Link
-                                      to="/technology/smart-infrastructure/products/terminals"
-                                      className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
-                                    >
-                                      Interactive Terminals
-                                    </Link>
-                                  </motion.li>
-                                </ul>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -1558,16 +1493,38 @@ const Header = () => {
                     </motion.a>
                   </div>
 
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                     {activeOutsourcingSection === "bpo" && (
                       <motion.div
                         className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            duration: 0.4,
+                            ease: [0.22, 1, 0.36, 1],
+                            staggerChildren: 0.05,
+                            delayChildren: 0.1,
+                          },
+                        }}
+                        exit={{
+                          opacity: 0,
+                          y: 10,
+                          transition: {
+                            duration: 0.3,
+                          },
+                        }}
                       >
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/bpo/backoffice" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1578,7 +1535,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/bpo/voice-support" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1589,7 +1554,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/bpo/ai-process" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1603,22 +1576,38 @@ const Header = () => {
                     )}
                   </AnimatePresence>
 
-                  <AnimatePresence>
+                  <AnimatePresence mode="wait">
                     {activeOutsourcingSection === "kpo" && (
                       <motion.div
                         className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                        initial={{ opacity: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{
                           opacity: 1,
+                          y: 0,
                           transition: {
+                            duration: 0.4,
+                            ease: [0.22, 1, 0.36, 1],
                             staggerChildren: 0.05,
                             delayChildren: 0.1,
                           },
                         }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
+                        exit={{
+                          opacity: 0,
+                          y: 10,
+                          transition: {
+                            duration: 0.3,
+                          },
+                        }}
                       >
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/kpo/research-analysis" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1631,7 +1620,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/kpo/research-development" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1644,7 +1641,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/kpo/lpo" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1657,7 +1662,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.3 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/kpo/social-media" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
@@ -1670,7 +1683,15 @@ const Header = () => {
                           </motion.div>
                         </motion.div>
 
-                        <motion.div variants={menuItemVariants}>
+                        <motion.div
+                          variants={{
+                            hidden: { opacity: 0, y: 20 },
+                            visible: { opacity: 1, y: 0 },
+                          }}
+                          initial="hidden"
+                          animate="visible"
+                          transition={{ duration: 0.3, delay: 0.4 }}
+                        >
                           <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
                             <Link to="/outsourcing/kpo/healthcare" className="group">
                               <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
