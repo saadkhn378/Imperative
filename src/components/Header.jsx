@@ -22,11 +22,6 @@ import mediaIcon from "../assets/icons/media-icon.svg"
 import logisticsIcon from "../assets/icons/logistics-icon.svg"
 import travelIcon from "../assets/icons/travel-icon.svg"
 
-// Remove these icon imports that are no longer needed
-// import eventIcon from "../assets/icons/event-icon.svg"
-// import celebrationsIcon from "../assets/icons/celebrations-icon.svg"
-// import pressReleaseIcon from "../assets/icons/press-icon.svg"
-
 const Header = () => {
   const [hoverTimeout, setHoverTimeout] = useState(null)
   const [activeMenu, setActiveMenu] = useState(null)
@@ -37,6 +32,7 @@ const Header = () => {
   const [activeTechSection, setActiveTechSection] = useState("digital-transformation")
   const [activeOutsourcingSection, setActiveOutsourcingSection] = useState("bpo")
   const [activeSubOption, setActiveSubOption] = useState(null)
+  const [headerLoaded, setHeaderLoaded] = useState(false)
 
   const techMenuRef = useRef(null)
   const techLinkRef = useRef(null)
@@ -45,6 +41,15 @@ const Header = () => {
   const consultingMenuRef = useRef(null)
   const consultingLinkRef = useRef(null)
   const industriesLinkRef = useRef(null)
+
+  // Set header as loaded after a small delay for animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHeaderLoaded(true)
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   // Handle clicks outside to close menus
   useEffect(() => {
@@ -228,6 +233,15 @@ const Header = () => {
     e.preventDefault()
     setActiveOutsourcingSection(section)
     setActiveSubOption(null) // Reset sub-option when changing sections
+
+    // Add a small delay to ensure state updates before animations
+    setTimeout(() => {
+      // Force a re-render by toggling a state
+      setActiveOutsourcingOption((prev) => {
+        if (prev) return "outsourcing"
+        return prev
+      })
+    }, 10)
   }
 
   const handleSubOptionClick = (option, e) => {
@@ -235,52 +249,194 @@ const Header = () => {
     setActiveSubOption(option)
   }
 
-  // Animation variants
-  const menuVariants = {
+  // Header load animation variants
+  const headerContainerVariants = {
+    hidden: {
+      opacity: 0,
+      y: -20,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const logoVariants = {
+    hidden: {
+      opacity: 0,
+      x: -20,
+      scale: 0.8,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+        duration: 0.7,
+      },
+    },
+    hover: {
+      scale: 1.05,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 10,
+      },
+    },
+  }
+
+  const navItemVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+      },
+    },
+  }
+
+  const secondaryNavVariants = {
     hidden: { opacity: 0, y: -5 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.3,
-        ease: "easeOut",
+        delay: 0.3,
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.05,
+        delayChildren: 0.4,
+      },
+    },
+  }
+
+  const secondaryNavItemVariants = {
+    hidden: { opacity: 0, y: -5 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 15,
+      },
+    },
+  }
+
+  // Enhanced animation variants
+  const menuVariants = {
+    hidden: {
+      opacity: 0,
+      y: -10,
+      clipPath: "inset(0% 0% 100% 0%)",
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      clipPath: "inset(0% 0% 0% 0%)",
+      transition: {
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
       },
     },
     exit: {
       opacity: 0,
       y: -5,
+      clipPath: "inset(0% 0% 100% 0%)",
       transition: {
-        duration: 0.2,
-        ease: "easeIn",
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  }
+
+  const menuItemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   }
 
   const indicatorVariants = {
-    hidden: { scaleX: 0 },
+    hidden: { scaleX: 0, opacity: 0 },
     visible: {
       scaleX: 1,
+      opacity: 1,
       transition: {
-        duration: 0.3,
-        ease: "easeOut",
+        duration: 0.4,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
     exit: {
       scaleX: 0,
+      opacity: 0,
       transition: {
-        duration: 0.2,
-        ease: "easeIn",
+        duration: 0.3,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   }
 
   const iconHoverVariants = {
-    initial: { scale: 1 },
+    initial: { scale: 1, rotate: 0 },
     hover: {
       scale: 1.1,
+      rotate: [0, -5, 5, -3, 3, 0],
       transition: {
-        duration: 0.2,
+        duration: 0.6,
         ease: "easeOut",
+        rotate: {
+          duration: 0.5,
+          ease: "easeInOut",
+        },
+      },
+    },
+  }
+
+  const dividerVariants = {
+    hidden: { opacity: 0, height: "0%" },
+    visible: {
+      opacity: 0.5,
+      height: "50%",
+      transition: {
+        delay: 0.5,
+        duration: 0.4,
+      },
+    },
+    hover: {
+      opacity: 1,
+      height: "80%",
+      transition: { duration: 0.3 },
+    },
+  }
+
+  const borderVariants = {
+    hidden: { scaleX: 0 },
+    visible: {
+      scaleX: 1,
+      transition: {
+        delay: 0.6,
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
       },
     },
   }
@@ -291,219 +447,336 @@ const Header = () => {
   }, [activeTechSection])
 
   return (
-    <header className="font-met w-full relative border-b border-gray-200 z-80">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center">
-          <Link to="/">
-            <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.2 }}>
-              <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-10 w-auto" />
-            </motion.div>
-          </Link>
-        </div>
-
-        <nav className="hidden md:flex items-center space-x-8">
-          <div
-            className="relative group"
-            onMouseEnter={() => handleMouseEnter("company")}
-            onMouseLeave={handleMouseLeave}
-          >
-            <FlyoutLink to="/company">Company</FlyoutLink>
-          </div>
-
-          {/*1. First, remove the Industries section from the primary navigation by deleting or commenting out this block (around line 180-185):*/}
-          {/*<div*/}
-          {/*  className="relative group"*/}
-          {/*  onMouseEnter={() => handleMouseEnter("industries")}*/}
-          {/*  onMouseLeave={handleMouseLeave}*/}
-          {/*>*/}
-          {/*  <FlyoutLink to="/industries">Industries</FlyoutLink>*/}
-          {/*</div>*/}
-
-          <div
-            className="relative group"
+    <motion.header
+      className="font-met w-full relative border-b border-gray-200 z-80"
+      initial="hidden"
+      animate="visible"
+      variants={headerContainerVariants}
+    >
+      <div className="container mx-auto px-4 py-2 flex justify-center items-center">
+        <nav className="hidden md:flex items-center">
+          <motion.div
+            className="relative group px-4"
+            variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("investors")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/investors">Investors</FlyoutLink>
-          </div>
+            <FlyoutLink to="/investors">
+              <motion.span
+                initial={{ y: 0 }}
+                whileHover={{ y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                Investors
+              </motion.span>
+            </FlyoutLink>
+          </motion.div>
 
-          <div
-            className="relative group"
+          <motion.span
+            className="text-gray-500"
+            variants={dividerVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+          >
+            |
+          </motion.span>
+
+          <motion.div
+            className="relative group px-4"
+            variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("knowledge")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/knowledge">Knowledge</FlyoutLink>
-          </div>
+            <FlyoutLink to="/knowledge">
+              <motion.span
+                initial={{ y: 0 }}
+                whileHover={{ y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                Knowledge
+              </motion.span>
+            </FlyoutLink>
+          </motion.div>
 
-          <div
-            className="relative group"
+          <motion.span
+            className="text-gray-500"
+            variants={dividerVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+          >
+            |
+          </motion.span>
+
+          <motion.div
+            className="relative group px-4"
+            variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("career")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/career">Career</FlyoutLink>
-          </div>
-          <div
-            className="relative group"
+            <FlyoutLink to="/career">
+              <motion.span
+                initial={{ y: 0 }}
+                whileHover={{ y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                Career
+              </motion.span>
+            </FlyoutLink>
+          </motion.div>
+
+          <motion.span
+            className="text-gray-500"
+            variants={dividerVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+          >
+            |
+          </motion.span>
+
+          <motion.div
+            className="relative group px-4"
+            variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("gallery")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/gallery">Gallery</FlyoutLink>
-          </div>
-          <div
-            className="relative group"
+            <FlyoutLink to="/gallery">
+              <motion.span
+                initial={{ y: 0 }}
+                whileHover={{ y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                Gallery
+              </motion.span>
+            </FlyoutLink>
+          </motion.div>
+
+          <motion.span
+            className="text-gray-500"
+            variants={dividerVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover="hover"
+          >
+            |
+          </motion.span>
+
+          <motion.div
+            className="relative group px-4"
+            variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("contact")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/contact-us">Contact Us</FlyoutLink>
-          </div>
+            <FlyoutLink to="/contact-us">
+              <motion.span
+                initial={{ y: 0 }}
+                whileHover={{ y: -2 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                Contact Us
+              </motion.span>
+            </FlyoutLink>
+          </motion.div>
         </nav>
       </div>
+
       {/* Secondary Navigation */}
       <div className="relative">
         <div className="container mx-auto">
-          <nav className="hidden md:flex space-x-12 py-4">
-            <div className="relative">
-              <Link
-                ref={techLinkRef}
-                to="/technology"
-                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeTechOption === "technology" ? "text-orange-500" : ""}`}
-                onMouseEnter={handleTechMouseEnter}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setActiveTechOption(activeTechOption === "technology" ? null : "technology")
-                  setActiveOutsourcingOption(null)
-                  setActiveConsultingOption(null)
-                  setActiveIndustriesOption(null)
-                  setActiveMenu(null)
-                }}
+          <motion.nav
+            className="hidden md:flex items-center justify-center space-x-14 py-6"
+            variants={secondaryNavVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <Link to="/" className="mr-8">
+              <motion.div
+                variants={logoVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+                className="overflow-hidden"
               >
-                Technology
-                {activeTechOption === "technology" && (
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
-                    layoutId="techIndicator"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    exit={{ scaleX: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </Link>
+                <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-12 w-auto" />
+              </motion.div>
+            </Link>
+            <motion.div className="relative" variants={secondaryNavItemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+                <Link
+                  ref={techLinkRef}
+                  to="/technology"
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeTechOption === "technology" ? "text-orange-500" : ""}`}
+                  onMouseEnter={handleTechMouseEnter}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setActiveTechOption(activeTechOption === "technology" ? null : "technology")
+                    setActiveOutsourcingOption(null)
+                    setActiveConsultingOption(null)
+                    setActiveIndustriesOption(null)
+                    setActiveMenu(null)
+                  }}
+                >
+                  Technology
+                  {activeTechOption === "technology" && (
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                      layoutId="techIndicator"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
               {/* Extended hover area to prevent gaps */}
               <div
                 className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
                 onMouseEnter={handleTechMouseEnter}
               ></div>
-            </div>
-            <div className="relative">
-              <Link
-                ref={outsourcingLinkRef}
-                to="/outsourcing"
-                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeOutsourcingOption === "outsourcing" ? "text-orange-500" : ""}`}
-                onMouseEnter={handleOutsourcingMouseEnter}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setActiveOutsourcingOption(activeOutsourcingOption === "outsourcing" ? null : "outsourcing")
-                  setActiveTechOption(null)
-                  setActiveConsultingOption(null)
-                  setActiveIndustriesOption(null)
-                  setActiveMenu(null)
-                }}
-              >
-                Outsourcing
-                {activeOutsourcingOption === "outsourcing" && (
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
-                    layoutId="outsourcingIndicator"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    exit={{ scaleX: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </Link>
+            </motion.div>
+
+            <motion.div className="relative" variants={secondaryNavItemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+                <Link
+                  ref={outsourcingLinkRef}
+                  to="/outsourcing"
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeOutsourcingOption === "outsourcing" ? "text-orange-500" : ""}`}
+                  onMouseEnter={handleOutsourcingMouseEnter}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setActiveOutsourcingOption(activeOutsourcingOption === "outsourcing" ? null : "outsourcing")
+                    setActiveTechOption(null)
+                    setActiveConsultingOption(null)
+                    setActiveIndustriesOption(null)
+                    setActiveMenu(null)
+                  }}
+                >
+                  Outsourcing
+                  {activeOutsourcingOption === "outsourcing" && (
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                      layoutId="outsourcingIndicator"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
               {/* Extended hover area to prevent gaps */}
               <div
                 className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
                 onMouseEnter={handleOutsourcingMouseEnter}
               ></div>
-            </div>
-            <div className="relative">
-              <Link
-                ref={consultingLinkRef}
-                to="/consulting"
-                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeConsultingOption === "consulting" ? "text-orange-500" : ""}`}
-                onMouseEnter={handleConsultingMouseEnter}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setActiveConsultingOption(activeConsultingOption === "consulting" ? null : "consulting")
-                  setActiveTechOption(null)
-                  setActiveOutsourcingOption(null)
-                  setActiveIndustriesOption(null)
-                  setActiveMenu(null)
-                }}
-              >
-                Consulting
-                {activeConsultingOption === "consulting" && (
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
-                    layoutId="consultingIndicator"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    exit={{ scaleX: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </Link>
+            </motion.div>
+
+            <motion.div className="relative" variants={secondaryNavItemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+                <Link
+                  ref={consultingLinkRef}
+                  to="/consulting"
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeConsultingOption === "consulting" ? "text-orange-500" : ""}`}
+                  onMouseEnter={handleConsultingMouseEnter}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setActiveConsultingOption(activeConsultingOption === "consulting" ? null : "consulting")
+                    setActiveTechOption(null)
+                    setActiveOutsourcingOption(null)
+                    setActiveIndustriesOption(null)
+                    setActiveMenu(null)
+                  }}
+                >
+                  Consulting
+                  {activeConsultingOption === "consulting" && (
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                      layoutId="consultingIndicator"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
               {/* Extended hover area to prevent gaps */}
               <div
                 className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
                 onMouseEnter={handleConsultingMouseEnter}
               ></div>
-            </div>
-            <div className="relative">
-              <Link
-                ref={industriesLinkRef}
-                to="/industries"
-                className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeIndustriesOption === "industries" ? "text-orange-500" : ""}`}
-                onMouseEnter={handleIndustriesMouseEnter}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setActiveIndustriesOption(activeIndustriesOption === "industries" ? null : "industries")
-                  setActiveMenu(activeMenu === "industries" ? null : "industries")
-                  setActiveTechOption(null)
-                  setActiveOutsourcingOption(null)
-                  setActiveConsultingOption(null)
-                }}
-              >
-                Industries
-                {activeIndustriesOption === "industries" && (
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
-                    layoutId="industriesIndicator"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    exit={{ scaleX: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </Link>
+            </motion.div>
+
+            <motion.div className="relative" variants={secondaryNavItemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+                <Link
+                  ref={industriesLinkRef}
+                  to="/industries"
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeIndustriesOption === "industries" ? "text-orange-500" : ""}`}
+                  onMouseEnter={handleIndustriesMouseEnter}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setActiveIndustriesOption(activeIndustriesOption === "industries" ? null : "industries")
+                    setActiveMenu(activeMenu === "industries" ? null : "industries")
+                    setActiveTechOption(null)
+                    setActiveOutsourcingOption(null)
+                    setActiveConsultingOption(null)
+                  }}
+                >
+                  Industries
+                  {activeIndustriesOption === "industries" && (
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                      layoutId="industriesIndicator"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
               {/* Extended hover area to prevent gaps */}
               <div
                 className="absolute -bottom-4 left-0 w-full h-4 bg-transparent"
                 onMouseEnter={handleIndustriesMouseEnter}
               ></div>
-            </div>
-          </nav>
+            </motion.div>
+
+            <motion.div className="relative" variants={secondaryNavItemVariants}>
+              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
+                <Link
+                  to="/company"
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300`}
+                  onMouseEnter={() => handleMouseEnter("company")}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  Company
+                  {activeMenu === "company" && (
+                    <motion.span
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-500"
+                      layoutId="companyIndicator"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      exit={{ scaleX: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.nav>
         </div>
       </div>
       <div>
         <div className="container mx-auto">
           <AnimatePresence>
-            {/*3. Update the position of the Industries indicator by modifying the left value in the activeMenu === "industries" motion.div (around line 290):*/}
-            {activeMenu === "industries" && (
+            {activeMenu === "company" && (
               <motion.div
-                className="h-1 bg-orange-500 w-24 mx-auto relative left-[0px]"
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[480px]"
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -511,7 +784,17 @@ const Header = () => {
                 style={{ originX: 0 }}
               />
             )}
-            {activeMenu === "company" && (
+            {activeMenu === "industries" && (
+              <motion.div
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[360px]"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={indicatorVariants}
+                style={{ originX: 0 }}
+              />
+            )}
+            {activeMenu === "investors" && (
               <motion.div
                 className="h-1 bg-orange-500 w-24 mx-auto relative left-[-120px]"
                 initial="hidden"
@@ -521,7 +804,7 @@ const Header = () => {
                 style={{ originX: 0 }}
               />
             )}
-            {activeMenu === "offerings" && (
+            {activeMenu === "knowledge" && (
               <motion.div
                 className="h-1 bg-orange-500 w-24 mx-auto relative left-[-60px]"
                 initial="hidden"
@@ -531,9 +814,19 @@ const Header = () => {
                 style={{ originX: 0 }}
               />
             )}
-            {activeMenu === "carrier" && (
+            {activeMenu === "career" && (
               <motion.div
-                className="h-1 bg-orange-500 w-24 mx-auto relative left-[120px]"
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[0px]"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={indicatorVariants}
+                style={{ originX: 0 }}
+              />
+            )}
+            {activeMenu === "gallery" && (
+              <motion.div
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[60px]"
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -543,7 +836,7 @@ const Header = () => {
             )}
             {activeMenu === "contact" && (
               <motion.div
-                className="h-1 bg-orange-500 w-24 mx-auto relative left-[180px]"
+                className="h-1 bg-orange-500 w-24 mx-auto relative left-[120px]"
                 initial="hidden"
                 animate="visible"
                 exit="exit"
@@ -573,87 +866,102 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
+              <div className="container mx-auto py-8 px-8">
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                  <Link to="/company/about-us" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <img src={aboutUsIcon || "/placeholder.svg"} alt="About us Icon" width={24} height={24} />
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/company/about-us" className="flex flex-col items-center text-center group">
+                      <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                          <img src={aboutUsIcon || "/placeholder.svg"} alt="About us Icon" width={24} height={24} />
+                        </div>
+                      </motion.div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          About us
+                        </h3>
+                        <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
                       </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        About us
-                      </h3>
-                      <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/company/leadership" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <img src={leadershipIcon || "/placeholder.svg"} alt="Leadership Icon" width={24} height={24} />
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/company/leadership" className="flex flex-col items-center text-center group">
+                      <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                          <img
+                            src={leadershipIcon || "/placeholder.svg"}
+                            alt="Leadership Icon"
+                            width={24}
+                            height={24}
+                          />
+                        </div>
+                      </motion.div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          Leadership
+                        </h3>
+                        <p className="text-sm text-gray-600">Driven by visionary minds shaping digital excellence.</p>
                       </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Leadership
-                      </h3>
-                      <p className="text-sm text-gray-600">Driven by visionary minds shaping digital excellence.</p>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/company/awards" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <img src={awardsIcon || "/placeholder.svg"} alt="Awards Icon" width={24} height={24} />
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/company/awards" className="flex flex-col items-center text-center group">
+                      <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                          <img src={awardsIcon || "/placeholder.svg"} alt="Awards Icon" width={24} height={24} />
+                        </div>
+                      </motion.div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          Awards & Recognitions
+                        </h3>
+                        <p className="text-sm text-gray-600">Celebrated for innovation, impact, and trust.</p>
                       </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Awards & Recognitions
-                      </h3>
-                      <p className="text-sm text-gray-600">Celebrated for innovation, impact, and trust.</p>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/company/group-companies" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <img
-                          src={groupCompaniesIcon || "/placeholder.svg"}
-                          alt="Group Companies Icon"
-                          width={24}
-                          height={24}
-                        />
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/company/group-companies" className="flex flex-col items-center text-center group">
+                      <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                          <img
+                            src={groupCompaniesIcon || "/placeholder.svg"}
+                            alt="Group Companies Icon"
+                            width={24}
+                            height={24}
+                          />
+                        </div>
+                      </motion.div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          Group Companies
+                        </h3>
+                        <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
                       </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Group Companies
-                      </h3>
-                      <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/company/global-footprint" className="flex flex-col items-center text-center group">
-                    <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
-                        <img
-                          src={globalFootprintIcon || "/placeholder.svg"}
-                          alt="Global Footprint Icon"
-                          width={24}
-                          height={24}
-                        />
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/company/global-footprint" className="flex flex-col items-center text-center group">
+                      <motion.div className="flex-shrink-0 mb-3" whileHover="hover" variants={iconHoverVariants}>
+                        <div className="w-12 h-12 rounded-full flex items-center justify-center group-hover:bg-orange-200 transition-colors duration-300">
+                          <img
+                            src={globalFootprintIcon || "/placeholder.svg"}
+                            alt="Global Footprint Icon"
+                            width={24}
+                            height={24}
+                          />
+                        </div>
+                      </motion.div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          Global Footprint
+                        </h3>
+                        <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
                       </div>
-                    </motion.div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Global Footprint
-                      </h3>
-                      <p className="text-sm text-gray-600">Expanding value across borders with global presence.</p>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -679,186 +987,210 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
+              <div className="container mx-auto py-8 px-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <Link to="/industries/bfsi" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img src={bfsiIcon || "/placeholder.svg"} alt="BFSI Icon" width={40} height={40} />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          BFSI
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Secure and intelligent credit processing, onboarding & reconciliation platforms.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/bfsi" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img src={bfsiIcon || "/placeholder.svg"} alt="BFSI Icon" width={40} height={40} />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            BFSI
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Secure and intelligent credit processing, onboarding & reconciliation platforms.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/healthcare" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img src={healthcareIcon || "/placeholder.svg"} alt="Healthcare Icon" width={40} height={40} />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Healthcare
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Customer support automation, onboarding verification, fraud detection, and compliance.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/healthcare" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={healthcareIcon || "/placeholder.svg"}
+                            alt="Healthcare Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Healthcare
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Customer support automation, onboarding verification, fraud detection, and compliance.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/education" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={educationIcon || "/placeholder.svg"}
-                          alt="Education Management Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Education Management
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Fleet management, smart kiosks, tracking platforms, AI-driven delivery automation.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/education" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={educationIcon || "/placeholder.svg"}
+                            alt="Education Management Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Education Management
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Fleet management, smart kiosks, tracking platforms, AI-driven delivery automation.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/telecom" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={telecomIcon || "/placeholder.svg"}
-                          alt="Telecom Services Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Telecom Services
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Customer support automation, onboarding verification, fraud detection, and compliance.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/telecom" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={telecomIcon || "/placeholder.svg"}
+                            alt="Telecom Services Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Telecom Services
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Customer support automation, onboarding verification, fraud detection, and compliance.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/retail" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={retailIcon || "/placeholder.svg"}
-                          alt="Retail & E-Commerce Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Retail & E-Commerce
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Smart kiosks, checkout automation, inventory intelligence, and customer engagement tools.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/retail" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={retailIcon || "/placeholder.svg"}
+                            alt="Retail & E-Commerce Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Retail & E-Commerce
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Smart kiosks, checkout automation, inventory intelligence, and customer engagement tools.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/government" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={governmentIcon || "/placeholder.svg"}
-                          alt="Government & PSU Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Government & PSU
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Digital automation for public services and citizen engagement.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/government" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={governmentIcon || "/placeholder.svg"}
+                            alt="Government & PSU Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Government & PSU
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Digital automation for public services and citizen engagement.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/media" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={mediaIcon || "/placeholder.svg"}
-                          alt="Media & Entertainment Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Media & Entertainment
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          OTT platforms, digital streaming support, audience analytics, and content delivery automation.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/media" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={mediaIcon || "/placeholder.svg"}
+                            alt="Media & Entertainment Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Media & Entertainment
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            OTT platforms, digital streaming support, audience analytics, and content delivery
+                            automation.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/logistics" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={logisticsIcon || "/placeholder.svg"}
-                          alt="Logistics Services Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Logistics Services
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Fleet management, smart kiosks, tracking platforms, AI-driven delivery automation.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/logistics" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={logisticsIcon || "/placeholder.svg"}
+                            alt="Logistics Services Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Logistics Services
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Fleet management, smart kiosks, tracking platforms, AI-driven delivery automation.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
 
-                  <Link to="/industries/travel" className="block">
-                    <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                      <div className="flex-shrink-0">
-                        <img
-                          src={travelIcon || "/placeholder.svg"}
-                          alt="Travel & Hospitality Icon"
-                          width={40}
-                          height={40}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
-                          Travel & Hospitality
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Self-service kiosks, check-in automation, smart feedback systems, and booking engines.
-                        </p>
-                      </div>
-                    </motion.div>
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link to="/industries/travel" className="block">
+                      <motion.div className="flex space-x-4 group" whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                        <div className="flex-shrink-0">
+                          <img
+                            src={travelIcon || "/placeholder.svg"}
+                            alt="Travel & Hospitality Icon"
+                            width={40}
+                            height={40}
+                          />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-gray-900 group-hover:text-orange-500 transition-colors duration-300">
+                            Travel & Hospitality
+                          </h3>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Self-service kiosks, check-in automation, smart feedback systems, and booking engines.
+                          </p>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -887,24 +1219,51 @@ const Header = () => {
             >
               <div className="py-2 px-6 min-w-[150px]">
                 <div className="flex flex-col">
-                  <Link
-                    to="/gallery/event"
-                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
-                  >
-                    Event
-                  </Link>
-                  <Link
-                    to="/gallery/celebrations"
-                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
-                  >
-                    Celebrations
-                  </Link>
-                  <Link
-                    to="/gallery/press-release"
-                    className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
-                  >
-                    Press Release
-                  </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <Link
+                      to="/gallery/event"
+                      className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                    >
+                      <motion.span
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className="block"
+                      >
+                        Event
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={menuItemVariants}>
+                    <Link
+                      to="/gallery/celebrations"
+                      className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                    >
+                      <motion.span
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className="block"
+                      >
+                        Celebrations
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                  <motion.div variants={menuItemVariants}>
+                    <Link
+                      to="/gallery/press-release"
+                      className="py-2 text-gray-900 hover:text-orange-500 transition-colors duration-300"
+                    >
+                      <motion.span
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 5 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                        className="block"
+                      >
+                        Press Release
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -928,9 +1287,9 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
+              <div className="container mx-auto py-8 px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div>
+                  <motion.div variants={menuItemVariants}>
                     <motion.div
                       whileHover={{ x: activeTechSection !== "digital-transformation" ? 5 : 0 }}
                       transition={{ duration: 0.2 }}
@@ -947,10 +1306,11 @@ const Header = () => {
                         className={`block ${activeTechSection === "digital-transformation" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
                         <h3
-                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${activeTechSection === "digital-transformation"
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
+                            activeTechSection === "digital-transformation"
                               ? "border-b border-orange-500"
                               : "border-b border-gray-200"
-                            }`}
+                          }`}
                         >
                           Imperative Digital Transformation
                         </h3>
@@ -967,55 +1327,47 @@ const Header = () => {
                           transition={{ duration: 0.3 }}
                         >
                           <div className="flex space-x-8">
-                            <motion.div
-                              whileHover={{ x: 5 }}
-                              transition={{ duration: 0.2 }}
-                              className="flex-1"
-                            >
+                            <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }} className="flex-1">
                               <Link
                                 to="/technology/digital-transformation/platforms"
                                 onClick={(e) => {
-                                  handleSubOptionClick("digital-platforms", e);
+                                  handleSubOptionClick("digital-platforms", e)
                                   setTimeout(() => {
-                                    window.location.href = "/technology/digital-transformation/platforms";
-                                  }, 100);
+                                    window.location.href = "/technology/digital-transformation/platforms"
+                                  }, 100)
                                 }}
                                 className="block"
                               >
                                 <h4
-                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "digital-platforms"
+                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                    activeSubOption === "digital-platforms"
                                       ? "text-orange-500"
                                       : "text-gray-900 hover:text-orange-500"
-                                    }`}
+                                  }`}
                                 >
                                   Digital Platforms
                                 </h4>
-                                <p className="text-sm text-gray-600">
-                                  AI-powered platforms for every industry.
-                                </p>
+                                <p className="text-sm text-gray-600">AI-powered platforms for every industry.</p>
                               </Link>
                             </motion.div>
 
-                            <motion.div
-                              whileHover={{ x: 5 }}
-                              transition={{ duration: 0.2 }}
-                              className="flex-1"
-                            >
+                            <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }} className="flex-1">
                               <Link
                                 to="/technology/digital-transformation/services"
                                 onClick={(e) => {
-                                  handleSubOptionClick("digital-services", e);
+                                  handleSubOptionClick("digital-services", e)
                                   setTimeout(() => {
-                                    window.location.href = "/technology/digital-transformation/services";
-                                  }, 100);
+                                    window.location.href = "/technology/digital-transformation/services"
+                                  }, 100)
                                 }}
                                 className="block"
                               >
                                 <h4
-                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "digital-services"
+                                  className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                    activeSubOption === "digital-services"
                                       ? "text-orange-500"
                                       : "text-gray-900 hover:text-orange-500"
-                                    }`}
+                                  }`}
                                 >
                                   Digital Services
                                 </h4>
@@ -1028,10 +1380,9 @@ const Header = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
+                  </motion.div>
 
-                  </div>
-
-                  <div>
+                  <motion.div variants={menuItemVariants}>
                     <motion.div
                       whileHover={{ x: activeTechSection !== "smart-infrastructure" ? 5 : 0 }}
                       transition={{ duration: 0.2 }}
@@ -1048,10 +1399,11 @@ const Header = () => {
                         className={`block ${activeTechSection === "smart-infrastructure" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       >
                         <h3
-                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${activeTechSection === "smart-infrastructure"
+                          className={`font-semibold text-lg mb-6 pb-2 inline-block transition-colors duration-300 ${
+                            activeTechSection === "smart-infrastructure"
                               ? "border-b border-orange-500"
                               : "border-b border-gray-200"
-                            }`}
+                          }`}
                         >
                           Imperative- Smart Infrastructure
                         </h3>
@@ -1080,10 +1432,11 @@ const Header = () => {
                               className="block"
                             >
                               <h4
-                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${activeSubOption === "smart-infra-products"
+                                className={`font-semibold text-lg mb-2 transition-colors duration-300 ${
+                                  activeSubOption === "smart-infra-products"
                                     ? "text-orange-500"
                                     : "text-gray-900 hover:text-orange-500"
-                                  }`}
+                                }`}
                               >
                                 Imperative Smart Infra Products
                               </h4>
@@ -1103,7 +1456,10 @@ const Header = () => {
                                 transition={{ duration: 0.3 }}
                               >
                                 <ul className="space-y-2">
-                                  <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                                  <motion.li
+                                    whileHover={{ x: 5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                  >
                                     <Link
                                       to="/technology/smart-infrastructure/products/kiosks"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
@@ -1111,7 +1467,10 @@ const Header = () => {
                                       Self-Service Kiosks
                                     </Link>
                                   </motion.li>
-                                  <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                                  <motion.li
+                                    whileHover={{ x: 5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                  >
                                     <Link
                                       to="/technology/smart-infrastructure/products/displays"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
@@ -1119,7 +1478,10 @@ const Header = () => {
                                       Smart Display Solutions
                                     </Link>
                                   </motion.li>
-                                  <motion.li whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                                  <motion.li
+                                    whileHover={{ x: 5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                                  >
                                     <Link
                                       to="/technology/smart-infrastructure/products/terminals"
                                       className="text-gray-800 hover:text-orange-500 transition-colors duration-300"
@@ -1134,7 +1496,7 @@ const Header = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -1161,7 +1523,7 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
+              <div className="container mx-auto py-8 px-8">
                 <div className="space-y-8">
                   <div>
                     <motion.a
@@ -1172,22 +1534,24 @@ const Header = () => {
                       transition={{ duration: 0.2 }}
                     >
                       <h3
-                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${activeOutsourcingSection === "bpo" ? "border-b-2 border-orange-500" : ""
-                          }`}
+                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${
+                          activeOutsourcingSection === "bpo" ? "border-b-2 border-orange-500" : ""
+                        }`}
                       >
                         Business Process Outsourcing (BPO)
                       </h3>
                     </motion.a>
                     <motion.a
-                      href="/outsourcing/kpo"
+                      href="#"
                       onClick={(e) => handleOutsourcingSectionClick("kpo", e)}
                       className={`inline-block ${activeOutsourcingSection === "kpo" ? "text-orange-500" : "text-gray-900 hover:text-orange-500"}`}
                       whileHover={{ x: activeOutsourcingSection !== "kpo" ? 5 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
                       <h3
-                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${activeOutsourcingSection === "kpo" ? "border-b-2 border-orange-500" : ""
-                          }`}
+                        className={`font-semibold text-lg pb-2 transition-colors duration-300 ${
+                          activeOutsourcingSection === "kpo" ? "border-b-2 border-orange-500" : ""
+                        }`}
                       >
                         Knowledge Process Outsourcing (KPO)
                       </h3>
@@ -1203,31 +1567,37 @@ const Header = () => {
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/backoffice" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Back-Office operations (Non-Voice)
-                            </h4>
-                            <p className="text-sm text-gray-600">Efficient support for core business tasks</p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/bpo/backoffice" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Back-Office operations (Non-Voice)
+                              </h4>
+                              <p className="text-sm text-gray-600">Efficient support for core business tasks</p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/voice-support" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Voice Support Services
-                            </h4>
-                            <p className="text-sm text-gray-600">Human-led,real-time customer assistance.</p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/bpo/voice-support" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Voice Support Services
+                              </h4>
+                              <p className="text-sm text-gray-600">Human-led,real-time customer assistance.</p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/bpo/ai-process" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Ai Enabled Process Automation Platforms
-                            </h4>
-                            <p className="text-sm text-gray-600">Smart bots driving process and accuracy.</p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/bpo/ai-process" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Ai Enabled Process Automation Platforms
+                              </h4>
+                              <p className="text-sm text-gray-600">Smart bots driving process and accuracy.</p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
                       </motion.div>
                     )}
@@ -1237,62 +1607,80 @@ const Header = () => {
                     {activeOutsourcingSection === "kpo" && (
                       <motion.div
                         className="grid grid-cols-1 md:grid-cols-3 gap-8"
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: 1,
+                          transition: {
+                            staggerChildren: 0.05,
+                            delayChildren: 0.1,
+                          },
+                        }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/research-analysis" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Research and Analysis (R&A)
-                            </h4>
-                            <p className="text-sm text-gray-600">Unlocking insights through data,trends and strategy</p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/kpo/research-analysis" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Research and Analysis (R&A)
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Unlocking insights through data,trends and strategy
+                              </p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/research-development" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Research and Development (R&D)
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Driving innovation through design and experimentation.
-                            </p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/kpo/research-development" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Research and Development (R&D)
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Driving innovation through design and experimentation.
+                              </p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/lpo" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Legal Process Outsourcing (LPO)
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Enabling legal support through efficient outsourcing.
-                            </p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/kpo/lpo" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Legal Process Outsourcing (LPO)
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Enabling legal support through efficient outsourcing.
+                              </p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/social-media" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Social Media Marketing
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Elevating brands with strategy,analytics and engagement
-                            </p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/kpo/social-media" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Social Media Marketing
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Elevating brands with strategy,analytics and engagement
+                              </p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
 
-                        <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                          <Link to="/outsourcing/kpo/healthcare" className="group">
-                            <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                              Healthcare
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              Empowering medical services with data and digital tools.
-                            </p>
-                          </Link>
+                        <motion.div variants={menuItemVariants}>
+                          <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                            <Link to="/outsourcing/kpo/healthcare" className="group">
+                              <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                                Healthcare
+                              </h4>
+                              <p className="text-sm text-gray-600">
+                                Empowering medical services with data and digital tools.
+                              </p>
+                            </Link>
+                          </motion.div>
                         </motion.div>
                       </motion.div>
                     )}
@@ -1323,26 +1711,32 @@ const Header = () => {
               exit="exit"
               variants={menuVariants}
             >
-              <div className="container mx-auto py-8 px-4">
+              <div className="container mx-auto py-8 px-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                    <Link to="/consulting/cyber-assurance" className="group">
-                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        Cyber Assurance
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        Comprehensive security solutions to protect your digital assets
-                      </p>
-                    </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                      <Link to="/consulting/cyber-assurance" className="group">
+                        <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          Cyber Assurance
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          Comprehensive security solutions to protect your digital assets
+                        </p>
+                      </Link>
+                    </motion.div>
                   </motion.div>
 
-                  <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
-                    <Link to="/consulting/system-integration" className="group">
-                      <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
-                        System Integration & OEM Channel Partnership
-                      </h4>
-                      <p className="text-sm text-gray-600">Seamless integration of diverse systems and technologies</p>
-                    </Link>
+                  <motion.div variants={menuItemVariants}>
+                    <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }}>
+                      <Link to="/consulting/system-integration" className="group">
+                        <h4 className="font-semibold text-lg mb-2 group-hover:text-orange-500 transition-colors duration-300">
+                          System Integration & OEM Channel Partnership
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          Seamless integration of diverse systems and technologies
+                        </p>
+                      </Link>
+                    </motion.div>
                   </motion.div>
                 </div>
               </div>
@@ -1350,7 +1744,7 @@ const Header = () => {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   )
 }
 

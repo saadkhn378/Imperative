@@ -47,6 +47,8 @@ import ItServices from "./pages/technology/ITService";
 import ChatWidget from "./components/ChatWidget";
 import GalleryPage from "./pages/GalleryPage";
 import Aiprocess from "./pages/outsourcing/bpo/Aiprocess";
+import Systeminte from "./pages/consulting/Systeminte";
+import CyberAssurence from "./pages/consulting/CyberAssurence";
 
 function App() {
   return (
@@ -102,6 +104,12 @@ function App() {
             <Route path="/outsourcing/kpo/healthcare" element={<HealthCare />} />
             <Route path="/outsourcing/kpo/lpo" element={<LegalProcess />} />
             <Route path="/outsourcing/kpo/research-development" element={<ResearchDevelopment />} />
+
+            consulting/cyber-assurance
+            <Route path="/consulting/cyber-assurance" element={<CyberAssurence />} />
+            consulting/system-integration
+            <Route path="/consulting/system-integration" element={<Systeminte />} />
+
 
             <Route path="/company/about-us" element={<Overview />} />
 

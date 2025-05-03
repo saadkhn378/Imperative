@@ -280,41 +280,6 @@ const Media = () => {
                seamless distribution solutions.
               </motion.p>
             </motion.div>
-
-            {/* Chat Widget */}
-            <div className="absolute bottom-4 right-4 z-10">
-              <AnimatePresence>
-                {showChat && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="relative"
-                  >
-                    {/* Chat icon circle */}
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-white flex items-center justify-center border-2 border-violet-500 z-10">
-                      <svg viewBox="0 0 24 24" width="16" height="16" className="text-violet-500">
-                        <path
-                          fill="currentColor"
-                          d="M12 2C6.486 2 2 5.589 2 10c0 2.908 1.898 5.515 5 6.934V22l5.34-4.005C17.697 17.852 22 14.32 22 10c0-4.411-4.486-8-10-8zm0 14h-.333L9 18v-2.417l-.641-.247C5.67 14.301 4 12.256 4 10c0-3.309 3.589-6 8-6s8 2.691 8 6-3.589 6-8 6z"
-                        />
-                        <path
-                          fill="currentColor"
-                          d="M14 10c0 .552-.448 1-1 1s-1-.448-1-1 .448-1 1-1 1 .448 1 1zm-6 0c0 .552.448 1 1 1s1-.448 1-1-.448-1-1-1-1 .448-1 1z"
-                        />
-                      </svg>
-                    </div>
-
-                    {/* Chat bubble */}
-                    <div className="bg-white p-3 pt-6 mt-4 rounded-xl shadow-lg w-[260px] border border-violet-500">
-                      <div className="text-center text-gray-800 text-xs font-medium leading-tight whitespace-pre-line">
-                        Have a requirement? Let's chat and find the best solution for your business.
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </section>
 
           {/* Industry Overview Section */}
