@@ -91,7 +91,7 @@ function App() {
             <Route path="/industries/logistics" element={<Logistics />} />
 
 
-            <Route path="technology/digital-transformation/services" element={<ItServices />} />
+            <Route path="technology/platforms" element={<ItServices />} />
           {/* Outsourcing - KPO */}
           <Route path="/outsourcing/bpo/backoffice" element={<Backofficeop />} />
           <Route path="/outsourcing/bpo/voice-support" element={<Voicesupport />} />
@@ -113,7 +113,7 @@ function App() {
             <Route path="/company/about-us" element={<Overview />} />
 
             {/* Other Pages */}
-            <Route path="/digital-product" element={<ItServices />} />
+            <Route path="/technology/services" element={<ItServices />} />
             <Route path="/smart-infra" element={<SmartInfra />} />
             <Route path="/group-companies" element={<GroupCompanies />} />
             <Route path="/join-us" element={<Joinus />} />

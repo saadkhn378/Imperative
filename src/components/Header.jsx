@@ -1332,7 +1332,7 @@ const Header = () => {
                           <div className="flex space-x-8">
                             <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }} className="flex-1">
                               <Link
-                                to="/technology/digital-transformation/platforms"
+                                to="/technology/platforms"
                                 onClick={(e) => {
                                   // Only update the state, but allow navigation
                                   setActiveSubOption("digital-platforms")
@@ -1354,7 +1354,7 @@ const Header = () => {
 
                             <motion.div whileHover={{ x: 5 }} transition={{ duration: 0.2 }} className="flex-1">
                               <Link
-                                to="/technology/digital-transformation/services"
+                                to="/technology/services"
                                 onClick={(e) => {
                                   // Only update the state, but allow navigation
                                   setActiveSubOption("digital-services")
