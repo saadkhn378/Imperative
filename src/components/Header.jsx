@@ -455,15 +455,15 @@ const Header = () => {
       animate="visible"
       variants={headerContainerVariants}
     >
-      <div className="container mx-auto px-4 py-1 flex justify-center items-center">
-        <nav className="hidden md:flex items-center">
+      <div className="container mx-auto px-4 pt-2 pb-0 flex justify-center items-center">
+        <nav className="hidden md:flex items-center text-sm">
           <motion.div
             className="relative group px-2"
             variants={navItemVariants}
             onMouseEnter={() => handleMouseEnter("investors")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/investors">
+            <FlyoutLink to="/investors" className="text-gray-400">
               <motion.span
                 initial={{ y: 0 }}
                 whileHover={{ y: -2 }}
@@ -475,7 +475,7 @@ const Header = () => {
           </motion.div>
 
           <motion.span
-            className="text-gray-500"
+            className="text-gray-700"
             variants={dividerVariants}
             initial="hidden"
             animate="visible"
@@ -490,7 +490,7 @@ const Header = () => {
             onMouseEnter={() => handleMouseEnter("knowledge")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/knowledge">
+            <FlyoutLink to="/knowledge" className="text-gray-400">
               <motion.span
                 initial={{ y: 0 }}
                 whileHover={{ y: -2 }}
@@ -502,7 +502,7 @@ const Header = () => {
           </motion.div>
 
           <motion.span
-            className="text-gray-500"
+            className="text-gray-700"
             variants={dividerVariants}
             initial="hidden"
             animate="visible"
@@ -517,7 +517,7 @@ const Header = () => {
             onMouseEnter={() => handleMouseEnter("career")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/career">
+            <FlyoutLink to="/career" className="text-gray-400">
               <motion.span
                 initial={{ y: 0 }}
                 whileHover={{ y: -2 }}
@@ -529,7 +529,7 @@ const Header = () => {
           </motion.div>
 
           <motion.span
-            className="text-gray-500"
+            className="text-gray-700"
             variants={dividerVariants}
             initial="hidden"
             animate="visible"
@@ -544,7 +544,7 @@ const Header = () => {
             onMouseEnter={() => handleMouseEnter("gallery")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/gallery">
+            <FlyoutLink to="/gallery" className="text-gray-400">
               <motion.span
                 initial={{ y: 0 }}
                 whileHover={{ y: -2 }}
@@ -556,7 +556,7 @@ const Header = () => {
           </motion.div>
 
           <motion.span
-            className="text-gray-500"
+            className="text-gray-700"
             variants={dividerVariants}
             initial="hidden"
             animate="visible"
@@ -571,7 +571,7 @@ const Header = () => {
             onMouseEnter={() => handleMouseEnter("contact")}
             onMouseLeave={handleMouseLeave}
           >
-            <FlyoutLink to="/contact-us">
+            <FlyoutLink to="/contact-us" className="text-gray-400">
               <motion.span
                 initial={{ y: 0 }}
                 whileHover={{ y: -2 }}
@@ -588,7 +588,7 @@ const Header = () => {
       <div className="relative">
         <div className="container mx-auto">
           <motion.nav
-            className="hidden md:flex items-center justify-center space-x-10 py-3"
+            className="hidden md:flex items-center justify-center space-x-10 pt-2 pb-3 text-lg"
             variants={secondaryNavVariants}
             initial="hidden"
             animate="visible"
@@ -601,7 +601,7 @@ const Header = () => {
                 whileHover="hover"
                 className="overflow-hidden"
               >
-                <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-10 w-auto" />
+                <img src={logoIcon || "/placeholder.svg"} alt="Imperative Logo" className="h-12 w-auto" />
               </motion.div>
             </Link>
             <motion.div className="relative" variants={secondaryNavItemVariants}>
@@ -609,7 +609,7 @@ const Header = () => {
                 <Link
                   ref={techLinkRef}
                   to="/technology"
-                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeTechOption === "technology" ? "text-orange-500" : ""}`}
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 font-bold uppercase ${activeTechOption === "technology" ? "text-orange-500" : ""}`}
                   onMouseEnter={handleTechMouseEnter}
                   onClick={(e) => {
                     e.preventDefault()
@@ -645,7 +645,7 @@ const Header = () => {
                 <Link
                   ref={outsourcingLinkRef}
                   to="/outsourcing"
-                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeOutsourcingOption === "outsourcing" ? "text-orange-500" : ""}`}
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 font-bold uppercase ${activeOutsourcingOption === "outsourcing" ? "text-orange-500" : ""}`}
                   onMouseEnter={handleOutsourcingMouseEnter}
                   onClick={(e) => {
                     e.preventDefault()
@@ -681,7 +681,7 @@ const Header = () => {
                 <Link
                   ref={consultingLinkRef}
                   to="/consulting"
-                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeConsultingOption === "consulting" ? "text-orange-500" : ""}`}
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 font-bold uppercase ${activeConsultingOption === "consulting" ? "text-orange-500" : ""}`}
                   onMouseEnter={handleConsultingMouseEnter}
                   onClick={(e) => {
                     e.preventDefault()
@@ -717,7 +717,7 @@ const Header = () => {
                 <Link
                   ref={industriesLinkRef}
                   to="/industries"
-                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 ${activeIndustriesOption === "industries" ? "text-orange-500" : ""}`}
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 font-bold uppercase ${activeIndustriesOption === "industries" ? "text-orange-500" : ""}`}
                   onMouseEnter={handleIndustriesMouseEnter}
                   onClick={(e) => {
                     e.preventDefault()
@@ -752,7 +752,7 @@ const Header = () => {
               <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 400, damping: 15 }}>
                 <Link
                   to="/company"
-                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300`}
+                  className={`text-gray-800 hover:text-orange-500 transition-colors duration-300 font-bold uppercase`}
                   onMouseEnter={() => handleMouseEnter("company")}
                   onMouseLeave={handleMouseLeave}
                 >
